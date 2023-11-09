@@ -1,3 +1,11 @@
+MJX parts
+---------
+
+The MJX 16208 has a shell that's held on with a flip-up-catch mechanism while the 16209 has one held on with the usual clips.
+
+Oddly, the MJX site nor the page for the [16209](http://www.mjxrc.net/goodshow/16209-1-16209.html) has a downloadable PDF manual.
+
+The Anwei page for the [16209](https://amewi.com/Hyper-GO-Monstertruck-brushless-4WD-1-16-RTR-blaurot) does have the manual in [German and English](https://amewi.com/downloads/manuals/22627_22628_22629_DE_EN.pdf) with all the parts numbers along with diagrams showing how to assemble everything.
 
 Parts:
 
@@ -120,6 +128,8 @@ Actually, there seem to be lots of changes.
 
 ArduCopter: <https://github.com/ArduPilot/ardupilot/tree/master/libraries/AP_HAL_ChibiOS/hwdef/speedybeef4v3>
 
+ArduCopter [Speedy Bee F4 V3 reference page](https://ardupilot.org/copter/docs/common-speedybeef4-v3.html).
+
 See, also:
 
 * <https://github.com/iNavFlight/inav/tree/master/src/main/target/SPEEDYBEEF405V3>
@@ -131,6 +141,88 @@ JB has a great video <https://www.youtube.com/watch?v=L-6r2iX1p6s> on servos wit
 * Then ArduCopter
 * Then Articulated's ROS series
 * Then Donkey Car
+
+Mavros
+------
+
+For communication between the ROS world and a FC use [mavros](https://github.com/mavlink/mavros) - this consists of four packages, the main ones being [mavros](https://index.ros.org/p/mavros/github-mavlink-mavros/#humble-overview) (which pulls in mavros_msgs and libmavconn) and [mavros_extras](https://index.ros.org/p/mavros_extras/github-mavlink-mavros/#humble-overview) (which pulls in mavros and its dependency).
+
+ArduPilot has a whole [ROS/ROS2 section](https://ardupilot.org/dev/docs/ros.html).
+
+And the blog has a [Visual Navigation on the cheap](https://discuss.ardupilot.org/t/visual-navigation-on-the-cheap/91700) post that covers using a Kakute F4 FC (using its PWM1 to 4 pins to drive two [Pololu DRV8838 brushed motor drivers](https://www.pololu.com/product/2990) rather than a 4-in-1 ESC) to control a two-wheeled bot with a camera wired into a Pi for visual odometry (which involves ROS as described in the [ArduPilot VIO docs](https://ardupilot.org/dev/docs/ros-vio-tracking-camera.html) - the docs talk about cameras like the Realsense range but the blog uses a cheap ArduCam camera).
+
+ArduPilot rovers with drone FCs
+-------------------------------
+
+The ArduPilot blog post mentioned above ([Visual Navigation on the cheap](https://discuss.ardupilot.org/t/visual-navigation-on-the-cheap/91700)) uses a Kakute F4 to control a two wheel rover.
+
+That post is from 2022. The same developer also did a [ArduRover with the Pololu Romi](https://discuss.ardupilot.org/t/ardurover-with-the-pololu-romi/41991/1) blog post back in 2019.
+
+This describes a similar setup (tho' the motor drivers and frame are different) but simpler - it's just the basic rover without any companion computer.
+
+### ArduRover reference frames
+
+The ArduPilot site has two RC cars as reference frames:
+
+* The [Thunder Tiger Toyota Hilux](https://ardupilot.org/rover/docs/reference-frames-tt-toyotahilux.html)
+* The [Traxxas Stampede 4WD truck](https://ardupilot.org/rover/docs/reference-frame-traxxas-stampede.html)
+
+The Toyota Hilux page includes a link to its ArduPilot [`.param`](https://github.com/ArduPilot/ardupilot/blob/master/Tools/Frame_params/ThunderTiger-ToyotaHilux-Rover.param) file that's kept maitained in the main ArduPilot GitHub repo.
+
+The Traxxas Stampede page shows how two of the servos of the Pixhawk are wired thru to the servo and the ESC (along with the rest of the wiring).
+
+The Toyota Hilux also uses an ESP8266 for MAV telemetry but see below for the ESP32 alternative.
+
+ESP32 MAV telemetry
+-------------------
+
+Traditionally, Holybro [SiK telemetry radios](https://holybro.com/products/sik-telemetry-radio-v3) have been used for a wireless connection between laptop and drone/rover.
+
+But an interesting alternative (especially given the shorter distances typical when using a rover rather than a drone) is an ESP32.
+
+See the ArduPilot documentation [here](https://ardupilot.org/rover/docs/common-esp32-telemetry.html) and the GitHub [DroneBridge/ESP32](https://github.com/DroneBridge/ESP32) project repo.
+
+ESP32 boards:
+
+* [WeAct ESP32-DOWD-V3](https://www.aliexpress.com/item/1005005645111663.html) - US$3
+* [LILYGO TTGO T7](https://www.aliexpress.com/item/32846710180.html) - US$5.50
+
+The above are proper ESP32s. Both WeAct and LILYGO also have S2 boards and other variants.
+
+Adafruit have some nice tiny boards:
+
+* [QT Py ESP32-S3](https://www.adafruit.com/product/5426) - US$12.50
+* [TinyS3 ESP32-S3 with u.FL](https://www.adafruit.com/product/5747) - US$20
+
+The TinyS3 is interesting not just because of its size but also because one could attach a u.FL antenna for improved range.
+
+The SparkFun [Thing Plus - ESP32](https://www.sparkfun.com/products/20168) at $US25 seems hard to justify vs e.g. the WeAct board.
+
+For a comparison of ESP32 MCUs, see this [table](https://gist.github.com/fabianoriccardi/cbb474c94a8659209e61e3194b20eb61) - the S2 and S3 are still Tensilica Xtensa 32 chips but the C3 and C6 are RISC-V.
+
+Flight controller
+-----------------
+
+SpeedyBee [F405 V4](https://www.speedybee.com/speedybee-f405-v4-bls-55a-30x30-fc-esc-stack/).
+
+Note: as shown above Betaflight and iNav support the V4, while ArduPilot only currently has support for the V3. The V3 is still available but according to reviews of the V4, it corrects several noticeable issues with the V3.
+
+SpeedyBee [F405 V4](https://www.unmannedtechshop.co.uk/product/speedybee-f405-v4-flight-controller/) from Unmanned Tech.
+
+ESC
+---
+
+The MJX ESC is 45A - it would be interesting to use a similar amp BLHeli_32 capable of bi-directional DSHOT and ESC telemetry.
+
+**Important:** according to [OL's page](https://oscarliang.com/esc-telemetry-betaflight/), there's actually better RPM information included in the DSHOT protocol than in the ESC telemetry data - but better only in the sense that the DSHOT data is much more high frequency.
+
+Holybro BLHeli_32 [Tekko32 F4 45A ESC](https://holybro.com/products/tekko32-f4-45a-esc)
+
+[Tekko32 F4 45A ESC](https://www.3dxr.co.uk/multirotor-c3/multirotor-escs-c48/holybro-tekko32-f4-45a-esc-p4993) from 3DXR.
+
+A similar 45A Lumenier model is the [Razor Pro F3 45A ESC](https://www.getfpv.com/electronics/electronic-speed-controllers-esc/single-esc/lumenier-razor-pro-f3-blheli-32-45a-2-6s-esc.html).
+
+Note that the Holybro is an F4 and the Lumenier is a cheaper F3.
 
 Transmitters and receivers
 --------------------------
@@ -162,15 +254,68 @@ It seems only fairly recently that cheaper Chinese manufacturers have started ma
 
 RC Review's [Flysky GT5 vs. Radiolink RC6GS video](https://www.youtube.com/watch?v=8WxZb6vLdYI)
 
-Note: Flysky also have the [G7P](https://www.flysky-cn.com/g7pdescription) (305g) using their new ANT protocol but ...
+i-BUS/S.BUS capable GT5 compatible RXs:
+
+* [X8B](https://www.flysky-cn.com/x8b-canshu) - 8 channels - pure digital.
+* [X6B](https://www.flysky-cn.com/x6b-canshu) - 6 channels - digtal plus six PWM outputs.
+
+While the GT5 only supports 6 channels, I'm inclined towards the X8B as it doesn't have the large PWM connector.
+
+AFHDS 2A clearly does support reporting telemetry back to the transmitters, as is clear from the README for the [GitHub FlySkyRxFirmwareRssiMod repo](https://github.com/Cleric-K/FlySkyRxFirmwareRssiMod). It mods binary dumps of the original firmware to include RSSI in the information forwarded to the FC but makes clear RSSI is already communicated by default to the TX. However, I can't find anything that indicates that the GT5 can display this information (or is in anyway aware of the RX that its bound to).
+
+Flysky aren't great at making the RX firmware available - however, they are available from the [GitHub FlySkyRxFirmware repo](https://github.com/povlhp/FlySkyRxFirmware) - most of the images have simply been extracted from RXs, including those for the X8B and X6B. I assume these images are the basis for the images that are modded by the FlySkyRxFirmwareRssiMod project.
+
+Note: Flysky also have the [G7P](https://www.flysky-cn.com/g7pdescription) (305g) with a nicer LCD and using their new ANT protocol that supports telemetry. However, so far they've only brought out one pure digital RX with S.BUX - the [SRM](https://www.flysky-cn.com/srmspecifications). And it looks quite bulky - altough the weight, at about 305g, is about the same. 
 
 RC Review's [Flysky G7P review](https://www.youtube.com/watch?v=otPYzx7fU7I).
+
+G7P on AliExpress:
+
+* [Hundred Percent store](https://www.aliexpress.com/item/1005004371293939.html)
+* [RC HobbyFly store](https://www.aliexpress.com/item/1005005210741036.html)
+* [Dragon Model store](https://www.aliexpress.com/item/1005004018517454.html)
 
 RadioMaster are actually about to launch an EdgeTX based TX (that can work with any existing ExpressLRS RX) for RC cars - the [MT12](https://www.radiomasterrc.com/products/mt12-surface-radio-controller) (480g).
 
 Painless360 [RadioMaster MT12 review](https://www.youtube.com/watch?v=9k5FQxx34E0).
 
 Remember: the screen and two-way comms isn't that big a deal if you're looking at all the data and more anyway via goggles.
+
+My alternative choice to the Flysky GT5 would be the [RadioLink RC6GS v3](https://www.radiolink.com/rc6gsv3).
+
+The big plus vs the GT5 is that it has telemetry, i.e. the TX can display the RSSI and battery voltage reported back from the RX.
+
+They have a reasonable number of pure digital (i.e. no PWM outputs) 8-channel RXs with S.BUS:
+
+* [R8XM](https://www.radiolink.com/r8xm) - with telemetry support (just connect the batteries balance lead directly to the RX).
+* [R8FM](https://www.radiolink.com/r8fm) - smaller, no telemetry.
+* [R8SM](https://www.radiolink.com/r8sm) - even smaller, no telemetry.
+
+I like the substantial looking switches on the RC6GS, but in head-to-head videos like RC Review's [Flysky GT5 vs. Radiolink RC6GS video](https://www.youtube.com/watch?v=8WxZb6vLdYI), it looks rather bulky compared to the GT5 and the build quality seems to be slightly lower. But RC Review's is also very positive about it in his newer [RC6GS v3 video](https://www.youtube.com/watch?v=NYXfHBnTHkc).
+
+On AliExpress:
+
+* [RC6GS v3 at Hundred Percent store](https://www.aliexpress.com/item/4000615916643.html) - no RX version is about US$57 (plus US$6 shipping).
+* [RC6GS v3 at BYRC store](https://www.aliexpress.com/item/1005002728220551.html) - no RX version is about US$50 (plus US$16 shipping).
+
+### Multiprotocol modules
+
+If you've got a drone/winged TX running EdgeTX then it can probably take a protocol module.
+
+There's an open source project that's called [MULTI-Module](https://www.multi-module.org/) that supports about [70 protocols](https://www.multi-module.org/basics/supported-protocols) on 4in1 modules (so called becasue 4 different RF chips are needed to cover the range of technologies used by those protocols).
+
+The Flysky [AFHDS 2A](https://www.multi-module.org/using-the-module/protocol-details/flysky-afhds2a) protocol and the [RadioLink](https://www.multi-module.org/using-the-module/protocol-details/radiolink) protocol of the RXs mentioned above are supported.
+
+Various companies produce 4in1 modules, e.g. [RadioMaster](https://www.radiomasterrc.com/products/rm-4in1-module) and [iRangeX](https://www.banggood.com/IRangeX-IRX4-Plus-2_4G-CC2500-NRF24L01-A7105-CYRF6936-4-IN-1-Multiprotocol-ARM-TX-Module-With-Case-p-1225080.html).
+
+### Spektrum DX5C
+
+If you're interested to see the cheapest TX, with at least 5 channels, from one of the traditional RC manufacturers, it's probably the [Spektrum DX5C](https://www.spektrumrc.com/product/dx5c-smart-5-channel-dsmr-transmitter-with-sr6100at-receiver/SPM5120.html) - costing a mere US$220.
+
+RC reviews and guides
+---------------------
+
+In googling for non-video reviews and guids, I kept on finding what I wanted on [QuadifyRC](https://www.quadifyrc.com/). The site has lots of in-depth reviews and lots of guides (like [this one](https://www.quadifyrc.com/rccarreviews/124019-budget-setup-and-tuning-guide-2021-get-the-most-out-of-your-car) to setting up and tuning your budget RC car).
 
 ---
 
@@ -257,3 +402,145 @@ Other fan options:
 Given that 52pi seem to make models that are known to work, I'm inclined to buy their fan/heatsink combo over the no name alternatives (and it's cheaper than making your own using branded components from Reichelt).
 
 However, the heatsink with 3-pin 5V fan from Shenzhen Green Technology is interesting as all the other fans are always on whereas, _I presume_ the third pin is for PWM control (as shown [here](https://www.raspberrypi.com/products/raspberry-pi-4-case-fan/) with the Pi 4 case fan). The Raspberry Pi 5 active cooler also has PWM control.
+
+---
+
+WiFi dongle
+-----------
+
+There are no end of no-name dongles, but the highest spec branded dongle, I could find, is the tp-link [Archer T3U](https://www.tp-link.com/us/home-networking/usb-adapter/archer-t3u/) - it supports USB 3.0, AC1300, 2.4/5GHz, MU-MIMO (tho' I wonder if my WiFi AP isn't modern enough to get the most/anything out of e.g. MU-MIMO or the speed of AC1300).
+
+[Archer T3U](https://www.digitec.ch/de/s1/product/tp-link-archer-t3u-mini-usb-30-netzwerkadapter-10857405) at Digitec.
+
+Voltage and current sensors
+---------------------------
+
+It'd be nice to know when the voltage of the battery was droping toward 3.xV. I think **BLHeli_32 ESC will output both voltage and current information** (see OL's [BLHeli_32 telmetry page](https://oscarliang.com/esc-telemetry-betaflight/)) so, sensors like the following are _probably_ unnecessary for battery. _But_ a current sensor might be interesting for tracking the draw of the Pi and all associated electronics.
+
+Maybe, for the battery, it's simpler just use a module like these (though you're also getting a regulator that's not needed - unless the total FC setup consumes less than 3A):
+
+* [PM02 V3](https://holybro.com/collections/power-modules-pdbs/products/pm02-v3-12s-power-module) analog power module - provides current and voltage information (and 5.V/3A for an FC)
+* [PM02D](https://holybro.com/collections/power-modules-pdbs/products/pm02d-power-module) digital power module - provides current and voltage information (and 5.V/3A for an FC)
+
+It'd be interesting to know what chips these are using, it might well be the same as one of the Adafruit power modules below.
+
+Power (voltage and current) sensors:
+
+* [Adafruit INA228](https://www.adafruit.com/product/5832)
+* [Adafruit INA260](https://www.adafruit.com/product/4226)
+
+The INA228 _seems_ to be the newer (and, according to TI, more precise) of the two - but was out-of-stack at time of writing and has yet to have a tutorial (tho' it looks very similar to the INA260).
+
+Adafruit do have a [MAX17048 LiPo / Li-ion fuel gauge and battery monitor](https://www.adafruit.com/product/5580) but it's only suitable for 1S.
+
+They have current sensors:
+
+* [Adafruit INA169](https://www.adafruit.com/product/1164) - analog 5A max.
+* [Adafruit INA219](https://www.adafruit.com/product/904) - digital 3.2A max.
+
+Pololu have various analog current sensors, e.g. the [ACS711EX breakout](https://www.pololu.com/product/2452) that can handle up to 15A (they have more expensive models for lower ampages, e.g. the [ACS724](https://www.pololu.com/product/4041) which can only handle 5A but an error of +/-1.5% (vs 5% for the ACS711EX).
+
+Batteries
+---------
+
+The highest mAh 2S batteries are 5500mAh - they simply don't seem to come biger than that.
+
+Gensace produce three identically priced 5500mAh 7.4V 2S1P 60C variants:
+
+* [139x48x24mm 248g](https://www.gensace.de/gens-ace-5500mah-7-4v-2s1p-60c-car-lipo-battery-pack-hardcase-24-with-t-plug.html)
+* [138x47x25mm 272g](https://www.gensace.de/gens-ace-5500mah-2s-7-4v-60c-hardcase-rc-10-car-lipo-battery-pack-with-t-plug.html) - same but with removable leads.
+* [140x47x25mm 318g](https://www.gensace.de/gens-ace-5500mah-2s-7-6v-60c-hardcase-rc-20-car-lipo-battery-pack-with-t-plug.html)
+
+So, the only difference seems to be slight variations in dimensions, the last one is odd - why a heavier variation when one of the others is the same price with all dimensions the same or slightly smaller.
+
+Of course, there are also G-Tech variants.
+
+Tracks
+------
+
+The HK based Robocar Store sells tracks as roll-out mats - they're quite expensive.
+
+They sell them in various sizes, denoted as 100%, 80%, 60% and 40%. The 100% are meant for 1/10 scale cars.
+
+For 1/16 you should really use the 60% but even the 40% mat would be very large - at 3x4.5m - in my apartment.
+
+The [DIYRobocars standard track](https://www.robocarstore.com/collections/tracks/products/diyrobocars-standard-track) is US$200 for the 40% variant - you can see how it looks in the videos on the linked page.
+
+Note: [DIYRobocars](https://www.diyrobocars.com/) is a hobbyist autonomous cars community that organizes races in the Bay area and is strongly linked with Donkey Car.
+
+You can find DIYRobocars description of the track [here](https://www.diyrobocars.com/110th-scale-race-rules/) and a higher-res image of it [here](https://www.diyrobocars.com/wp-content/uploads/2019/07/Untitled.png) (that also shows the location of the cones that mark various parts of the track).
+
+But in this DIYRobocars [blog post](https://www.diyrobocars.com/2019/08/12/adventures-with-the-nvidia-jetbot-and-jetracer/), you can see tracks laid down nicely with just tape.
+
+### AWS DeepRacer tracks
+
+The standard DeepRacer templates can be found [here](https://docs.aws.amazon.com/deepracer/latest/developerguide/deepracer-track-examples.html) (even the basic loop track is 3.5x4.5m) along with instructions on how to lay them out with tape.
+
+The tracks and barriers used to available from Amazon (for the amazing price of US$900 for a basic track and US$1,700 for a set of barriers).
+
+Robocar has them available at more reasonable prices:
+
+* [Basic track](https://www.robocarstore.com/products/aws-deepracer-standard-track) - 5x7.5m - US$440.
+* Same track but as [heavy duty carpet variant](https://www.robocarstore.com/products/aws-deepracer-standard-track-carpet-version) - US$2,300.
+* [Barriers](https://www.robocarstore.com/collections/tracks/products/fence-with-cover-for-aws-track) - 20 pieces - US$45.
+
+But to be fair, their [docs](https://docs.aws.amazon.com/deepracer/latest/developerguide/deepracer-build-your-track-materials-and-tools.html) suggest instead using [Tarco asphalt saturated organic felt](https://www.tarcoroofing.com/products/roofapp/shingles/mechanically-attached/asphalt-saturated-organic-felt) (the variant called _30# ASTM Specification Felt_). (which comes in 1x2m roles for around US$45).
+
+### Protective mats
+
+An alternative track surface are the interlocking mats found in places like gyms:
+
+* [Gorilla Sports protective mat set](https://www.galaxus.ch/en/s3/product/gorilla-sports-protective-mat-set-120-cm-floor-guards-9315746) - 8 mats with total area 1.2x2.4m for CHF60.
+* [Gonser floor mat set](https://www.gonser.ch/bodenmatte-61-x-61-x-1-2-cm-schwarz-20-er-set/a-10684/) - 20 mats with total area 2.4x3m for CHF120.
+
+AWS DeepRacer
+-------------
+
+The DeepRacer [https://aws.amazon.com/deepracer/getting-started/] getting started guide is an interesting intro to Amazon's take on the field.
+
+And it's interesting to see the dual-camera layout and how the lidar is mounted in the [blog post](https://aws.amazon.com/blogs/machine-learning/aws-deepracer-evo-and-sensor-kit-now-available-for-purchase/) introducing the DeepRacer Evo (one assumes the plastic of the shell is transparent to the lidar).
+
+The [product page](https://aws.amazon.com/deepracer/) for the DeepRacer (original and Evo) describes the chassis as that of a "18th scale 4WD with monster truck" and from the [spare parts page](https://docs.aws.amazon.com/deepracer/latest/developerguide/deepracer-vehicle-chassis-parts.html), it's clear the chassis comes from the [Wltoys A979](https://www.wl-toys.com/Wltoys-A979-rc-car-rc-racing-car-Parts-Wltoys-A979-High-speed-118-Full-scale-rc-racing-car-Max-Speed-50km-h-Shockproof-10053.html). This is one of Wltoys oldest models (it came out first in 2014).
+
+Traxas
+------
+
+Interesting Traxxas models:
+
+* [Traxxas brushless AWD 1/10 chassis](https://traxxas.com/products/models/electric/4-tec-2-vxl-chassis)
+* [Traxxas brushless 4WD 1/16 E-Revo VXL](https://traxxas.com/products/models/electric/erevo-vxl-116-tsm)
+* [Traxxas brushed 4WD 1/16 Slash](https://traxxas.com/products/models/electric/70054-8-slash-116)
+
+The shocks on the 1/16 models look very strange - if you look closely the shafts where you'd expect shocks are actually connected to springs (and, one assumes, oil-filled shocks) mounted in the body.
+
+Banggood
+--------
+
+* MJX Hyper Go [16208/16209](https://www.banggood.com/MJX-16208-16209-HYPER-GO-1-or-16-Brushless-High-Speed-RC-Car-Vechile-Models-45km-or-h-p-1967165.html)
+* MJX Hyper Go [16207](https://www.banggood.com/MJX-16207-HYPER-GO-1-or-16-Brushless-High-Speed-RC-Car-Vechile-Models-45km-or-h-p-1967172.html)
+* MJX Hyper Go [16210](https://www.banggood.com/MJX-16210-1-or-16-Brushless-High-Speed-RC-Car-Vehicle-Models-45km-or-h-p-1967083.html)
+* MJX Hyper Go [14210](https://www.banggood.com/MJX-14210-HYPER-GO-1-or-14-Brushless-High-Speed-RC-Car-Vechile-Models-55km-or-h-p-1991233.html)
+* HBX [16889a Pro](https://www.banggood.com/HBX-16889A-Pro-1-or-16-2_4G-4WD-Brushless-High-Speed-RC-Car-Vehicle-Models-Full-Propotional-p-1876495.html)
+* Eachine [Flyhal FC600](https://www.banggood.com/EACHINE-Flyhal-FC600-Two-Batteries-RTR-1-or-16-2_4G-4WD-45km-or-h-Brushless-Fast-RC-Cars-Trucks-Vehicles-with-Oil-Filled-Shock-Absorber-p-1890171.html)
+* Wltoys [124008](https://www.banggood.com/Wltoys-124008-RTR-1-or-12-2_4G-4WD-3S-Brushless-RC-Car-60km-or-h-Off-Road-Climbing-High-Speed-Truck-Full-Proportional-Vehicles-Models-Toys-p-1986964.html)
+
+According to [QuadifyRC](https://www.quadifyrc.com/rccarreviews/hbx-16889a-pro-review-i-think-this-is-the-best-small-basher-ive-ever-had) the Flyhal FC600 is the same chassis as the 16889a Pro with a different body and wheels.
+
+Rlaarlo 1/12 [AM-X12](https://rlaarlo.com/products/rlaarlo-amx12) - not from Banggood, Rlaarlo seem to specialize in selling direct. Rather pricier than any of the other models.
+
+Misc
+----
+
+[Luxonis OAD-D S2](https://shop.luxonis.com/collections/oak-cameras-1/products/oak-d-s2)
+
+[Self-driving car on a shoestring project](https://towardsdatascience.com/deeppicar-part-1-102e03c83f2c) - uses a Pi and a Google Coral - doesn't use ROS or Donkey Car - build using TensorFlow.
+
+### Waveshre JetRacer
+
+Their Jetson Nano models:
+
+* [JetRacer Pro](https://www.waveshare.com/product/ai/robots/mobile-robots/jetracer-pro-ai-kit.htm)
+* [JetRacer Pro with lidar](https://www.waveshare.com/product/ai/robots/mobile-robots/jetracer-ros-ai-kit.htm)
+* [JetBot Pro with lidar](https://www.waveshare.com/product/ai/robots/mobile-robots/jetbot-ros-ai-kit.htm) - two wheeled variant.
+
+They also have guides for using their robots/cars with [Donkey Car](https://www.waveshare.com/wiki/DonkeyCar_for_Jetson_Nano-Calibrate_DonkeyCar), [autonomous driving](https://www.waveshare.com/wiki/JetRacer_AI_Kit#interactive-regression), [ROS](https://www.waveshare.com/wiki/JetBot_AI_Kit:_ROS) (unfortunately, ROS 1) and more.
