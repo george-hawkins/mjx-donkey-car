@@ -5,7 +5,11 @@ The MJX 16208 has a shell that's held on with a flip-up-catch mechanism while th
 
 Oddly, the MJX site nor the page for the [16209](http://www.mjxrc.net/goodshow/16209-1-16209.html) has a downloadable PDF manual.
 
-The Anwei page for the [16209](https://amewi.com/Hyper-GO-Monstertruck-brushless-4WD-1-16-RTR-blaurot) does have the manual in [German and English](https://amewi.com/downloads/manuals/22627_22628_22629_DE_EN.pdf) with all the parts numbers along with diagrams showing how to assemble everything.
+There are manuals in Chinese on their Chinese language site and the English manual does exist, e.g. you can find it [here](https://www.hobbiesaustralia.com.au/mjx-1-16-hyper-go-4wd-off-road-brushless-2s-rc-mon~29032) on the Hobbies Australia site.
+
+And the Anwei page for the [16209](https://amewi.com/Hyper-GO-Monstertruck-brushless-4WD-1-16-RTR-blaurot) does have the manual in [German and English](https://amewi.com/downloads/manuals/22627_22628_22629_DE_EN.pdf)
+
+The manual shows all the parts numbers along with diagrams showing how to assemble everything.
 
 Parts:
 
@@ -58,6 +62,8 @@ The Pololu 5V 5.5A step-down voltage regulator - is fairly pricey at US$25 <http
 
 Note: I have a similar-ish discontinued variant of this somewhere: <https://www.pololu.com/product/2865>
 
+Actually, you can get 9A (but with hard to source components): <https://www.pololu.com/product/2866> and even 15A but at a pricey US$80: <https://www.pololu.com/product/2881>
+
 Raspberry Pi 5 power limiting - the Pi 5 will, by default, provide _less_ power via USB as it needs more itself.
 
 If you "wish to drive high-power peripheral, [you need a] USB-C power adapter which supports a 5V, 5A (25W) operating mode. If the Raspberry Pi 5 firmware detects this supply, it increases the USB current limit to 1.6A, providing 5W of extra power for downstream USB devices".
@@ -70,6 +76,14 @@ Question: is using an SD card rather than an SSD or an eMMC module on a Pi be an
 
 ---
 
+I pre-ordered an 8GB Raspberry Pi 5 from <https://shop.pimoroni.com/>
+
+And registered for a restock update from Reichelt.
+
+Note: Ubuntu does seem to yet have an LTS that supports the Pi 5 - on their [Raspberry Pi page](https://ubuntu.com/download/raspberry-pi), they just list Ubuntu 23.10 as being ready for the Pi 5.
+
+---
+
 This guy made an interesting start on a ROS based self-driving RC car: <https://www.youtube.com/watch?v=Bf7kSNWbcrU>
 
 Unfortunately, he never got around to the later chapters.
@@ -79,12 +93,6 @@ He's using stuff from the MIT Racecar project: <https://mit-racecar.github.io/ha
 Including VESC - an open source ESC that can provide tachometer/odometry data - I wonder if [BLHeli_32](https://github.com/bitdump/BLHeli/tree/master/BLHeli_32%20ARM) can do something similar?
 
 BLHeli_32 certainly provides RPM telemetry data which sounds similar.
-
----
-
-I pre-ordered an 8GB Raspberry Pi 5 from <https://shop.pimoroni.com/>
-
-And registered for a restock update from Reichelt.
 
 ---
 
@@ -187,7 +195,9 @@ ESP32 boards:
 * [WeAct ESP32-DOWD-V3](https://www.aliexpress.com/item/1005005645111663.html) - US$3
 * [LILYGO TTGO T7](https://www.aliexpress.com/item/32846710180.html) - US$5.50
 
-The above are proper ESP32s. Both WeAct and LILYGO also have S2 boards and other variants.
+The above are proper ESP32s. Both WeAct and LILYGO also have S3 boards and other variants, e.g. here is [WeAct S3 board](https://www.aliexpress.com/item/1005005592730189.html) and a [LILYGO S3 board](https://www.aliexpress.com/item/1005004777561826.html).
+
+However, if you use an S2 etc., you'll have to compile the firmware yourself, the DroneBridge/ESP32 only releases ready compiled firmware for the ESP32.
 
 Adafruit have some nice tiny boards:
 
@@ -455,6 +465,11 @@ So, the only difference seems to be slight variations in dimensions, the last on
 
 Of course, there are also G-Tech variants.
 
+Note: technically, you can get more that 5500mah but the next highest capacity batteries cost more than twice as much (and don't come with Deans connectors):
+
+* [7600mAh 2S XT60 connector - 387g](https://www.gensace.de/gens-ace-7600mah-7-4v-60c-2s2p-lipo-battery-pc-material-case-with-xt60-plug.html)
+* [8200mAh S2 female bullet connectors - 301g](https://www.gensace.de/gens-ace-redline-series-8200mah-7-6v-130c-2s1p-hardcase-58-hv-lipo-battery.html)
+
 Tracks
 ------
 
@@ -486,6 +501,8 @@ Robocar has them available at more reasonable prices:
 
 But to be fair, their [docs](https://docs.aws.amazon.com/deepracer/latest/developerguide/deepracer-build-your-track-materials-and-tools.html) suggest instead using [Tarco asphalt saturated organic felt](https://www.tarcoroofing.com/products/roofapp/shingles/mechanically-attached/asphalt-saturated-organic-felt) (the variant called _30# ASTM Specification Felt_). (which comes in 1x2m roles for around US$45).
 
+I tried searching for track on AliExpress but didn't have much luck - all I found was this [track](https://www.aliexpress.com/item/1005001495620929.html) from BlueRaven for US$30.
+
 ### Protective mats
 
 An alternative track surface are the interlocking mats found in places like gyms:
@@ -507,11 +524,43 @@ Traxas
 
 Interesting Traxxas models:
 
+* [Traxxas brushless 4WD 1/10 Rustler VXL](https://traxxas.com/products/landing/rustler-4x4-vxl/)
 * [Traxxas brushless AWD 1/10 chassis](https://traxxas.com/products/models/electric/4-tec-2-vxl-chassis)
 * [Traxxas brushless 4WD 1/16 E-Revo VXL](https://traxxas.com/products/models/electric/erevo-vxl-116-tsm)
 * [Traxxas brushed 4WD 1/16 Slash](https://traxxas.com/products/models/electric/70054-8-slash-116)
 
 The shocks on the 1/16 models look very strange - if you look closely the shafts where you'd expect shocks are actually connected to springs (and, one assumes, oil-filled shocks) mounted in the body.
+
+Tamiya
+------
+
+Note: all of the models below are 4WD. Tamiya builds look to be non-trivial, e.g. see this build log for the [TXT-1](http://www.technicopedia.com/RC/TXT-1/txt1.html).
+
+The Tamiya TT-02 is a classic Tamiya chassis with various more modern variants:
+
+* [TT-02R race chassis](https://www.tamiyausa.com/shop/110-4wd-shaft-drive-road-tt/rc-tt-02r-chassis-kit-2/) RRP US$218
+* [TT-02 type S sports chassis](https://www.tamiyausa.com/shop/110-4wd-shaft-drive-road-tt/rc-tt-02-type-s-chassis-kit/) RRP US$282
+* [TT-02 type SRX chassis](https://www.tamiyausa.com/shop/110-4wd-shaft-drive-road-tt/rc-tt-02-type-srx-chassis-kit/) (an upgrade of the type S) RRP US$359
+* [TT-02BR chassis](https://www.tamiyausa.com/shop/-road-buggies/rc-tt-02br-chassis-kit/) RRP US$359
+
+Note: the type S comes with a brushed motor but no servo, the other two include neither motor nor servo. For a run-thru of Tamiya 540 motors see [Blasted RC's overview](https://www.blasted-rc.com/blogs/getting-started-in-rc/whats-the-difference-between-tamiya-540-motors). They list the BLM-02S as the most popular of the brushless variants and costs about CHF90 and comes in 10.5T to 21.5T variants (where T is turns and can be roughly related to Kv).
+
+From Digitec:
+
+* [TT-02 type S](https://www.galaxus.ch/de/s5/product/tamiya-tt-02-type-s-chassis-kit-rc-auto-12012030) CHF 149
+* [TT-02R](https://www.digitec.ch/de/s1/product/tamiya-tt-02r-chassis-kit-rc-auto-5809462) CHF 177
+* [TT-02 type SRX](https://www.digitec.ch/de/s1/product/tamiya-tourenwagen-tt-02-type-srx-chassis-kit-rc-auto-23899203) CHF 279
+* [TT-02BR](https://www.digitec.ch/de/s1/product/tamiya-tt-02br-kit-rc-auto-23899141) CHF 309
+
+The TT-02B doesn't seem to be available as a plain chassis but you can get various very cheap TT-02B models (with body and brushed motor but no servo), e.g.:
+
+* [Neo Scorcher](https://www.digitec.ch/de/s1/product/tamiya-neo-scorcher-kit-rc-auto-20329353) CHF 113
+* [Plasma Edge II](https://www.galaxus.ch/de/s5/product/tamiya-plasma-edge-ii-kit-rc-auto-20985860) CHF 119
+
+Other interesting models:
+
+* [1/12 Toyota Land Cruiser](https://www.tamiyausa.com/shop/110-trucks/rc-toyota-land-cruiser-40-pup-3/) (CHF 179 at [Brack](https://www.brack.ch/tamiya-monster-truck-toyota-land-cruiser-40-pick-up-bausatz-1311824)
+* 
 
 Banggood
 --------
@@ -527,6 +576,21 @@ Banggood
 According to [QuadifyRC](https://www.quadifyrc.com/rccarreviews/hbx-16889a-pro-review-i-think-this-is-the-best-small-basher-ive-ever-had) the Flyhal FC600 is the same chassis as the 16889a Pro with a different body and wheels.
 
 Rlaarlo 1/12 [AM-X12](https://rlaarlo.com/products/rlaarlo-amx12) - not from Banggood, Rlaarlo seem to specialize in selling direct. Rather pricier than any of the other models.
+
+YouTube channels
+----------------
+
+Coming from the drone world where the crash-and-repair cycle means the bigger channels are more about build and setup, the RC car world seems a bit different with ready-to-run (RTR) being far more normal.
+
+As such the channels, I've found most useful for _cheap_ RC cars are quite different to the ones I'd follow in the drone world.
+
+My choice of best channels for _cheap_ RC cars:
+
+* [beyondRC](https://www.youtube.com/@beyondRC/videos), e.g. [Top 10 CHEAP RC Cars of 2023](https://www.youtube.com/watch?v=bl0TjC6x5f0) and [Top 5 CHEAP RC CARS for CHRISTMAS 2023!](https://www.youtube.com/watch?v=HxwGfyqv41U).
+* [Derby City RC](https://www.youtube.com/@DerbyCityRC/videos), e.g. [10 BEST RC cars UNDER $150](https://www.youtube.com/watch?v=LnMqcFo1_0s).
+* [Tomley RC](https://www.youtube.com/@TomleyRC/videos), e.g. [The TOP $99 RC Cars of 2023](https://www.youtube.com/watch?v=kJLdkCQm8TE).
+
+There's also [Kevin Talbot](https://www.youtube.com/@KevinTalbotTV/videos) - in terms of subscribers, he's way ahead of the others but he only occassionally looks at cheaper models (and he's rather loud and shouty).
 
 Misc
 ----
