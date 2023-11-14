@@ -1,38 +1,9 @@
-MJX parts
----------
-
-The MJX 16208 has a shell that's held on with a flip-up-catch mechanism while the 16209 has one held on with the usual clips.
-
-Oddly, the MJX site nor the page for the [16209](http://www.mjxrc.net/goodshow/16209-1-16209.html) has a downloadable PDF manual.
-
-There are manuals in Chinese on their Chinese language site and the English manual does exist, e.g. you can find it [here](https://www.hobbiesaustralia.com.au/mjx-1-16-hyper-go-4wd-off-road-brushless-2s-rc-mon~29032) on the Hobbies Australia site.
-
-And the Anwei page for the [16209](https://amewi.com/Hyper-GO-Monstertruck-brushless-4WD-1-16-RTR-blaurot) does have the manual in [German and English](https://amewi.com/downloads/manuals/22627_22628_22629_DE_EN.pdf)
-
-The manual shows all the parts numbers along with diagrams showing how to assemble everything.
-
-Parts:
-
-Body clips: M001
-Oil-filled shocks: 16500R
-Steering Linkage: 16431
-Wheel Assembly: 16300B
-F/R Body Pillars: 16281
-Bolts for body pillars: M2684
-
-Tool for steering linkage
-
-More standard name for steering linkage seems to be "turnbuckle links" - <https://www.amainhobbies.com/understanding-rc-wheel-adjustment-camber-caster-and-toe/cp1132>
-
-Manual: https://www.hobbiesaustralia.com.au/assets/files/MJX-16208-16209-16210-manual.pdf
-
-Weirdly the English MJX site doesn't have any manuals page hasn't been updates with anythong post 2017.
-
-On their Chinese site, you can find manuals for the 16208 etc. but in Chinese: http://www.mjxrc.com/down_list/instruction.html
+README
+======
 
 ---
 
-I was looking for some three-way splitter to split off power from the battery cabling to the Pi or Nano SBC to achieve something like the Holybro PMO2:
+I was looking for some three-way splitter to split off power from the battery cabling to the Pi or Nano SBC to achieve something like the Holybro PM02:
 
 <https://holybro.com/collections/power-modules-pdbs/products/pm02-v3-12s-power-module>
 
@@ -123,8 +94,8 @@ Setup:
 * Servo
 * ESC
 * FC
-* TX - <https://www.aliexpress.com/item/1005005773630207.html>
-* RX - <https://www.aliexpress.com/item/4000169189998.html>
+* TX
+* RX
 * Regulator - see Pololu above.
 
 I suspect, you can work out if V4 Speedybee needs changes in ArduCopter relative to V3 by comparing Betaflight configs:
@@ -149,6 +120,59 @@ JB has a great video <https://www.youtube.com/watch?v=L-6r2iX1p6s> on servos wit
 * Then ArduCopter
 * Then Articulated's ROS series
 * Then Donkey Car
+
+MJX parts
+---------
+
+The MJX 16208 has a shell that's held on with a flip-up-catch mechanism while the 16209 has one held on with the usual clips.
+
+Oddly, the MJX site nor the page for the [16209](http://www.mjxrc.net/goodshow/16209-1-16209.html) has a downloadable PDF manual.
+
+There are manuals in Chinese on their Chinese language site and the English manual does exist, e.g. you can find it [here](https://www.hobbiesaustralia.com.au/mjx-1-16-hyper-go-4wd-off-road-brushless-2s-rc-mon~29032) on the Hobbies Australia site.
+
+And the Anwei page for the [16209](https://amewi.com/Hyper-GO-Monstertruck-brushless-4WD-1-16-RTR-blaurot) does have the manual in [German and English](https://amewi.com/downloads/manuals/22627_22628_22629_DE_EN.pdf)
+
+Note: some of the part numbers seem to have been updated since the manuals came out - e.g. the motor is shown as B284B but the spare is sold as B284C.
+
+The manual shows all the parts numbers along with diagrams showing how to assemble everything.
+
+Parts:
+
+Body clips: M001
+Oil-filled shocks: 16500R
+Steering Linkage: 16431
+Wheel Assembly: 16300B
+F/R Body Pillars: 16281
+Bolts for body pillars: M2684
+Truggy tires: 16300C
+
+Tool for steering linkage
+
+MJX parts from AliExpress
+-------------------------
+
+* [Wheels to motors](https://www.aliexpress.com/item/1005005090477708.html) from Wellsold.
+* [Bolts and servo horns](https://www.aliexpress.com/item/1005005232464912.html) from Wellsold.
+* [Chassis to motors](https://www.aliexpress.com/item/1005005228713841.html) from Cool Play Hobby Toy Accessories.
+* [Wheels to structural parts](https://www.aliexpress.com/item/1005005144149179.html) from Cool Play Hobby Toy Accessories.
+* [Batteries](https://www.aliexpress.com/item/1005005049009279.html) from Cool Play Hobby Toy Accessories.
+* [Motors, bearings and clips](https://www.aliexpress.com/item/1005004679687294.html) from JM Toy & Hobby store.
+* [Bolts, nuts and clips](https://www.aliexpress.com/item/1005005531160906.html) from Have Fun RC Toy store.
+* [More bolts etc.](https://www.aliexpress.com/i/4000097715173.html) from Have Fun RC Toy store.
+
+In the end I bought most things from Wellsold and clips and bolts from Have Fun RC Toy store. In retrospect it would have cost much the same to buy a second car and use it for parts.
+
+Other suppliers
+---------------
+
+Serious-RC are a UK based company that seem to sell primarily on eBay, they seem to have pretty much every MJX part going (plus cars and parts for MJX and many other brands).
+
+* [Serious-RC on eBay](https://www.ebay.co.uk/str/seriousrc)
+* [Serious-RC website](https://www.seriousrc.co.uk/)
+
+The markup is noticeable compared with ordering from AliExpress but shipping times for the EU are _presumably_ lower as is _presumably_ the risk of getting fake parts.
+
+Banggood also carry some MJX [162xx parts](https://uk.banggood.com/search/16208/0-0-0-1-4-60-0-price-0-0_p-1.html).
 
 Mavros
 ------
@@ -274,6 +298,11 @@ While the GT5 only supports 6 channels, I'm inclined towards the X8B as it doesn
 AFHDS 2A clearly does support reporting telemetry back to the transmitters, as is clear from the README for the [GitHub FlySkyRxFirmwareRssiMod repo](https://github.com/Cleric-K/FlySkyRxFirmwareRssiMod). It mods binary dumps of the original firmware to include RSSI in the information forwarded to the FC but makes clear RSSI is already communicated by default to the TX. However, I can't find anything that indicates that the GT5 can display this information (or is in anyway aware of the RX that its bound to).
 
 Flysky aren't great at making the RX firmware available - however, they are available from the [GitHub FlySkyRxFirmware repo](https://github.com/povlhp/FlySkyRxFirmware) - most of the images have simply been extracted from RXs, including those for the X8B and X6B. I assume these images are the basis for the images that are modded by the FlySkyRxFirmwareRssiMod project.
+
+TX and RX on AliExpress:
+
+* [GT5 from RC Fun City store](https://www.aliexpress.com/item/1005005773630207.html) - US$58 plus US$11 shipping from EU wareshouse (or US$4.50 for shipping from China).
+* [X8B from U-Angel-1988 store](https://www.aliexpress.com/item/32892188833.html) - US$17 plus US$2 shipping. Or from [RC Fun City store](https://www.aliexpress.com/item/4000169189998.html).
 
 Note: Flysky also have the [G7P](https://www.flysky-cn.com/g7pdescription) (305g) with a nicer LCD and using their new ANT protocol that supports telemetry. However, so far they've only brought out one pure digital RX with S.BUX - the [SRM](https://www.flysky-cn.com/srmspecifications). And it looks quite bulky - altough the weight, at about 305g, is about the same. 
 
@@ -470,6 +499,13 @@ Note: technically, you can get more that 5500mah but the next highest capacity b
 * [7600mAh 2S XT60 connector - 387g](https://www.gensace.de/gens-ace-7600mah-7-4v-60c-2s2p-lipo-battery-pc-material-case-with-xt60-plug.html)
 * [8200mAh S2 female bullet connectors - 301g](https://www.gensace.de/gens-ace-redline-series-8200mah-7-6v-130c-2s1p-hardcase-58-hv-lipo-battery.html)
 
+At 3S, you can get 80% more "power" (if my math is correct) in the _reasonable_ price range but only with an EC5 or a (giant) XT90 connector:
+
+* [6500mAh 3S with EC5](https://www.gensace.de/gens-ace-6500mah-11-1v-60c-3s1p-lipo-battery-pack-with-ec5-bashing-series-2292.html)
+* [6500mAh 3S with XT90](https://www.gensace.de/gens-ace-6500mah-11-1v-60c-3s1p-lipo-battery-pack-with-xt90-bashing-series-2339.html)
+
+Above [8000mAh 3S with EC5](https://www.gensace.de/gens-ace-8000mah-11-1v-100c-3s1p-lipo-battery-pack-with-ec5-bashing-series.html) prices start to rocket.
+
 Tracks
 ------
 
@@ -591,6 +627,15 @@ My choice of best channels for _cheap_ RC cars:
 * [Tomley RC](https://www.youtube.com/@TomleyRC/videos), e.g. [The TOP $99 RC Cars of 2023](https://www.youtube.com/watch?v=kJLdkCQm8TE).
 
 There's also [Kevin Talbot](https://www.youtube.com/@KevinTalbotTV/videos) - in terms of subscribers, he's way ahead of the others but he only occassionally looks at cheaper models (and he's rather loud and shouty).
+
+Toe-in
+------
+
+The toe of the back wheels is generally fixed, while the toe of the front wheels can be changed by adjusting the turnbuckle links of the front wheel assembly.
+
+See AMain Hobbies page [Understanding RC Wheel Adjustment: Camber, Caster, and Toe](https://www.amainhobbies.com/understanding-rc-wheel-adjustment-camber-caster-and-toe/cp1132) for when and why you would want a toe-in toe-neutral or toe-out configutation.
+
+[Turnbuckle wrench](https://www.aliexpress.com/item/32760668491.html) from U-Angel-1988 AliExpress store  - US$1.60 plus $0.60 shipping.
 
 Misc
 ----
