@@ -108,16 +108,18 @@ Setup:
 * RX
 * Regulator - see Pololu above.
 
-I suspect, you can work out if V4 Speedybee needs changes in ArduCopter relative to V3 by comparing Betaflight configs:
+I suspect, you can work out if V4 Speedybee needs changes in ArduPilot relative to V3 by comparing Betaflight configs:
 
 * <https://github.com/betaflight/unified-targets/blob/master/configs/default/SPBE-SPEEDYBEEF405V3.config>
 * <https://github.com/betaflight/unified-targets/blob/master/configs/default/SPBE-SPEEDYBEEF405V4.config>
 
 Actually, there seem to be lots of changes.
 
-ArduCopter: <https://github.com/ArduPilot/ardupilot/tree/master/libraries/AP_HAL_ChibiOS/hwdef/speedybeef4v3>
+ArduPilot: <https://github.com/ArduPilot/ardupilot/tree/master/libraries/AP_HAL_ChibiOS/hwdef/speedybeef4v3>
 
-ArduCopter [Speedy Bee F4 V3 reference page](https://ardupilot.org/copter/docs/common-speedybeef4-v3.html).
+ArduPilot [Speedy Bee F4 V3 reference page](https://ardupilot.org/copter/docs/common-speedybeef4-v3.html).
+
+**Update:** good news, ArduPilot now has the relevant `.dat` files for V4: <https://github.com/ArduPilot/ardupilot/tree/master/libraries/AP_HAL_ChibiOS/hwdef/speedybeef4v4>
 
 See, also:
 
