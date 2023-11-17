@@ -71,6 +71,16 @@ Super ROS 2 intro: <https://www.youtube.com/playlist?list=PLunhqkrRNRhYAffV8JDiF
 
 ---
 
+Great video on getting ArduRover up and going on an RC car: <https://www.youtube.com/watch?v=paPXfGOhqfo>
+
+Includes getting MAVLink working and then moving on to controlling things via an onboard companion computer.
+
+The one odd thing he does is use an RX with PWM outputs and then connects those through to a [PPM encoder](https://ardupilot.org/copter/docs/common-ppm-encoder.html). Why on earth would you do this rather than buying an RX that directly outputs a digital signal (ELRS, S-BUS, i-BUS or whatever)?
+
+The same channel has several other videos taking this setup further (and also on using a Pi rather than the Jetson Nano used in the first video): <https://www.youtube.com/@thedronedojo/videos>
+
+---
+
 ROS 1 had rosserial. Tiziano Fiorenzani shows how to use it to add your classic RC controller between your ROS <https://www.youtube.com/watch?v=WLVfZXxpHYI>
 
 Tiziano Fiorenzani shows how to use it to add an Arduino as an intermediary between your ROS capable Pi (or whatever) and the steering and throttle controls so, that the Arduino can take inputs from either the Pi or the RX bound to your RC controller.
@@ -162,6 +172,17 @@ MJX parts from AliExpress
 
 In the end I bought most things from Wellsold and clips and bolts from Have Fun RC Toy store. In retrospect it would have cost much the same to buy a second car and use it for parts.
 
+Two other rather odd but comprehensive sites are:
+
+* [Wl-Toys.Com MJX car and parts](https://www.wl-toys.com/MJX-Hyper-Go-RC-Car-Parts-813-1930-0-1.htm)
+* [MJXHyperGo.com](https://mjxhypergo.com/)
+
+Both sites seem to be run by the same people and they appear to run a number of other almost identical sites for no obvious reason.
+
+Neither site seems to be particularly popular and the Wl-Toys.Com has some fairly poor reviews on sites like Trustpilot (tho' _some_ of this may be a result of the sites not making clear that they're shipping from China).
+
+The English is terrible and the layout is poor but they have more comprehensive listings of what products are available in the MJX Hyper Go range than the MJX sites themselves or the other sites I've found.
+
 Other suppliers
 ---------------
 
@@ -208,6 +229,8 @@ The Toyota Hilux also uses an ESP8266 for MAV telemetry but see below for the ES
 ESP32 MAV telemetry
 -------------------
 
+**Question:** is a telemetry modules of any sort required if the companion computer is going to talk to the base station via WiFi? I suspect not - see this [video](https://www.youtube.com/watch?v=DGAB34fJQFc0) and see MAVProxy [here](https://ardupilot.org/dev/docs/raspberry-pi-via-mavlink.html) (see end of page for how to use with Mission Planner) or [APSync](https://ardupilot.org/dev/docs/apsync-intro.html) (the ArduPilot version is no longer supported and the MAVProxy link actually suggests using this [updated version](https://github.com/stephendade/apsync-Kakute) instead).
+
 Traditionally, Holybro [SiK telemetry radios](https://holybro.com/products/sik-telemetry-radio-v3) have been used for a wireless connection between laptop and drone/rover.
 
 But an interesting alternative (especially given the shorter distances typical when using a rover rather than a drone) is an ESP32.
@@ -220,6 +243,16 @@ ESP32 boards:
 * [LILYGO TTGO T7](https://www.aliexpress.com/item/32846710180.html) - US$5.50
 
 The above are proper ESP32s. Both WeAct and LILYGO also have S3 boards and other variants, e.g. here is [WeAct S3 board](https://www.aliexpress.com/item/1005005592730189.html) and a [LILYGO S3 board](https://www.aliexpress.com/item/1005004777561826.html).
+
+LILYGO also have a nice mini module that can take an external antenna:
+
+* [LILYGO T-Micro32 V2.0](https://www.aliexpress.com/item/32869180373.html)
+* [LILYGO TTGO ESP32-Micro](https://www.aliexpress.com/item/32879336509.html)
+* [LILYGO 2.4GHz/5GHz antenna](https://www.aliexpress.com/item/32847895603.html) (I'd probably rather one of the balun antenna that I already have).
+
+The TTGO ESP32-Micro is a board with the supporting circuitry and USB power for the T-Micro32. The T-Micro32 can only take 3.3V and it's not clear to me whether it requires its reset pin held high or low, you can find a datasheet [here](https://github.com/LilyGO/TTGO-Micro32-V2.0/tree/master/Datasheet) that shows some sample circuits. 
+
+The Speedybee F405 can handle up to 500mA on its 3.3V output pin which would be enought to meet an ESP32 modules max-260mA requirement.
 
 However, if you use an S2 etc., you'll have to compile the firmware yourself, the DroneBridge/ESP32 only releases ready compiled firmware for the ESP32.
 
@@ -257,6 +290,65 @@ Holybro BLHeli_32 [Tekko32 F4 45A ESC](https://holybro.com/products/tekko32-f4-4
 A similar 45A Lumenier model is the [Razor Pro F3 45A ESC](https://www.getfpv.com/electronics/electronic-speed-controllers-esc/single-esc/lumenier-razor-pro-f3-blheli-32-45a-2-6s-esc.html).
 
 Note that the Holybro is an F4 and the Lumenier is a cheaper F3.
+
+DroneCAN
+--------
+
+CAN has seemed like the protocol of the future for the last ten years but has never quite become the technology of today.
+
+To be fair, it probably is the technology of today in commercial settings but it doesn't seem to have made in-roads in the hobbyist domain.
+
+For more details see the ArduPilot [DroneCAN page](https://ardupilot.org/copter/docs/common-uavcan-setup-advanced.html) and the PX4 [DroneCAN page](https://docs.px4.io/main/en/dronecan/).
+
+The cheapest DroneCAN ESC that I can find is the [Holybro Kotleta20](https://holybro.com/products/kotleta20) - at US$60, it's not astronomical. But these types of ESCs simply aren't widely used by hobbyist so, I won't consider it at the moment.
+
+GPS and compass
+---------------
+
+The compass and GPS need to be kept away from the electrical noise of the rest of the system and generally come bundled together as a single unit.
+
+Some smaller and cheaper GPS modules come without a compass - so, always check that one's included. When indoors, the compass will still be useful even when the GPS is not.
+
+Modules based on the current M10 generation of low-power GPS chips from u-blox seem to come in two distinct price brackets:
+
+* Around US$40 - e.g. the Matek [M10Q-5883](https://www.getfpv.com/mateksys-m10q-5883-gnss-compass.html).
+* Under US$20 - e.g. units from [HGLRC](https://www.hglrc.com/collections/gps-module/products/m100-5883-gps), [Foxeer](https://www.foxeer.com/gps-t-81) and [Caddx](https://caddxfpv.com/products/walksnail-ws-m181gps).
+
+In the past, I've bought the Matek M10Q-5883 module and it's worked perfectly (and Matek have a good reputation) but I'm not quite sure what distinguishes it the more budget modules, I suspect it's that the Matek M10Q-5883 uses a genunine u-blox ceramic antenna and the others do not.
+
+For drones, keeping weight to a minimum is important but in general the lower the weight, the greater the compromises that have to be made.
+
+The weights:
+
+* HGLRC [M100-5883](https://www.hglrc.com/collections/gps-module/products/m100-5883-gps) - 7.7g
+* Caddx [WS-M181 (with 5883 compass)](https://caddxfpv.com/products/walksnail-ws-m181gps) - 4.3g
+* Foxeer:
+  * [M10Q 120 (with 5883 compass)](https://www.foxeer.com/foxeer-m10q-120-gps-5883-compass-g-517) - 2.7g
+  * [M10Q 180 (with 5883 compass)](https://www.foxeer.com/foxeer-m10q-180-gps-5883-compass-g-507) - 7.5g
+  * [M10Q 250 (with 5883 compass)](https://www.foxeer.com/foxeer-m10q-250-gps-5883-compass-g-507) - 12g (it's incorrectly listed as 7.5g on the Foxeer site).
+
+So, I'm going to try the Foxeer M10Q 250, as it's weight _seems_ to imply the fewest weight-related compromises and for a ground vehicle, there's no sense sacrificing performance to save a few grams.
+
+Note: Matek recommend trying to keep these kind of modules 10cm away from ESCs, motors and power cables.
+
+[Foxeer M10Q 250](https://www.aliexpress.com/item/1005005472961041.html) from U-Angel-1988 store on AliExpress.
+
+### GPS masts
+
+GPS masts on AliExpress:
+
+* [U-Angel-1988 store](https://www.aliexpress.com/item/32924178609.html).
+* [Skyquist store](https://www.aliexpress.com/item/32828961441.html).
+
+Both masts are probably around 15cm so, I'd suggest cutting them down to 10cm - even at that length they'll protrude quite a lot above the rest of the car.
+
+Buzzer
+------
+
+Buzzer from:
+
+* [GetFPV](https://www.getfpv.com/matek-lost-model-beeper-fpv-fc-5v-loud-buzzer.html) - US$4
+* [FeiYing store on AliExpress](https://www.aliexpress.com/item/32858037846.html) - US$3
 
 Transmitters and receivers
 --------------------------
