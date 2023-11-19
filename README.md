@@ -25,6 +25,38 @@ Or even simpler:
 * Join the wires so, the SBD wires run back along the battery cables rather than extending away from them.
 * Then solder these combined wires onto a fresh deans connector - this'd work much nicer with an XT60, where (with the thinner cable beneath) you can "mash" both into the XT60 cup-like connectors. With deans, the connector is just a flat surface rather than a cup.
 
+ArduPilot on cheap FC
+---------------------
+
+See, Painless360's [video](https://www.youtube.com/watch?v=XWv7aG7z22o) - covers flashing and usings servos.
+
+The ArduPilot site documents flashing firmware [here](https://ardupilot.org/copter/docs/common-loading-firmware-onto-chibios-only-boards.html) - the page seems very complicated but I think it just boils down to them using the STM32CubeProgrammer to do the flashing rather than Betaflight or iNav.
+
+5V power
+--------
+
+Note: the FC can be powered directly off battery voltage - unfortunately it's input range is 3S to 6S (the equivalent [Holybro F4](https://holybro.com/collections/autopilot-flight-controllers/products/kakute-f4-v2-4) can takes 2S input). Obviously, it can also be powered via USB but whether it then limits e.g. the 3.3/4.5/5/9V output isn't clear (tho' they mention that 4.5V output will supply power _even_ when running on USB so, that implies no power output for the others on USB). When powered via the battery, it can source up to 3A at 5V - more than enough for every Pi even the Pi 5 (though the 5 will limit downstream USB power unless it knows its connected to something that can source at least 5A). The Pi Zero 2 W pulls well under 1A even at max load. One could step up the 2S input voltage with a regulator like [this](https://www.pololu.com/product/4016) but then one might as well switch to a Holybro rather than add an extra board.
+
+Pololu step-up 12V:
+
+* US$5 - <https://www.pololu.com/product/4945> - 0.8A continuous output.
+* US$8 - <https://www.pololu.com/product/4016> - 2A continuous output.
+* US$18 - <https://www.pololu.com/product/2895> - 3A continuous output.
+
+Use a bench power supply to get a measure of how much current the setup consumes. Just using a 3S battery might be the easiest thing.
+
+**Note:** the Kakute F4 v2.4 uses a different IMU to the one listed in the ArduPilot [`.dat`](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_HAL_ChibiOS/hwdef/KakuteF4/hwdef-bl.dat) file.
+
+The servos expect 6V:
+
+* US$13 - <https://www.pololu.com/product/2859> - 2.2A continuous output.
+* US$14 - <https://www.pololu.com/product/4893> - 3.5A continuous output.
+* US$25 - <https://www.pololu.com/product/4092> - 7.5A continuous output.
+
+The 2.2A one seems a bit pointless - you save $1 but otherwise its not interestingly smaller than the 3.5A one.
+
+I suspect the servo will still be fine with 5V and 2A - many 1/16 ESCs supply something like this. I think the servo on my MJX is simply powered directly from the RX.
+
 ---
 
 The Pololu 5V 5.5A step-down voltage regulator - is fairly pricey at US$25 <https://www.pololu.com/product/4091>
@@ -76,6 +108,12 @@ Great video on getting ArduRover up and going on an RC car: <https://www.youtube
 Includes getting MAVLink working and then moving on to controlling things via an onboard companion computer.
 
 The one odd thing he does is use an RX with PWM outputs and then connects those through to a [PPM encoder](https://ardupilot.org/copter/docs/common-ppm-encoder.html). Why on earth would you do this rather than buying an RX that directly outputs a digital signal (ELRS, S-BUS, i-BUS or whatever)?
+
+He controls his rover using Python running on the common computer and talking with the FC using MAV. And simulates his missions before running them in the real world.
+
+He points out that you should be able to connect the companion computer via USB rather than going via a telem port as you would with something like an ESP32. You'd probably have to disable the usual checks that prevent arming while connected to a device via USB.
+
+Out in the field, his laptop and rover communicate via a mobile-hotspot that he sets up on his phone.
 
 The same channel has several other videos taking this setup further (and also on using a Pi rather than the Jetson Nano used in the first video): <https://www.youtube.com/@thedronedojo/videos>
 
@@ -545,6 +583,8 @@ There are no end of no-name dongles, but the highest spec branded dongle, I coul
 
 [Archer T3U](https://www.digitec.ch/de/s1/product/tp-link-archer-t3u-mini-usb-30-netzwerkadapter-10857405) at Digitec.
 
+As noted above, use your phone as a mobile hotspot, when out in the field, to enable communication between laptop and rover (or just put the rover into AP mode but the laptop may be unhappy about the lack of internet access).
+
 Voltage and current sensors
 ---------------------------
 
@@ -639,6 +679,31 @@ An alternative track surface are the interlocking mats found in places like gyms
 
 * [Gorilla Sports protective mat set](https://www.galaxus.ch/en/s3/product/gorilla-sports-protective-mat-set-120-cm-floor-guards-9315746) - 8 mats with total area 1.2x2.4m for CHF60.
 * [Gonser floor mat set](https://www.gonser.ch/bodenmatte-61-x-61-x-1-2-cm-schwarz-20-er-set/a-10684/) - 20 mats with total area 2.4x3m for CHF120.
+
+### Lawn edging
+
+I really liked the track I saw in this Tomley RC [video](https://www.youtube.com/watch?v=niKSxZ1Ou_I).
+
+I'm pretty sure the walls of the track are simply lawn edging, i.e. something like this:
+
+* [No dig landscape edging](https://www.amazon.com/Landscape-Edging%EF%BC%8C40ft-Edging-Stakes-Flower/dp/B09LXJ21TN) at Amazon.com.
+* [Ditto](https://www.amazon.com/EasyFlex-Heavy-Duty-Landscape-Anchoring-Commercial/dp/B015T8RZTQ) at Amazon.com.
+* [Flexible lawn edging](https://www.amazon.co.uk/dp/B0C534DLDC) at Amazon.co.uk.
+* [Flexible garden border edging](https://www.amazon.co.uk/Garden-Edging-Flexible-Different-Lengths/dp/B086C1M8HW) at Amazon.co.uk.
+* [Flexible plastic lawn edging](https://www.diy.com/departments/10-metre-flexible-plastic-lawn-edging-garden-grass-border-with-40-pegs/5060502538802_BQ.prd) at B&Q.
+
+Seems to be at most US$40 per 10m. It seems to fit into that category of things (cheap but bulky) that isn't a good buy on AliExpress.
+
+You'll probably get the best price going to your local garden center than buying online (e.g. the B&Q price above is better than most online prices).
+
+### AliExpress racetrack barriers
+
+I haven't looked at this much but initial searching turned up:
+
+* <https://www.aliexpress.com/i/1005001649381054.html>
+* <https://www.aliexpress.com/item/1005002496440497.html>
+
+The tracks shown look cool - so, worth more investigation.
 
 AWS DeepRacer
 -------------
