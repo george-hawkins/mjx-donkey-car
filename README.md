@@ -61,6 +61,8 @@ I suspect the servo will still be fine with 5V and 2A - many 1/16 ESCs supply so
 
 The Pololu 5V 5.5A step-down voltage regulator - is fairly pricey at US$25 <https://www.pololu.com/product/4091>
 
+REMEMBER CURRENT SENSOR IF BUYING.
+
 5.5A seems to be as high as Pololu go for 5V regulators and this seems to be about the most you want for a Pi 5 with high-power peripherals.
 
 Note: I have a similar-ish discontinued variant of this somewhere: <https://www.pololu.com/product/2865>
@@ -72,6 +74,20 @@ Raspberry Pi 5 power limiting - the Pi 5 will, by default, provide _less_ power 
 If you "wish to drive high-power peripheral, [you need a] USB-C power adapter which supports a 5V, 5A (25W) operating mode. If the Raspberry Pi 5 firmware detects this supply, it increases the USB current limit to 1.6A, providing 5W of extra power for downstream USB devices".
 
 So, if using a supply that doesn't have USB-C's ability to signal this ability, I _guess_ you have to use "the option to override the current limit".
+
+### Capacitors
+
+Adding a capacitor to a 2S setup is probably unnecessary but going by OL's [guide](https://oscarliang.com/capacitors-mini-quad/) a 25V 470uF ESR cap should be more that enough even for 3S builds.
+
+Suitable caps:
+
+* Panasonic EEUFM1E471 [FM-A 470uF 25V](https://www.reichelt.de/de/en/e-cap-radial-470-uf-25-v-105-c-low-esr-fm-a-470u-25a-p200052.html) - 10x16mm.
+* Panasonic EEUFM1E471L [FM-A 470uF 25V (long)](https://www.reichelt.de/de/en/e-cap-radial-470-uf-25-v-105-c-low-esr-fm-a-470u-25b-p200053.html) - 8x20mm.
+* Panasonic [FM 470uF 35V](https://www.getfpv.com/panasonic-35v-470uf-low-esr-capacitor.html) - 10x20mm from GetFPV.
+
+The GetFPV one is 35V which is higher than needed but easily available.
+
+The first Panasonic one seems the ideal one, it's shorter (so, easier to fit into builds) and has slightly better characteristics than the long one (it has lower ESR and higher ripple current - which _seems_ to be what one should look for).
 
 ---
 
@@ -483,11 +499,6 @@ Various companies produce 4in1 modules, e.g. [RadioMaster](https://www.radiomast
 
 If you're interested to see the cheapest TX, with at least 5 channels, from one of the traditional RC manufacturers, it's probably the [Spektrum DX5C](https://www.spektrumrc.com/product/dx5c-smart-5-channel-dsmr-transmitter-with-sr6100at-receiver/SPM5120.html) - costing a mere US$220.
 
-RC reviews and guides
----------------------
-
-In googling for non-video reviews and guids, I kept on finding what I wanted on [QuadifyRC](https://www.quadifyrc.com/). The site has lots of in-depth reviews and lots of guides (like [this one](https://www.quadifyrc.com/rccarreviews/124019-budget-setup-and-tuning-guide-2021-get-the-most-out-of-your-car) to setting up and tuning your budget RC car).
-
 ---
 
 4-lane MIPI / USB-3 / 8GB SBCs:
@@ -573,8 +584,6 @@ Other fan options:
 Given that 52pi seem to make models that are known to work, I'm inclined to buy their fan/heatsink combo over the no name alternatives (and it's cheaper than making your own using branded components from Reichelt).
 
 However, the heatsink with 3-pin 5V fan from Shenzhen Green Technology is interesting as all the other fans are always on whereas, _I presume_ the third pin is for PWM control (as shown [here](https://www.raspberrypi.com/products/raspberry-pi-4-case-fan/) with the Pi 4 case fan). The Raspberry Pi 5 active cooler also has PWM control.
-
----
 
 WiFi dongle
 -----------
@@ -786,6 +795,11 @@ My choice of best channels for _cheap_ RC cars:
 * [Tomley RC](https://www.youtube.com/@TomleyRC/videos), e.g. [The TOP $99 RC Cars of 2023](https://www.youtube.com/watch?v=kJLdkCQm8TE).
 
 There's also [Kevin Talbot](https://www.youtube.com/@KevinTalbotTV/videos) - in terms of subscribers, he's way ahead of the others but he only occassionally looks at cheaper models (and he's rather loud and shouty).
+
+RC reviews and guides
+---------------------
+
+In googling for non-video reviews and guids, I kept on finding what I wanted on [QuadifyRC](https://www.quadifyrc.com/). The site has lots of in-depth reviews and lots of guides (like [this one](https://www.quadifyrc.com/rccarreviews/124019-budget-setup-and-tuning-guide-2021-get-the-most-out-of-your-car) to setting up and tuning your budget RC car).
 
 Toe-in
 ------
