@@ -308,6 +308,18 @@ LILYGO also have a nice mini module that can take an external antenna:
 
 The TTGO ESP32-Micro is a board with the supporting circuitry and USB power for the T-Micro32. The T-Micro32 can only take 3.3V and it's not clear to me whether it requires its reset pin held high or low, you can find a datasheet [here](https://github.com/LilyGO/TTGO-Micro32-V2.0/tree/master/Datasheet) that shows some sample circuits. 
 
+The T-Micro32 is basically LILYGO's version of the FCC/CE certified module sold by Espressif, i.e. everything in single metal shielded ready to solder down module, rather than the individual chips seen in designs such as the WeAct board. Except it's 45% smaller than the Espressif module (and whether its certified is another matter).
+
+Here's a nice [video](https://www.youtube.com/watch?v=tQ0dL_9M1wI) on what the minimum you need to get an S3 module working - unlike the original ESP32, the S3 has built-in USB. It's not much but it's still enought that one would probably rather get a pre-made board. Note, in the comments someone points out the following (and the video's author replies to agree):
+
+> Note: You cannot reliably connect EN to the VCC without the resistor and capacitor, as the ESP32 can fail to boot/program if EN rises before the voltage is stable (the reason for the resistor and cap is to delay EN going high). I've tried this shortcut on PCB designs and it /may/ work for you, or may not. For a couple of pence in parts, it's not worth the risk. He also has a [blog entry](https://www.atomic14.com/2023/07/27/minimal-dev-board.html) to go with this video.
+
+In a later video, he shows an equivalent PCBWay board (minus the doubtful shortcuts), although as one of the comments points out it's slightly bizarre that he's laid things out such that the modules antenna ends up directly over the USB connector of his board: <https://www.youtube.com/watch?v=zeSlRvCd6tg>
+
+Note: this board has a battery circuit (including charging circuitry) so, it's actually a lot less minimal that the previous video.
+
+There's a nice [TinyPICO](https://www.tinypico.com/) project but these tiny boards are is the US$20 price range rather than the $4 (incl. postage) price of e.g. the WeAct board above.
+
 The Speedybee F405 can handle up to 500mA on its 3.3V output pin which would be enought to meet an ESP32 modules max-260mA requirement.
 
 However, if you use an S2 etc., you'll have to compile the firmware yourself, the DroneBridge/ESP32 only releases ready compiled firmware for the ESP32.
@@ -339,6 +351,8 @@ The MJX ESC is 45A - it would be interesting to use a similar amp BLHeli_32 capa
 
 **Important:** according to [OL's page](https://oscarliang.com/esc-telemetry-betaflight/), there's actually better RPM information included in the DSHOT protocol than in the ESC telemetry data - but better only in the sense that the DSHOT data is much more high frequency.
 
+JB has a nice [video](https://www.youtube.com/watch?v=mlQplDPdIQ4) on why ESC telemetry is pointless for RPM (as it comes via DSHOT), voltage (the FC sees VBAT+ and has its own voltage sensor) and current (4-in-1 ESCs provide the total 4-in-1 current consumption via an onboard analog current sensor that is connected to the CUR pin on the FC's ESC connection). So, current, in our setup, is the only slightly interesting thing coming via ESC telemetry (as a single ESC, unlike a 4-in-1 doesn't have a dedicated CUR pin).
+
 Holybro BLHeli_32 [Tekko32 F4 45A ESC](https://holybro.com/products/tekko32-f4-45a-esc)
 
 [Tekko32 F4 45A ESC](https://www.3dxr.co.uk/multirotor-c3/multirotor-escs-c48/holybro-tekko32-f4-45a-esc-p4993) from 3DXR.
@@ -346,6 +360,42 @@ Holybro BLHeli_32 [Tekko32 F4 45A ESC](https://holybro.com/products/tekko32-f4-4
 A similar 45A Lumenier model is the [Razor Pro F3 45A ESC](https://www.getfpv.com/electronics/electronic-speed-controllers-esc/single-esc/lumenier-razor-pro-f3-blheli-32-45a-2-6s-esc.html).
 
 Note that the Holybro is an F4 and the Lumenier is a cheaper F3.
+
+Dumb ESC
+--------
+
+Just for reference, I tried to find the original manufacturer of the ESC used in my MJX:
+
+![45A ESC](https://bezgar.com/cdn/shop/products/45A_E45A_897x897.png)
+
+No end of people sell rebranded versions but I couldn't find a definite source.
+
+A big manufacturer of OEM ESCs for other companies seems to be Hobbywing, there 30A 16BL30 is very similar but not identical:
+
+* [16BL30 with rangle of plug options](https://www.aliexpress.com/item/1005001335666332.html) from BYRC on AliExpress.
+* [16BL30 with Tamiya plug](https://www.hobbywingdirect.com/collections/quicrun-brushless-system/products/quicrun-wp-16bl30) from Hobbywing Direct (who knows if they're an official store or not).
+
+They sell many other models, e.g. this [10BL60 sensored ESC (with motor combo)](https://www.hobbywingdirect.com/collections/quicrun/products/quicrun-10bl60-sensored-esc-combo).
+
+Note: the 10 or 16 at the start of the model names seems to indicate the target car scale, i.e. 1/10th or 1/16th.
+
+Servo tester
+------------
+
+Servo testers from AliExpress:
+
+* [Mitoot store](https://www.aliexpress.com/item/1005004579721617.html)
+* [U-Angel-1988 store](https://www.aliexpress.com/item/1005004578640419.html)
+* [TZT-Five-Stars store](https://www.aliexpress.com/item/1005004111874108.html)
+
+The Mitoot and U-Angel-1988 aso have ones where you can vary the frequency, search for 250Hz, i.e. smaller pulse widths, for ones than should work for digital servos. The HJ definitely seems to work with digital servos.
+
+From [Banggood](https://www.banggood.com/Servo-Tester-Third-Gear-Switch-With-Indicator-Light-4_2V-To-6_0v-for-RC-Airplane-p-1079862.html).
+
+From Digitec:
+
+* [Basic analog servo tester](https://www.digitec.ch/de/s1/product/jamara-servotester-ccpm-mini-rc-servo-5969358).
+* [Analog and digital servo tester](https://www.digitec.ch/de/s1/product/purecrea-digitaler-servo-tester-esc-4-kanal-rc-servo-38771640).
 
 DroneCAN
 --------
@@ -713,6 +763,12 @@ I haven't looked at this much but initial searching turned up:
 * <https://www.aliexpress.com/item/1005002496440497.html>
 
 The tracks shown look cool - so, worth more investigation.
+
+### Corrugated pipe and foam pipe
+
+Peopel also use corrugated pipe/tube as used for drainage like [this](https://www.obi.ch/drainage-grundmauerschutz/drainagerohr-master-dn-100-10-m/p/3703154) or for electrical cabling (generally split along the length of the pipe so you can push in cabling) like [this](https://www.amazon.com/Gardner-Bender-FLX-3810T-Electrical-Corrugated/dp/B01NAWUM1J/ref=pd_sbs_sccl_3_2/131-6839286-2522421).
+
+Or pipe insulation foam like [this](https://www.jumbo.ch/de/bauen-renovieren/isoliermaterial/zubehoer/rohrisolierung-schaumstoff-34x20-mm-grau/p/3222558) (again split so it can be pushed over existing piping).
 
 AWS DeepRacer
 -------------
