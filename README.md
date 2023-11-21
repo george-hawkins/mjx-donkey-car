@@ -75,6 +75,13 @@ If you "wish to drive high-power peripheral, [you need a] USB-C power adapter wh
 
 So, if using a supply that doesn't have USB-C's ability to signal this ability, I _guess_ you have to use "the option to override the current limit".
 
+### WeAct step-down modules
+
+WeAct is probably the only AliExpress store from which I'd buy something like a step-down module. They have:
+
+* [7V to 24V in - 5V/5A continuous out](https://www.aliexpress.com/item/1005001821783419.html) - has solder pads that be shorted for 3.3V/5A, 9V/2.4A and 12V/1.5A.
+* [4.5 to 36V in 5V/0.6A out](https://www.aliexpress.com/item/1005006093951384.html) - also sold in 3.3V and 12V variants (all with 0.6A out).
+
 ### Capacitors
 
 Adding a capacitor to a 2S setup is probably unnecessary but going by OL's [guide](https://oscarliang.com/capacitors-mini-quad/) a 25V 470uF ESR cap should be more that enough even for 3S builds.
@@ -331,9 +338,15 @@ Adafruit have some nice tiny boards:
 
 The TinyS3 is interesting not just because of its size but also because one could attach a u.FL antenna for improved range.
 
+Seeed sell something similar to the QT Py ESP32-S3 but with an external antenna - [Seeed Studio XIAO ESP32S3](https://www.seeedstudio.com/XIAO-ESP32S3-p-5627.html) - US$7.50
+
+TME, PiHut and many others carry the Seeed Studio XIAO ESP32S3.
+
 The SparkFun [Thing Plus - ESP32](https://www.sparkfun.com/products/20168) at $US25 seems hard to justify vs e.g. the WeAct board.
 
 For a comparison of ESP32 MCUs, see this [table](https://gist.github.com/fabianoriccardi/cbb474c94a8659209e61e3194b20eb61) - the S2 and S3 are still Tensilica Xtensa 32 chips but the C3 and C6 are RISC-V.
+
+Fo whatever reason AliExpress only has really tiny boards for C3 ESP32s, e.g. this [one](https://www.aliexpress.com/item/1005005757810089.html).
 
 Flight controller
 -----------------
@@ -396,6 +409,19 @@ From Digitec:
 
 * [Basic analog servo tester](https://www.digitec.ch/de/s1/product/jamara-servotester-ccpm-mini-rc-servo-5969358).
 * [Analog and digital servo tester](https://www.digitec.ch/de/s1/product/purecrea-digitaler-servo-tester-esc-4-kanal-rc-servo-38771640).
+
+Nut drivers
+-----------
+
+This [screw and nut driver set](https://www.getfpv.com/hdt-rc-mini-screwdriver-set-of-7.html) (sold under any number of brand names) only covers nut drivers up to 5.5mm.
+
+For RC cars, you need larger sizes, e.g. these 4, 5.5, 7 and 8mm sets on AliExpress:
+
+* [U-Angel-1988 store](https://www.aliexpress.com/item/1005003345598773.html)
+* [EasyScope RC store](https://www.aliexpress.com/item/4000004180766.html)
+* [Youme Power store](https://www.aliexpress.com/item/1005003666449272.html)
+
+Amazingly, the standard equivalent set from AMain Hobbies - the [ProTek RC set](https://www.amainhobbies.com/protek-rc-trutorque-sl-4piece-metric-nut-driver-set-5.0-5.5-7.0-8.0mm-ptk-8282/p752699) is US$44.
 
 DroneCAN
 --------
@@ -882,3 +908,8 @@ Their Jetson Nano models:
 * [JetBot Pro with lidar](https://www.waveshare.com/product/ai/robots/mobile-robots/jetbot-ros-ai-kit.htm) - two wheeled variant.
 
 They also have guides for using their robots/cars with [Donkey Car](https://www.waveshare.com/wiki/DonkeyCar_for_Jetson_Nano-Calibrate_DonkeyCar), [autonomous driving](https://www.waveshare.com/wiki/JetRacer_AI_Kit#interactive-regression), [ROS](https://www.waveshare.com/wiki/JetBot_AI_Kit:_ROS) (unfortunately, ROS 1) and more.
+
+Purchases
+---------
+
+Unmanned Tech order (FC and PDB) arrived 21 Nov, 2023.
