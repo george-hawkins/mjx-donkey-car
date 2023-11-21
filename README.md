@@ -65,6 +65,8 @@ REMEMBER CURRENT SENSOR IF BUYING.
 
 5.5A seems to be as high as Pololu go for 5V regulators and this seems to be about the most you want for a Pi 5 with high-power peripherals.
 
+Going down to 3.4A halves the price - <https://www.pololu.com/product/4892>
+
 Note: I have a similar-ish discontinued variant of this somewhere: <https://www.pololu.com/product/2865>
 
 Actually, you can get 9A (but with hard to source components): <https://www.pololu.com/product/2866> and even 15A but at a pricey US$80: <https://www.pololu.com/product/2881>
@@ -81,6 +83,10 @@ WeAct is probably the only AliExpress store from which I'd buy something like a 
 
 * [7V to 24V in - 5V/5A continuous out](https://www.aliexpress.com/item/1005001821783419.html) - has solder pads that be shorted for 3.3V/5A, 9V/2.4A and 12V/1.5A.
 * [4.5 to 36V in 5V/0.6A out](https://www.aliexpress.com/item/1005006093951384.html) - also sold in 3.3V and 12V variants (all with 0.6A out).
+
+Note: they say to add a fan or heatsink if you intend to run continuously with high current draw.
+
+There are noticeably more components on the Pololu boards including two large-ish capacitor-like components.
 
 ### Capacitors
 
@@ -334,7 +340,7 @@ However, if you use an S2 etc., you'll have to compile the firmware yourself, th
 Adafruit have some nice tiny boards:
 
 * [QT Py ESP32-S3](https://www.adafruit.com/product/5426) - US$12.50
-* [TinyS3 ESP32-S3 with u.FL](https://www.adafruit.com/product/5747) - US$20
+* [TinyS3 ESP32-S3 with u.FL](https://www.adafruit.com/product/5747) - US$20 (by the same people who do the TinyPICO above).
 
 The TinyS3 is interesting not just because of its size but also because one could attach a u.FL antenna for improved range.
 
@@ -590,6 +596,8 @@ Note: in addition to the Nano, you can also get Nvidia TX2, Xavier and Orin boar
 
 Up until now, Raspberry Pi has used USB 2.0 and 2-lane MIPI. The first affects its ability to get the most out of hardware like the [Google Coral USB accelerator](https://coral.ai/products/accelerator) for ML inferencing and the second limits its ability to use the high-quality but competitively priced cameras that have become common for digital FPV like the [DJI O3 camera module](https://www.getfpv.com/fpv/cameras/dji-o3-air-unit-camera-module.html).
 
+See link elsewhere to self-driving car on a shoestring video that uses a Coral.
+
 The [Raspberry Pi 5](https://www.raspberrypi.com/products/raspberry-pi-5/) addresses both these issues. Unfortunately, it's currently almost impossible to buy.
 
 There are almost no similarly spec'd (USB-3 / 4-lane MIPI / 8GB memory) SBCs out there at a similar price point.
@@ -696,7 +704,9 @@ They have current sensors:
 * [Adafruit INA169](https://www.adafruit.com/product/1164) - analog 5A max.
 * [Adafruit INA219](https://www.adafruit.com/product/904) - digital 3.2A max.
 
-Pololu have various analog current sensors, e.g. the [ACS711EX breakout](https://www.pololu.com/product/2452) that can handle up to 15A (they have more expensive models for lower ampages, e.g. the [ACS724](https://www.pololu.com/product/4041) which can only handle 5A but an error of +/-1.5% (vs 5% for the ACS711EX).
+Pololu have various analog current sensors, e.g. the [ACS711EX breakout](https://www.pololu.com/product/2452) that can handle up to 15A (they have more expensive models for lower ampages, e.g. the [ACS724](https://www.pololu.com/product/4048) which can only handle 5A but an error of +/-0.9% (vs 5% for the ACS711EX).
+
+A nice mid-point price-wise seems to the the 10A capable [ACHS-7121](https://www.pololu.com/product/4030) with +/-1.5% error.
 
 Batteries
 ---------
@@ -718,12 +728,12 @@ Note: technically, you can get more that 5500mah but the next highest capacity b
 * [7600mAh 2S XT60 connector - 387g](https://www.gensace.de/gens-ace-7600mah-7-4v-60c-2s2p-lipo-battery-pc-material-case-with-xt60-plug.html)
 * [8200mAh S2 female bullet connectors - 301g](https://www.gensace.de/gens-ace-redline-series-8200mah-7-6v-130c-2s1p-hardcase-58-hv-lipo-battery.html)
 
-At 3S, you can get 80% more "power" (if my math is correct) in the _reasonable_ price range but only with an EC5 or a (giant) XT90 connector:
+At 3S, you can get 80% more "power" (if my math is correct) in the _reasonable-ish_ price range but only with an EC5 or a (giant) XT90 connector:
 
 * [6500mAh 3S with EC5](https://www.gensace.de/gens-ace-6500mah-11-1v-60c-3s1p-lipo-battery-pack-with-ec5-bashing-series-2292.html)
 * [6500mAh 3S with XT90](https://www.gensace.de/gens-ace-6500mah-11-1v-60c-3s1p-lipo-battery-pack-with-xt90-bashing-series-2339.html)
 
-Above [8000mAh 3S with EC5](https://www.gensace.de/gens-ace-8000mah-11-1v-100c-3s1p-lipo-battery-pack-with-ec5-bashing-series.html) prices start to rocket.
+Above [8000mAh 3S with EC5](https://www.gensace.de/gens-ace-8000mah-11-1v-100c-3s1p-lipo-battery-pack-with-ec5-bashing-series.html) prices start to rocket. Actually, the price starts to rocket after [4000mAh 3S with XT90](https://www.gensace.de/gens-ace-soaring-4000mah-11-1v-30c-3s1p-lipo-battery-pack-with-xt90-plug-2234.html).
 
 Tracks
 ------
@@ -754,7 +764,7 @@ Robocar has them available at more reasonable prices:
 * Same track but as [heavy duty carpet variant](https://www.robocarstore.com/products/aws-deepracer-standard-track-carpet-version) - US$2,300.
 * [Barriers](https://www.robocarstore.com/collections/tracks/products/fence-with-cover-for-aws-track) - 20 pieces - US$45.
 
-But to be fair, their [docs](https://docs.aws.amazon.com/deepracer/latest/developerguide/deepracer-build-your-track-materials-and-tools.html) suggest instead using [Tarco asphalt saturated organic felt](https://www.tarcoroofing.com/products/roofapp/shingles/mechanically-attached/asphalt-saturated-organic-felt) (the variant called _30# ASTM Specification Felt_). (which comes in 1x2m roles for around US$45).
+But to be fair, DeepRacer [docs](https://docs.aws.amazon.com/deepracer/latest/developerguide/deepracer-build-your-track-materials-and-tools.html) suggest instead using [Tarco asphalt saturated organic felt](https://www.tarcoroofing.com/products/roofapp/shingles/mechanically-attached/asphalt-saturated-organic-felt) (the variant called _30# ASTM Specification Felt_). (which comes in 1x2m roles for around US$45).
 
 I tried searching for track on AliExpress but didn't have much luck - all I found was this [track](https://www.aliexpress.com/item/1005001495620929.html) from BlueRaven for US$30.
 
