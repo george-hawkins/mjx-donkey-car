@@ -32,6 +32,24 @@ See, Painless360's [video](https://www.youtube.com/watch?v=XWv7aG7z22o) - covers
 
 The ArduPilot site documents flashing firmware [here](https://ardupilot.org/copter/docs/common-loading-firmware-onto-chibios-only-boards.html) - the page seems very complicated but I think it just boils down to them using the STM32CubeProgrammer to do the flashing rather than Betaflight or iNav.
 
+Servo leads
+-----------
+
+Oddly, the RC world often seems to get male and female back-to-front when it comes to servo connectors - so, double check product pictures to make sure you're getting what you expect.
+
+The servo connections on the MJX 162xx are Futaba style, i.e. with a notch.
+
+You can get pre-made cables like this [60cm extension cable](https://www.epproduct.com/en/servo-accessories/17471-ep-servo-cable-extension-plug-futaba-7613081013857.html) (it generally doesn't reduce the price to get them with connectors on one end so, just chop off the unneeded connector in a given situation).
+
+It seems to be hard to find servo cables that definitely use silicone wire, e.g. Pololu doesn't mention it for their [cables](https://www.pololu.com/product/2166).
+
+So, an alternatice would be to buy:
+
+* A [Futaba male connector pack](https://www.pololu.com/product/1927)
+* A [crimper](https://www.pololu.com/product/1928)
+
+And wire up and twist some cable yourself.
+
 5V power
 --------
 
@@ -61,8 +79,6 @@ I suspect the servo will still be fine with 5V and 2A - many 1/16 ESCs supply so
 
 The Pololu 5V 5.5A step-down voltage regulator - is fairly pricey at US$25 <https://www.pololu.com/product/4091>
 
-REMEMBER CURRENT SENSOR IF BUYING.
-
 5.5A seems to be as high as Pololu go for 5V regulators and this seems to be about the most you want for a Pi 5 with high-power peripherals.
 
 Going down to 3.4A halves the price - <https://www.pololu.com/product/4892>
@@ -76,6 +92,17 @@ Raspberry Pi 5 power limiting - the Pi 5 will, by default, provide _less_ power 
 If you "wish to drive high-power peripheral, [you need a] USB-C power adapter which supports a 5V, 5A (25W) operating mode. If the Raspberry Pi 5 firmware detects this supply, it increases the USB current limit to 1.6A, providing 5W of extra power for downstream USB devices".
 
 So, if using a supply that doesn't have USB-C's ability to signal this ability, I _guess_ you have to use "the option to override the current limit".
+
+### Pololu final choices
+
+I ended up getting four Pololu breakouts from [Eckstein](https://eckstein-shop.de/) (as it was the one European distributor that carried all the ones I wanted and the prices were similar to those at e.g. TME):
+
+* [5V/3.4 step-down voltage regulator](https://eckstein-shop.de/Pololu-5V-34A-Step-Down-Voltage-Regulator-D30V30F5)
+* [5V/5.5A step-down voltage regulator](https://eckstein-shop.de/Pololu-5V-55A-Step-Down-Voltage-Regulator-D36V50F5)
+* [ACHS-7121 -/+10A current sensor](https://eckstein-shop.de/Pololu-ACHS-7121-Current-Sensor-Carrier-10A-to-10A)
+* [U3V40F12 12V step-up voltage regulator](https://eckstein-shop.de/Pololu-12V-Step-Up-Voltage-Regulator-U3V40F12-Boost-Switching-Regulator)
+
+Note: MJX recently released the 1/14 scale H14BM that comes with 3S batteries so, avoiding the need for a step-up regulator. MJX's product range is very opaque, what's the difference between the H14BM and the 14210 - I asked about this in the comments section [here](https://www.quadifyrc.com/rccarreviews/mjx-hyper-go-14210-brushless-rc-truck-review-my-favourite-offroad-rc-2023).
 
 ### WeAct step-down modules
 
@@ -101,6 +128,8 @@ Suitable caps:
 The GetFPV one is 35V which is higher than needed but easily available.
 
 The first Panasonic one seems the ideal one, it's shorter (so, easier to fit into builds) and has slightly better characteristics than the long one (it has lower ESR and higher ripple current - which _seems_ to be what one should look for).
+
+In the end, I got the [10x16mm EEUFM1E471](https://www.tme.eu/en/details/eeufm1e471/tht-electrolytic-capacitors/panasonic/) from TME.
 
 ---
 
@@ -207,7 +236,7 @@ The MJX 16208 has a shell that's held on with a flip-up-catch mechanism while th
 
 Oddly, the MJX site nor the page for the [16209](http://www.mjxrc.net/goodshow/16209-1-16209.html) has a downloadable PDF manual.
 
-There are manuals in Chinese on their Chinese language site and the English manual does exist, e.g. you can find it [here](https://www.hobbiesaustralia.com.au/mjx-1-16-hyper-go-4wd-off-road-brushless-2s-rc-mon~29032) on the Hobbies Australia site.
+There are manuals in Chinese on their [Chinese language site](http://www.mjxrc.com/) and the English manual does exist, e.g. you can find it [here](https://www.hobbiesaustralia.com.au/mjx-1-16-hyper-go-4wd-off-road-brushless-2s-rc-mon~29032) on the Hobbies Australia site.
 
 And the Anwei page for the [16209](https://amewi.com/Hyper-GO-Monstertruck-brushless-4WD-1-16-RTR-blaurot) does have the manual in [German and English](https://amewi.com/downloads/manuals/22627_22628_22629_DE_EN.pdf)
 
@@ -263,6 +292,35 @@ Serious-RC are a UK based company that seem to sell primarily on eBay, they seem
 The markup is noticeable compared with ordering from AliExpress but shipping times for the EU are _presumably_ lower as is _presumably_ the risk of getting fake parts.
 
 Banggood also carry some MJX [162xx parts](https://uk.banggood.com/search/16208/0-0-0-1-4-60-0-price-0-0_p-1.html).
+
+PWM to digital
+--------------
+
+If you don't want to buy a new transmitter, you can plug the existing RX's PWM inputs into something like ArduPilot's [PPM encoder](https://ardupilot.org/copter/docs/common-ppm-encoder.html).
+
+The jDrones PPM-Sum encoder h/w, that they show, is no longer available but you can get similar items on AliExpress:
+
+* [Angeltoy store](https://www.aliexpress.com/item/33060047300.html)
+* [Rctosky UAV store](https://www.aliexpress.com/item/33060047300.html)
+* [ShenZhen FeiChao Technology store](https://www.aliexpress.com/item/1005004822984613.html)
+
+A similar looking but encased version:
+
+* [RCMOY FPV HOBBY store](https://www.aliexpress.com/item/1005005114215387.html)
+* [Goodluck338 store](https://www.aliexpress.com/item/32975956221.html)
+* [Onemodel store](https://www.aliexpress.com/item/1005004678146699.html)
+
+Bulkier but better selling:
+
+* [WI RC Toy store](https://www.aliexpress.com/item/1005005571459786.html)
+* [Soulload store](https://www.aliexpress.com/item/1005005517959054.html)
+
+Note: there seem to be different versions of the above item but the T1P seems to be the only easily available one.
+
+Similar with JHEMCU branding:
+
+* [FC Drone store](https://www.aliexpress.com/item/1005004311590074.html)
+* [Gallop RC store](https://www.aliexpress.com/item/1005001892137682.html)
 
 Mavros
 ------
@@ -352,7 +410,10 @@ The SparkFun [Thing Plus - ESP32](https://www.sparkfun.com/products/20168) at $U
 
 For a comparison of ESP32 MCUs, see this [table](https://gist.github.com/fabianoriccardi/cbb474c94a8659209e61e3194b20eb61) - the S2 and S3 are still Tensilica Xtensa 32 chips but the C3 and C6 are RISC-V.
 
-Fo whatever reason AliExpress only has really tiny boards for C3 ESP32s, e.g. this [one](https://www.aliexpress.com/item/1005005757810089.html).
+Fo whatever reason AliExpress only has really tiny boards for C3 ESP32s, e.g.:
+
+* [WeAct ESP32-C3 Mini Core Board](https://www.aliexpress.com/item/1005004960064227.html)
+* [Aitewin ESP32-C3 Super Mini](https://www.aliexpress.com/item/1005005757810089.html).
 
 Flight controller
 -----------------
@@ -479,14 +540,6 @@ GPS masts on AliExpress:
 * [Skyquist store](https://www.aliexpress.com/item/32828961441.html).
 
 Both masts are probably around 15cm so, I'd suggest cutting them down to 10cm - even at that length they'll protrude quite a lot above the rest of the car.
-
-Buzzer
-------
-
-Buzzer from:
-
-* [GetFPV](https://www.getfpv.com/matek-lost-model-beeper-fpv-fc-5v-loud-buzzer.html) - US$4
-* [FeiYing store on AliExpress](https://www.aliexpress.com/item/32858037846.html) - US$3
 
 Transmitters and receivers
 --------------------------
@@ -793,12 +846,10 @@ You'll probably get the best price going to your local garden center than buying
 
 ### AliExpress racetrack barriers
 
-I haven't looked at this much but initial searching turned up:
+These tracks look cool (if small - pieces are 2.5x6.2x1.8cm):
 
 * <https://www.aliexpress.com/i/1005001649381054.html>
 * <https://www.aliexpress.com/item/1005002496440497.html>
-
-The tracks shown look cool - so, worth more investigation.
 
 ### Corrugated pipe and foam pipe
 
@@ -919,7 +970,32 @@ Their Jetson Nano models:
 
 They also have guides for using their robots/cars with [Donkey Car](https://www.waveshare.com/wiki/DonkeyCar_for_Jetson_Nano-Calibrate_DonkeyCar), [autonomous driving](https://www.waveshare.com/wiki/JetRacer_AI_Kit#interactive-regression), [ROS](https://www.waveshare.com/wiki/JetBot_AI_Kit:_ROS) (unfortunately, ROS 1) and more.
 
+Buzzer
+------
+
+Matek lost model buzzer from:
+
+* [GetFPV](https://www.getfpv.com/matek-lost-model-beeper-fpv-fc-5v-loud-buzzer.html) - US$4
+* [FeiYing store on AliExpress](https://www.aliexpress.com/item/32858037846.html) - US$3
+
+
+Initially, I bought this [Matek lost model buzzer](http://www.mateksys.com/?portfolio=dbuz5v) as it's the simplest buzzer sold by GetFPV and is available from many AliExpress stores.
+
+But it seems to involve a weird amount of [circuitry](https://cdn-v2.getfpv.com/media/catalog/product/cache/b4872d6d0ceb3d2181c291dd3ccc7b81/m/a/matek-lost-model-beeper-fpv-fc-5v-loud-buzzer-2_1.jpg) (photo from GetFPV site) - on the Matek site they say the latest models come with a redesigned flat base (but is the circuitry still there but hidden away?).
+
+At any rate a simple buzzer like this is all that's needed: [Pololu 9mm 5V 40&Ohm; top-opening buzzer](https://www.pololu.com/product/1485).
+
+Similar models include:
+
+* [WT-0905PT](https://www.digikey.com/en/products/detail/soberton-inc/WT-0905PT/16354861) at Digikey.
+* [BMT-0903H5.5](https://www.tme.eu/ch/en/details/bmt-0903h5.5/electromagnetic-sounders-w-o-generator/bestar/) at TME.
+
+In the end I ordered the [BMT1206SLF](https://www.tme.eu/ch/en/details/bmt-1205h09/electromagnetic-sounders-w-o-generator/bestar/bmt1206slf/) which has a different resonant frequency but was in stock.
+
 Purchases
 ---------
 
 Unmanned Tech order (FC and PDB) arrived 21 Nov, 2023.
+Flying Tech order (ESC) arrived 22 Nov.
+U-Angel-1988 order (turnbuckle wrench and FS-X8B RX) arrived 23 Nov. There was some kind of residue on the wrench (I presume left behind from manufacturing) that could be cleaned off. The finish isn't perfect but is fine. Some of the store pictures show it branded as Huoy (a known brand typically priced higher than this item) and in others it appears as Havcybin. Mine came with the Havcybin branding.
+
