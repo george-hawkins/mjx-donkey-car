@@ -22,13 +22,15 @@ Or even simpler:
 * Cut the deans connector off the end of the car's battery cable.
 * Tin the ends of those cables and the thiner cables you're going to run to the SBC setup.
 * Or see if you can twist the wires together before tinning - this'd mean they'd be less likely to separate later.
-* Join the wires so, the SBD wires run back along the battery cables rather than extending away from them.
+* Join the wires so, the SBC wires run back along the battery cables rather than extending away from them.
 * Then solder these combined wires onto a fresh deans connector - this'd work much nicer with an XT60, where (with the thinner cable beneath) you can "mash" both into the XT60 cup-like connectors. With deans, the connector is just a flat surface rather than a cup.
+
+Lumenier have a simple PDB - see [here](https://www.getfpv.com/lumenier-4power-mini-pdb.html).
 
 ArduPilot on cheap FC
 ---------------------
 
-See, Painless360's [video](https://www.youtube.com/watch?v=XWv7aG7z22o) - covers flashing and usings servos.
+See, Painless360's [video](https://www.youtube.com/watch?v=XWv7aG7z22o) - covers flashing ArduPilot and usings servos.
 
 The ArduPilot site documents flashing firmware [here](https://ardupilot.org/copter/docs/common-loading-firmware-onto-chibios-only-boards.html) - the page seems very complicated but I think it just boils down to them using the STM32CubeProgrammer to do the flashing rather than Betaflight or iNav.
 
@@ -53,6 +55,8 @@ And wire up and twist some cable yourself.
 5V power
 --------
 
+Note: Matek have a nice 3-in-1 power module - the [PM12S-3](http://www.mateksys.com/?portfolio=pm12s-3) - that can output 5V/4A continuous, 12V/4A continuous and 6V/15A continuous - unfortunately, it requires at least 3S input. They also do various other [BECs](http://www.mateksys.com/?page_id=2845) including a little servo BEC that can output 6V.
+
 Note: the FC can be powered directly off battery voltage - unfortunately it's input range is 3S to 6S (the equivalent [Holybro F4](https://holybro.com/collections/autopilot-flight-controllers/products/kakute-f4-v2-4) can takes 2S input). Obviously, it can also be powered via USB but whether it then limits e.g. the 3.3/4.5/5/9V output isn't clear (tho' they mention that 4.5V output will supply power _even_ when running on USB so, that implies no power output for the others on USB). When powered via the battery, it can source up to 3A at 5V - more than enough for every Pi even the Pi 5 (though the 5 will limit downstream USB power unless it knows its connected to something that can source at least 5A). The Pi Zero 2 W pulls well under 1A even at max load. One could step up the 2S input voltage with a regulator like [this](https://www.pololu.com/product/4016) but then one might as well switch to a Holybro rather than add an extra board.
 
 Pololu step-up 12V:
@@ -60,6 +64,8 @@ Pololu step-up 12V:
 * US$5 - <https://www.pololu.com/product/4945> - 0.8A continuous output.
 * US$8 - <https://www.pololu.com/product/4016> - 2A continuous output.
 * US$18 - <https://www.pololu.com/product/2895> - 3A continuous output.
+
+I suspect the FC will operate even on 2S and that all that might not work is its 9V output - in which case, if an external step-uo is needed just to get that to work, one might as well ignore the 9V output of the FC and just use a 9V external step-up (e.g. this [one](https://www.pololu.com/product/4015)) directly for anything (e.g. a VTX) that really needs 9V.
 
 Use a bench power supply to get a measure of how much current the setup consumes. Just using a 3S battery might be the easiest thing.
 
@@ -73,7 +79,11 @@ The servos expect 6V:
 
 The 2.2A one seems a bit pointless - you save $1 but otherwise its not interestingly smaller than the 3.5A one.
 
-I suspect the servo will still be fine with 5V and 2A - many 1/16 ESCs supply something like this. I think the servo on my MJX is simply powered directly from the RX.
+I suspect the servo will still be fine with 5V and 2A - many 1/16 ESCs supply something like this. I think the servo on my MJX is simply powered from the ESC via the RX.
+
+**Update:** actually, RC car ESCs generally/always include a BEC and output 6V on power pin of the connector to the RX, so the RX becomes the distribution point for this power - it's + rail is powered by the ESC and the RX, fan and servo all draw power from here.
+
+The current limit of these BECs is pretty low, e.g. in the [Quickrun series](https://www.hobbywingdirect.com/collections/quicrun-brushless-system), it's 6V/1A for the 30A ESC, 6V/2A for the 60A ESC and 6V/3A for the 150A ESC.
 
 ---
 
@@ -270,6 +280,14 @@ MJX parts from AliExpress
 
 In the end I bought most things from Wellsold and clips and bolts from Have Fun RC Toy store. In retrospect it would have cost much the same to buy a second car and use it for parts.
 
+**Update:** I didn't notice that the motor, heatsink and fan combo that I bought was the B284C. This is intended for the 16207 and is mounted quite differently to the setup common to the 16208, 16209 and 1621 (where the combo is called B284B). In the 16207, the fan points sideways and is half-covered by the side of the chassis - in the other models it points upwards (which seems a better setup). Oddly, nearly all stores just sell the B284C variant and you have to buy the individual parts that make up the B284B, i.e. the fan (16397), the heatsink (16395B), the motor guard (16393), the motor (B2845) and the motor pinion (16392B). And it looks like you also need two M25845 screws. That's quite an array of things to have to buy separately and oddly pricey compared to buying the essentially identical B284C combo (if you could level the heatsink off the motor and reposition it then all would be good but it seems very firmly stuck down).
+
+**Update:** I thought the two pins (labeled with + and - symbols in circles) might be for a [program card](https://www.quadifyrc.com/rccarreviews/better-brushless-esc-control-budget-program-card-for-racerstar-surpass-goolrc) but these seem to always involve a three pin port. If I open up the ESC (pop the two catches on either side, one around the "ignition" button and the other diagonally opposite - just pull the out and up over the small nubs behind them) then the pins are labeled BND on the circuit board. Which is odd as this isn't a all-in-one RX and ESC (like the [MJX RE352](https://www.seriousrc.co.uk/products/mjx-hyper-go-esc-speed-controller-receiver-fits-h16-gps-models-part-re352)) so, I can't imagine what it would bind with.
+
+As far as I understand it, of the various things plugged into the RX, it's the ESC that's providing the power seen on the output rail (the + pins of the RX) and everything else including the RX is drawing power. So, the ESC provides power to the servo via the RX.
+
+The leads on the motor are super stiff - I asked about that [here](https://www.rcgroups.com/forums/showthread.php?4456797).
+
 Two other rather odd but comprehensive sites are:
 
 * [Wl-Toys.Com MJX car and parts](https://www.wl-toys.com/MJX-Hyper-Go-RC-Car-Parts-813-1930-0-1.htm)
@@ -315,7 +333,7 @@ Bulkier but better selling:
 * [WI RC Toy store](https://www.aliexpress.com/item/1005005571459786.html)
 * [Soulload store](https://www.aliexpress.com/item/1005005517959054.html)
 
-Note: there seem to be different versions of the above item but the T1P seems to be the only easily available one.
+Note: there are various different versions of the above item (see [here](https://www.iffrc.com/ffkjjc/)) but the T1P seems to be the only easily available one.
 
 Similar with JHEMCU branding:
 
@@ -423,6 +441,10 @@ SpeedyBee [F405 V4](https://www.speedybee.com/speedybee-f405-v4-bls-55a-30x30-fc
 Note: as shown above Betaflight and iNav support the V4, while ArduPilot only currently has support for the V3. The V3 is still available but according to reviews of the V4, it corrects several noticeable issues with the V3.
 
 SpeedyBee [F405 V4](https://www.unmannedtechshop.co.uk/product/speedybee-f405-v4-flight-controller/) from Unmanned Tech.
+
+**Note:** the SpeedyBee [F405 WING](https://www.speedybee.com/speedybee-f405-wing-app-fixed-wing-flight-controller/) looks very interesting - it's got WiFi built in (so, you wouldn't need an external ESP32 board), it can take 2S in (so, no need for a 12V step-up regulator) and it's got two 5V BECs - one for the low current devices, like the RX, and one, which can handle 4.5A continuous, for servos (tho' for an RC car setup it seems a waste to route that to the single servo - it might be better used for the companion computer with an external 6V BEC for the servo). See also the Painless360 [review](https://www.youtube.com/watch?app=desktop&v=0ganE1qzg3Q).
+
+Matek also have something similar - the [F405-WING-V2](http://www.mateksys.com/?portfolio=f405-wing-v2) but without the WiFi board (and about US$10 more expensive).
 
 ESC
 ---
@@ -995,7 +1017,7 @@ In the end I ordered the [BMT1206SLF](https://www.tme.eu/ch/en/details/bmt-1205h
 Purchases
 ---------
 
-Unmanned Tech order (FC and PDB) arrived 21 Nov, 2023.
-Flying Tech order (ESC) arrived 22 Nov.
-U-Angel-1988 order (turnbuckle wrench and FS-X8B RX) arrived 23 Nov. There was some kind of residue on the wrench (I presume left behind from manufacturing) that could be cleaned off. The finish isn't perfect but is fine. Some of the store pictures show it branded as Huoy (a known brand typically priced higher than this item) and in others it appears as Havcybin. Mine came with the Havcybin branding.
-
+* Unmanned Tech order (FC and PDB) arrived 21 Nov, 2023.
+* Flying Tech order (ESC) arrived 22 Nov.
+* U-Angel-1988 order (turnbuckle wrench and FS-X8B RX) arrived 23 Nov. There was some kind of residue on the wrench (I presume left behind from manufacturing) that could be cleaned off. The finish isn't perfect but is fine. Some of the store pictures show it branded as Huoy (a known brand typically priced higher than this item) and in others it appears as Havcybin. Mine came with the Havcybin branding.
+* Wellsold order (MJX ESC, servo and other parts) arrived on 27 Nov (and came very well packed in bubble-wrap).
