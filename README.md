@@ -45,6 +45,8 @@ You can get pre-made cables like this [60cm extension cable](https://www.epprodu
 
 It seems to be hard to find servo cables that definitely use silicone wire, e.g. Pololu doesn't mention it for their [cables](https://www.pololu.com/product/2166).
 
+**Update:** it turned out I already has a pack of Pololu [premium jumper wires](https://www.pololu.com/product/1701) are they're definitely not silicone.
+
 So, an alternatice would be to buy:
 
 * A [Futaba male connector pack](https://www.pololu.com/product/1927)
@@ -65,7 +67,7 @@ Pololu step-up 12V:
 * US$8 - <https://www.pololu.com/product/4016> - 2A continuous output.
 * US$18 - <https://www.pololu.com/product/2895> - 3A continuous output.
 
-I suspect the FC will operate even on 2S and that all that might not work is its 9V output - in which case, if an external step-uo is needed just to get that to work, one might as well ignore the 9V output of the FC and just use a 9V external step-up (e.g. this [one](https://www.pololu.com/product/4015)) directly for anything (e.g. a VTX) that really needs 9V.
+I suspect the FC will operate even on 2S and that all that might not work is its 9V output - in which case, if an external step-uo is needed just to get that to work, one might as well ignore the 9V output of the FC and just use a 9V external step-up (e.g. this [9V/3.5A one](https://www.pololu.com/product/4015) or this [9V/1.6A](https://www.pololu.com/product/4944)) directly for anything (e.g. a VTX) that really needs 9V.
 
 Use a bench power supply to get a measure of how much current the setup consumes. Just using a 3S battery might be the easiest thing.
 
@@ -84,6 +86,20 @@ I suspect the servo will still be fine with 5V and 2A - many 1/16 ESCs supply so
 **Update:** actually, RC car ESCs generally/always include a BEC and output 6V on power pin of the connector to the RX, so the RX becomes the distribution point for this power - it's + rail is powered by the ESC and the RX, fan and servo all draw power from here.
 
 The current limit of these BECs is pretty low, e.g. in the [Quickrun series](https://www.hobbywingdirect.com/collections/quicrun-brushless-system), it's 6V/1A for the 30A ESC, 6V/2A for the 60A ESC and 6V/3A for the 150A ESC.
+
+### HV servos
+
+An interesting alternative to a BEC is to use a HV or direct power servo that can be powered directly from a LiPo.
+
+It _seems_ HV means up to 8V, i.e. can be used with a 2S battery and direct power means 12V and can be used with a 3S.
+
+The direct power ones, even from a budget brand like JX, tend to be fairly pricey, e.g. their brushless [B70](http://www.jx-servo.com/en/Product/MAX%20POWER%20SERVO/2019-08-03/602.html) is around US$110 and their brushed C70 is (surprisingly) much the same price. These servos are 40X20X43mm and don't come in smaller sizes so, clearly aren't aimed at the 1/16 scale RC car segment.
+
+However, Emax have cheap metal digital models like the [ES3054HV](https://emaxmodel.com/collections/digital-servo/products/es3054hv-all-purpose-high-voltage-metal-gear-digital-servo). These HV modesls seem to be just released (as of Dec 2nd, 2023) and aren't widely available (and shipping is US$20 from Emax or in packs of 4 from their AliExpress store).
+
+Question: I wonder what "MD" means in Emax product names, I assumed it meant "metal digital" but they have some metal digital servos that don't have "MD" in their product names.
+
+Note: if convenient, you can draw up to 3A via the balance connector of your LiPo, for more see this [video](https://www.youtube.com/watch?v=jM854NFDqV4) from Painless360 - he explain why you should only use the outermost pins for ground and positive (and leave the other pins unconnected). He's much more conservative than the 3A max quoted for the balance connector and says if it's more than 500mA, he typically looks to get that power from the main connector.
 
 ---
 
@@ -201,6 +217,7 @@ But anyway, as noted, I suspect _rosserial_ nor _microROS_ are tha appropriate s
 
 * <https://www.youtube.com/watch?v=J02jEKawE5U>
 * <https://youtu.be/4QKsDf1c4hc?si=Ep0f2IU5iqf8NCxt>
+* <https://www.youtube.com/watch?v=MBKAZ_2P1Sk>
 
 ---
 
@@ -600,6 +617,8 @@ i-BUS/S.BUS capable GT5 compatible RXs:
 
 While the GT5 only supports 6 channels, I'm inclined towards the X8B as it doesn't have the large PWM connector.
 
+Many manuals (and some TX firmware in the form of `.exe`, `.zip` and `.rar` files) are available on the Flysky [ProductInformationDownload](https://github.com/open-flysky/FLYSKY-ProductInformationDownload) GitHub repo. Oddly, they don't have a manual for the six channel FS-BS6 that comes with the GT5 TX but they do have one for its four channel sibling, the [FS-BS4](https://github.com/open-flysky/FLYSKY-ProductInformationDownload/blob/master/Receiver%20or%20Accessories/FS-BS4). There's a manual and quick-start guide in the GT5 [section](https://github.com/open-flysky/FLYSKY-ProductInformationDownload/tree/master/Transmitter/FS-GT5) and a manual for the [FS-X8B](https://github.com/open-flysky/FLYSKY-ProductInformationDownload/tree/master/Receiver%20or%20Accessories/FS-X8B).
+
 AFHDS 2A clearly does support reporting telemetry back to the transmitters, as is clear from the README for the [GitHub FlySkyRxFirmwareRssiMod repo](https://github.com/Cleric-K/FlySkyRxFirmwareRssiMod). It mods binary dumps of the original firmware to include RSSI in the information forwarded to the FC but makes clear RSSI is already communicated by default to the TX. However, I can't find anything that indicates that the GT5 can display this information (or is in anyway aware of the RX that its bound to).
 
 Flysky aren't great at making the RX firmware available - however, they are available from the [GitHub FlySkyRxFirmware repo](https://github.com/povlhp/FlySkyRxFirmware) - most of the images have simply been extracted from RXs, including those for the X8B and X6B. I assume these images are the basis for the images that are modded by the FlySkyRxFirmwareRssiMod project.
@@ -991,6 +1010,38 @@ Their Jetson Nano models:
 * [JetBot Pro with lidar](https://www.waveshare.com/product/ai/robots/mobile-robots/jetbot-ros-ai-kit.htm) - two wheeled variant.
 
 They also have guides for using their robots/cars with [Donkey Car](https://www.waveshare.com/wiki/DonkeyCar_for_Jetson_Nano-Calibrate_DonkeyCar), [autonomous driving](https://www.waveshare.com/wiki/JetRacer_AI_Kit#interactive-regression), [ROS](https://www.waveshare.com/wiki/JetBot_AI_Kit:_ROS) (unfortunately, ROS 1) and more.
+
+Lidar
+-----
+
+There seems to be one serious robot store that sells Slamtec/RpLidar products on AliExpress. However, the price for the [A1M8](https://www.aliexpress.com/item/32895330424.html) isn't any cheaper than you can get from Seeed.
+
+Seeed nicely clearly state the hardware revision so, you can see you're e.g. getting revision 6) of the A1M8, i.e. the latest revision:
+
+* [A1M8-R6](https://www.seeedstudio.com/RPLiDAR-A1M8-R6-360-Degree-Laser-Scanner-Kit-12M-Range-p-4785.html)
+* [C1M1](https://www.seeedstudio.com/RPLiDAR-C1M1-R2-Portable-ToF-Laser-Scanner-Kit-12M-Range-p-5840.html)
+
+The C1M1 (see [here](https://www.slamtec.ai/home/rplidar_c1/) for product page) looks interesting - it's 30% cheaper than the A1M8 but looks similarly spec-ed. It's just out (as of Dec 1, 2023) and there don't seem to be any reviews out yet that make clear the differences with the A1M8.
+
+Variable load
+-------------
+
+Real variable load devices are very expensive. The best alternative seems to be hooking up a set of resistors in series and seeing when current holds up.
+
+TODO: actually, I'll have to think about this - put a tiny load and the current should be high (and put no load and just short things and it'll be very bad). So, what do I do - start with a small-ish load and build up and watch the current go down - but what does that tell me?
+
+Anyway, these might be useful for such an experiment:
+
+* [11W 470mOhm resistor](https://www.reichelt.com/ch/en/11-watt-wirewound-resistor-series-216-8-0-47-ohms-11w-axial-0-47-p110688.html) from Reichelt. If you put 10 of these is series, you'd expect about 1A current from a 5V source, yes?
+
+And with another 10 47&Ohm;, you could further fine-tune once you'd found the point of interest.
+
+Using two screw terminal blocks (see up above for link), you could create a ladder with the resistors as rungs - initially everything would be isolated from its next in-line but using the outer connectors, one could start connecting each one no the next alternating the side to connect them is series.
+
+And from Digikey:
+
+* [5W 470mOhm](https://www.reichelt.com/ch/en/5-w-wirewound-resistor-series-208-8-0-47-ohms-5w-axial-0-47-p2580.html)
+* [5W 470mOhm](https://www.digikey.ch/en/products/detail/te-connectivity-passive-product/SQPW5R47J/2365727)
 
 Buzzer
 ------
