@@ -30,7 +30,11 @@ Lumenier have a simple PDB - see [here](https://www.getfpv.com/lumenier-4power-m
 ArduPilot on cheap FC
 ---------------------
 
+Remember smoke stopper and other hints from the FPV world.
+
 See, Painless360's [video](https://www.youtube.com/watch?v=XWv7aG7z22o) - covers flashing ArduPilot and usings servos.
+
+That's video is part of [series](https://www.youtube.com/playlist?list=PLYsWjANuAm4rDDJ3VmMzTFsQvhWkRrzsV) that covers the whole ArduPilot setup (including things like telemetry) for a cheap FC.
 
 The ArduPilot site documents flashing firmware [here](https://ardupilot.org/copter/docs/common-loading-firmware-onto-chibios-only-boards.html) - the page seems very complicated but I think it just boils down to them using the STM32CubeProgrammer to do the flashing rather than Betaflight or iNav.
 
@@ -128,7 +132,11 @@ I ended up getting four Pololu breakouts from [Eckstein](https://eckstein-shop.d
 * [ACHS-7121 -/+10A current sensor](https://eckstein-shop.de/Pololu-ACHS-7121-Current-Sensor-Carrier-10A-to-10A)
 * [U3V40F12 12V step-up voltage regulator](https://eckstein-shop.de/Pololu-12V-Step-Up-Voltage-Regulator-U3V40F12-Boost-Switching-Regulator)
 
-Note: MJX recently released the 1/14 scale H14BM that comes with 3S batteries so, avoiding the need for a step-up regulator. MJX's product range is very opaque, what's the difference between the H14BM and the 14210 - I asked about this in the comments section [here](https://www.quadifyrc.com/rccarreviews/mjx-hyper-go-14210-brushless-rc-truck-review-my-favourite-offroad-rc-2023).
+Note: MJX recently released the 1/14 scale H14BM that comes with 3S batteries so, avoiding the need for a step-up regulator. MJX's product range is very opaque, what's the difference between the H14BM and the 14210 - I asked about this in the comments section [here](https://www.quadifyrc.com/rccarreviews/mjx-hyper-go-14210-brushless-rc-truck-review-my-favourite-offroad-rc-2023). **Update:**
+
+> It seems there are some genuine differences between the 14210 and the H14BM - the two are compared in this video from Hype RC: https://www.youtube.com/watch?v=O0G5wV3jnh0
+> Basically, it seems to boil down to the H14BM having upgraded telescopic drive shafts and all-steel differentials (and for some reason a switch from LiPo to Li-Ion). The drive shaft and diff change is available as an upgrade combo from various stores, e.g.: https://www.seriousrc.co.uk/products/mjx-hyper-go-14210-h14bm-upgrade-kit-drive-shafts-differential
+
 
 ### WeAct step-down modules
 
@@ -301,6 +309,12 @@ In the end I bought most things from Wellsold and clips and bolts from Have Fun 
 
 **Update:** I thought the two pins (labeled with + and - symbols in circles) might be for a [program card](https://www.quadifyrc.com/rccarreviews/better-brushless-esc-control-budget-program-card-for-racerstar-surpass-goolrc) but these seem to always involve a three pin port. If I open up the ESC (pop the two catches on either side, one around the "ignition" button and the other diagonally opposite - just pull the out and up over the small nubs behind them) then the pins are labeled BND on the circuit board. Which is odd as this isn't a all-in-one RX and ESC (like the [MJX RE352](https://www.seriousrc.co.uk/products/mjx-hyper-go-esc-speed-controller-receiver-fits-h16-gps-models-part-re352)) so, I can't imagine what it would bind with.
 
+**Update:** turns out the manual actually explains what these two pins are - they're the BVD (battery voltage detection) pins and can be connected to an RX with BVD function to communicate the battery voltage back to the TX. FlySky describe things here:
+
+<https://www.facebook.com/flyskyrc/posts/how-to-use-bvd-functionjoin-group-flysky-fan-club-follow-us-wwwinstagramcomflysk/5667977226578688/>
+
+And various people have videos, e.g. <https://www.youtube.com/watch?v=-XViQoedKBE>
+
 As far as I understand it, of the various things plugged into the RX, it's the ESC that's providing the power seen on the output rail (the + pins of the RX) and everything else including the RX is drawing power. So, the ESC provides power to the servo via the RX.
 
 The leads on the motor are super stiff - I asked about that [here](https://www.rcgroups.com/forums/showthread.php?4456797).
@@ -327,6 +341,58 @@ Serious-RC are a UK based company that seem to sell primarily on eBay, they seem
 The markup is noticeable compared with ordering from AliExpress but shipping times for the EU are _presumably_ lower as is _presumably_ the risk of getting fake parts.
 
 Banggood also carry some MJX [162xx parts](https://uk.banggood.com/search/16208/0-0-0-1-4-60-0-price-0-0_p-1.html).
+
+Brushless motors
+----------------
+
+Brushless have sizes like 2435 and 2845, this means the motors have a diameter and length of 24x34mm and 28x45mm respectively.
+
+The 2435 is a pretty typical size for a 1/16 scale car - see [here](https://www.hobbywingdirect.com/collections/quicrun-2435-bl-motor-g3) for the Hobbywing Quicrun 2435 (plus combo with 30A ESC).
+
+E.g. see [here](https://www.aliexpress.com/item/32406437536.html) on AliExpress where it retails for CHF22.
+
+However, the model name, shown in the MJX 1620xx manual, for the motor is B2845 and this lines-up with the dimensions of the actual motor - so, it's a somewhat larger motor.
+
+Hobbywing don't sell 2845 motors but Surpass do.
+
+There are the best tables of motors and sizes I could find, both on AliExpress:
+
+X-team motors:
+
+![X-team motors](https://ae01.alicdn.com/kf/S1f6d7867b81d493b855158de1c270dc9F.jpg)
+
+I couldn't find a similar full-range table for Surpass but this pictures includes a table for one of their 2845 series:
+
+![Surpass 2845](https://ae01.alicdn.com/kf/S74e91f4c91e441648884c91c2404db67X.jpg)
+
+It's not shown in any of the product documentation or spare parts pages but if you look at B2845 motor, you see _Angry Snail B2845 4200KV_:
+
+![angry-snail-B2845-4200KV](angry-snail-B2845-4200KV.jpg)
+
+In neither of the tables above is there a 4200KV motor and as 4200KV is more than fast enough, it's probably best to go for the next _lowest_ KV value than to go any higher. I.e. a 3800KV or 3930KV motor is the various Surpass ranges shown below.
+
+Aside: the whole KV story is something that it seems possible to discuss forever, see this [video](https://www.youtube.com/watch?v=1npFu7Y_KDI) for a discussion of whether you should go up or down in KV for more speed if motor size and battery voltage are fixed (up is the simple answer) and then this [video](https://www.youtube.com/watch?v=qkSPjNmxcl4), also by RCexplained, about why lower KV doesn't mean more torque - RCexplained actually has no end of videos on the topic.
+
+Unfortunately, the [Surpass](https://www.surpass-hobby.com/) website is terrible so, it's hard to tell how they're positioning their various ranges.
+
+I found at least four Surpass ranges that include 2845 motors:
+
+* [Rocket](https://www.aliexpress.com/item/1005003189043474.html)
+* [Platinum](https://www.aliexpress.com/item/32994943280.html)
+* [KK](https://www.aliexpress.com/item/33050971658.html)
+* [Classic](https://www.aliexpress.com/item/32994408976.html) - classic is what the store [SURPASS HOBBY Direct Store](https://www.aliexpress.com/store/group/Classics-Series/910348277_10000000795567.html)) calls them.
+
+It's impossible to tell which is supposed to the premium series, all are very similarly prices. Looking at the U-Angel store, the Rocket models are _slightly_ more expensive but looking at the [SURPASS HOBBY Direct store](https://www.aliexpress.com/store/910348277) the KK ones are more expensive. The classic ones seem to be the only ones that are clearly more budget.
+
+The KK motor with 35A ESC combo looks closest to the MJX setup while the Rocket with the 45A ESC _may_ be the most premium.
+
+The [Surpass Alibaba store](https://surpass-hobby.en.alibaba.com/company_profile.html) isn't any more enlightening - e.g. in bulk the [Rocket](https://www.alibaba.com/product-detail/Surpass-Hobby-2845-ROCKET-sensoreless-waterproof_1600956035563.html) and [KK](https://www.alibaba.com/product-detail/Surpass-Hobby-waterproof-2845-brushless-motor_1600957449129.html) motors are the same price (and unfortunately, the Platinum models aren't available in these quantities for a comparison there).
+
+It may be as stupid as which color and design you like best (which is what the reviewer says in one of the comments on this [video](https://www.youtube.com/watch?v=uGj3CJBUZSw) where a Rocket model is reviewed after having reviewed a KK model in a previous video).
+
+**Important:** even if the motor body size is correct, watch out that the shaft size isn't longer than your current motor and so perhaps won't fit in your chassis.
+
+Tomley RC has a nice [video](https://www.youtube.com/watch?v=O1cfCHQEGcI) on upgrading a car to a new brushless system.
 
 PWM to digital
 --------------
@@ -450,6 +516,10 @@ Fo whatever reason AliExpress only has really tiny boards for C3 ESP32s, e.g.:
 * [WeAct ESP32-C3 Mini Core Board](https://www.aliexpress.com/item/1005004960064227.html)
 * [Aitewin ESP32-C3 Super Mini](https://www.aliexpress.com/item/1005005757810089.html).
 
+**Update:** explicit GitHub Action support for the C3, S2 and S3 was added in commit [`57365f8`](https://github.com/DroneBridge/ESP32/commit/57365f830f20804b406b94b6140d0ead8fdc3d0b) (Oct 21st, 2023) but then removed for the C3 on the following day in commit [`7dec3ab`](https://github.com/DroneBridge/ESP32/commit/7dec3ab2b37df4ba0b581505cb267f48db4b953c). The README hasn't been updated (it still says "Other ESP boards like the ESP32-C3 etc. are very likely to work as well"). At the moment the changes just seem to affect doing a test build on each checkin - so, unfortunately, even tho' S2 and S3 builds are being done, there's still only the plain ESP32 build in the [release bundles](https://github.com/DroneBridge/ESP32/releases) (at the time of writing 1.2 was the latest release).
+
+Note: building images seems fairly easy using the `espressif/idf` Docker image - the current [master based documentation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/tools/idf-docker-image.html) contains improved examples (e.g. correctly setting the UID on output files) than [stable documentation](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-guides/tools/idf-docker-image.html) (stable is current 5.1.2).
+
 Flight controller
 -----------------
 
@@ -459,9 +529,13 @@ Note: as shown above Betaflight and iNav support the V4, while ArduPilot only cu
 
 SpeedyBee [F405 V4](https://www.unmannedtechshop.co.uk/product/speedybee-f405-v4-flight-controller/) from Unmanned Tech.
 
-**Note:** the SpeedyBee [F405 WING](https://www.speedybee.com/speedybee-f405-wing-app-fixed-wing-flight-controller/) looks very interesting - it's got WiFi built in (so, you wouldn't need an external ESP32 board), it can take 2S in (so, no need for a 12V step-up regulator) and it's got two 5V BECs - one for the low current devices, like the RX, and one, which can handle 4.5A continuous, for servos (tho' for an RC car setup it seems a waste to route that to the single servo - it might be better used for the companion computer with an external 6V BEC for the servo). See also the Painless360 [review](https://www.youtube.com/watch?app=desktop&v=0ganE1qzg3Q).
+**Note:** the SpeedyBee [F405 WING](https://www.speedybee.com/speedybee-f405-wing-app-fixed-wing-flight-controller/) looks very interesting - it's got WiFi built in (so, you wouldn't need an external ESP32 board), it can take 2S in (so, no need for a 12V step-up regulator) and it's got two 5V BECs - one for the low current devices, like the RX, and one, which can handle 4.5A continuous for servos (tho' for an RC car setup it seems a waste to route that to the single servo - it might be better used for the companion computer with an external 6V BEC for the servo). See also the Painless360 [review](https://www.youtube.com/watch?app=desktop&v=0ganE1qzg3Q). The BEC intended for the servo is 5V by default but can be set to 6V. The VTX BEC can also be switched from 9V to 12V or 5V.
 
-Matek also have something similar - the [F405-WING-V2](http://www.mateksys.com/?portfolio=f405-wing-v2) but without the WiFi board (and about US$10 more expensive).
+The wiring for the F405 WING is more complicated than a typical drone FC, Andrew Newton has a nice [video](https://www.youtube.com/watch?v=X86keMf2rv4) on how it all goes together and a follow-up [one](https://www.youtube.com/watch?v=S8eItqmyOLs) where he shows that it's the TX that determines if a Flysky outputs i-BUS (non-inverted) or S.BUS (inverted and therefore needs special connection) . Another nice full-build vide [here](https://www.youtube.com/watch?v=xKeFuM6WxUY) from Stones RC Channel.
+
+Matek also have something similar - the [F405-WING-V2](http://www.mateksys.com/?portfolio=f405-wing-v2) but without the WiFi board (and about US$10 more expensive) and requires 3S minimum.
+
+The Matek documentation says the input voltage must be at least 1V above any output voltage you select from its various BECs, so e.g. a 2S couldn't support 9V out. The SpeedyBee documentation mentions no such limitation (which doesn't mean it's definitely capable of 9V or 12V on 2S).
 
 ESC
 ---
@@ -610,6 +684,8 @@ It seems only fairly recently that cheaper Chinese manufacturers have started ma
 
 RC Review's [Flysky GT5 vs. Radiolink RC6GS video](https://www.youtube.com/watch?v=8WxZb6vLdYI)
 
+**Update:** once it arrived, all the buttons on the GT5 seemed fairly clear to me except one marked "ST DR" (and referred to as _Steering D/R_ in the manual). Painless360 has a clear explanation of with dual rates (d/r) in this [video](https://www.youtube.com/watch?v=cDkaDY_OeVU).
+
 i-BUS/S.BUS capable GT5 compatible RXs:
 
 * [X8B](https://www.flysky-cn.com/x8b-canshu) - 8 channels - pure digital.
@@ -620,6 +696,8 @@ While the GT5 only supports 6 channels, I'm inclined towards the X8B as it doesn
 Many manuals (and some TX firmware in the form of `.exe`, `.zip` and `.rar` files) are available on the Flysky [ProductInformationDownload](https://github.com/open-flysky/FLYSKY-ProductInformationDownload) GitHub repo. Oddly, they don't have a manual for the six channel FS-BS6 that comes with the GT5 TX but they do have one for its four channel sibling, the [FS-BS4](https://github.com/open-flysky/FLYSKY-ProductInformationDownload/blob/master/Receiver%20or%20Accessories/FS-BS4). There's a manual and quick-start guide in the GT5 [section](https://github.com/open-flysky/FLYSKY-ProductInformationDownload/tree/master/Transmitter/FS-GT5) and a manual for the [FS-X8B](https://github.com/open-flysky/FLYSKY-ProductInformationDownload/tree/master/Receiver%20or%20Accessories/FS-X8B).
 
 AFHDS 2A clearly does support reporting telemetry back to the transmitters, as is clear from the README for the [GitHub FlySkyRxFirmwareRssiMod repo](https://github.com/Cleric-K/FlySkyRxFirmwareRssiMod). It mods binary dumps of the original firmware to include RSSI in the information forwarded to the FC but makes clear RSSI is already communicated by default to the TX. However, I can't find anything that indicates that the GT5 can display this information (or is in anyway aware of the RX that its bound to).
+
+**Important:** Razor RC has a nice video on the basic setup that you really should do having installed an FS-GTx RX and bound it with the GT5: <https://www.youtube.com/watch?app=desktop&v=WzhfpqNaRig> - in particular he covers calibrating the RC which seems important. He shows how to setup the gyro but says it's less important for 4WD. See also <https://www.youtube.com/watch?v=Oiyhv-tj-RQ>
 
 Flysky aren't great at making the RX firmware available - however, they are available from the [GitHub FlySkyRxFirmware repo](https://github.com/povlhp/FlySkyRxFirmware) - most of the images have simply been extracted from RXs, including those for the X8B and X6B. I assume these images are the basis for the images that are modded by the FlySkyRxFirmwareRssiMod project.
 
@@ -1072,3 +1150,10 @@ Purchases
 * Flying Tech order (ESC) arrived 22 Nov.
 * U-Angel-1988 order (turnbuckle wrench and FS-X8B RX) arrived 23 Nov. There was some kind of residue on the wrench (I presume left behind from manufacturing) that could be cleaned off. The finish isn't perfect but is fine. Some of the store pictures show it branded as Huoy (a known brand typically priced higher than this item) and in others it appears as Havcybin. Mine came with the Havcybin branding.
 * Wellsold order (MJX ESC, servo and other parts) arrived on 27 Nov (and came very well packed in bubble-wrap).
+* The FlySky GT5 orderd from RC Fun City arrived on 30 Dec, 2023 - it was orderd on the same day (Nov 12th) as the turnbuckle from U-Angel-1988, the turnbuckle arrived from China 11 days later but the GT5 took 18 days to arrive from a AliExpress warehouse in France (and, unlike AliExpress shipments from China, it didn't come with the proper shipping invoice and I had to provide the necessary details). So, maybe EU warehouses work well for other EU countries but for neighboring countries like Switzerland (on the basis of this sample size of one) they offer a negative advantage in terms of shipping speed compared to China.
+* WeAct ESP32 arrived 5 Dec.
+* Skyquist Emax Servo and GPS mast arrived 5 Dec.
+* FeiYing RC Store 2S balance lead extenders and Matek buzzer arrived 5 Dec.
+* U-Angel-1988 Foxeer GPS and GPS mast arrived 5 Dec.
+* Lilygo patch antenna, ESP32 breakout and modules arrived 5 Dec.
+
