@@ -7,7 +7,7 @@ If I tried <http://dronebridge.local>, it failed with `DNS_PROBE_FINISHED_NXDOMA
 
 If I tried <http://192.168.2.1>, the loading indicator (at the top of the page) never got beyond almost nothing.
 
-Using my Macbook Air worked much better but the main logo and more importantly one or other of the required Javascript files would typically fail to load.
+Using my Macbook Air worked much better but the main logo and more importantly one or other of the required Javascript files would typically fail to load (I logged an issue about this [here](https://github.com/DroneBridge/ESP32/issues/53)).
 
 ![DroneBridge download failures](images/dronebridge-download-failures.png)
 
