@@ -1143,6 +1143,47 @@ Similar models include:
 
 In the end I ordered the [BMT1206SLF](https://www.tme.eu/ch/en/details/bmt-1205h09/electromagnetic-sounders-w-o-generator/bestar/bmt1206slf/) which has a different resonant frequency but was in stock.
 
+USB voltage selector
+--------------------
+
+Adafruit has a nice little USB-C [voltage selector](https://www.adafruit.com/product/5807).
+
+The voltage can be selected via I2C - on their [learn page](https://learn.adafruit.com/adafruit-husb238-usb-type-c-power-delivery-breakout?view=all) they show how you can wire it up to a micro controller and screen.
+
+I think the ideal solution would be something like this with OLED and small knobs to select voltage and current.
+
+Kind of like this [project](https://www.crowdsupply.com/digital-cool/ant-bbps) that never got to production.
+
+But I haven't found anything like that that's actually available.
+
+If you don't want to use I2C with the Adafruit board, you have to use solder jumpers.
+
+A perhaps nicer alternative is dip-switches - this product, found on AliExpress, is cheap enough that you could buy 5 of them a flip them once to get a set for 5V, 9V, 12V, 15V and 20V:
+
+* <https://www.aliexpress.com/item/1005004393090736.html>
+* <https://www.aliexpress.com/item/1005005024756342.html>
+* <https://www.aliexpress.com/item/1005004996088932.html>
+
+I don't see a max-current stated for this device but the Adafruit board has a max of 3A and 3A is quoted for other similar boards on AliExpress.
+
+Note: USB-C doesn't support some all of the voltages you may need e.g. 1.8V and 3.3V (which are fairly common for modern electronics) and 6V (common for servos).
+
+### Universal power supply
+
+Another solution is just to use a universal power supply like this: <https://www.reichelt.com/ch/en/universal-power-supply-3-12-v-max-27-w-2-25-a-12-adapters-goobay-64570-p365989.html>
+
+It has lots of interchangeable connectors, including USB-C and terminal block and covers 3V, 4.5V, 5V, 6V, 7.5V, 9V and 12V. So, still no 1.8V or 3.3V.
+
+Tape
+----
+
+[VHB tape](https://github.com/george-hawkins/vhb-tape) feels like over-kill.
+
+Double-sided mounting tape from Scotch or Tesa should be fine, e.g.:
+
+* [Tesa Powerbond Ultra Strong](https://www.tesa.com/en-gb/consumer/tesa-powerbond-ultra-strong.html)
+* [Scotch-Mount Extreme](https://www.scotchbrand.com/3M/en_US/p/d/cbgnawus1861/)
+
 Purchases
 ---------
 
