@@ -367,7 +367,7 @@ I couldn't find a similar full-range table for Surpass but this pictures include
 
 It's not shown in any of the product documentation or spare parts pages but if you look at B2845 motor, you see _Angry Snail B2845 4200KV_:
 
-![angry-snail-B2845-4200KV](angry-snail-B2845-4200KV.jpg)
+![images/angry-snail-B2845-4200KV](angry-snail-B2845-4200KV.jpg)
 
 In neither of the tables above is there a 4200KV motor and as 4200KV is more than fast enough, it's probably best to go for the next _lowest_ KV value than to go any higher. I.e. a 3800KV or 3930KV motor is the various Surpass ranges shown below.
 
