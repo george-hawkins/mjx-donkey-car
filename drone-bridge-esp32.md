@@ -70,7 +70,7 @@ $ pip install --upgrade pip
 $ pip install esptool
 ```
 
-Now, the `.bin` files can be uploaded to the development board. Connect the board via USB-C, determine which device it's using (in my case `/dev/ttyUSB0`) and upload:
+Now, the `.bin` files can be uploaded to the development board. Connect the board via USB-C, determine which device it's using (in my case `/dev/ttyUSB0`), erase the flash and upload:
 
 ```
 $ device=/dev/ttyUSB0
