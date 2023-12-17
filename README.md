@@ -1143,6 +1143,8 @@ Similar models include:
 
 In the end I ordered the [BMT1206SLF](https://www.tme.eu/ch/en/details/bmt-1205h09/electromagnetic-sounders-w-o-generator/bestar/bmt1206slf/) which has a different resonant frequency but was in stock.
 
+**Update:** the BMT1206SLF turned out to be the quietest buzzer I've used - it wouldn't be suitable for a drone where you want to be able to use it to find the drone.
+
 USB voltage selector
 --------------------
 
