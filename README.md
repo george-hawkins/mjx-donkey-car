@@ -500,8 +500,11 @@ However, if you use an S2 etc., you'll have to compile the firmware yourself, th
 
 Adafruit have some nice tiny boards:
 
-* [QT Py ESP32-S3](https://www.adafruit.com/product/5426) - US$12.50
+* [QT Py ESP32-S3 8MB Flash, no PSRAM](https://www.adafruit.com/product/5426) - US$12.50
+* [QT Py ESP32-S3 4MB Flash, 2MB PSRAM](https://www.adafruit.com/product/5700) - US$12.50
 * [TinyS3 ESP32-S3 with u.FL](https://www.adafruit.com/product/5747) - US$20 (by the same people who do the TinyPICO above).
+
+I'm not sure when you'd choose the QT Py version with PSRAM vs no PSRAM but more flash.
 
 The TinyS3 is interesting not just because of its size but also because one could attach a u.FL antenna for improved range.
 
