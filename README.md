@@ -496,6 +496,8 @@ The Speedybee F405 can handle up to 500mA on its 3.3V output pin which would be 
 
 However, if you use an S2 etc., you'll have to compile the firmware yourself, the DroneBridge/ESP32 only releases ready compiled firmware for the ESP32.
 
+**Update:** I had no success with two different S3 boards (the Seeed Xiao S3 and the Espressif ESP32-S3-DEVKITC-1-N8R8) and neither worked and looking at issue [#36](https://github.com/DroneBridge/ESP32/issues/36), it doesn't look as if anyone has had any luck with C3 boards either. So, despite the DroneBridge ESP32 README, I think the project can be considered to be for the classic ESP32 only as of Dec 20th, 2023.
+
 Adafruit have some nice tiny boards:
 
 * [QT Py ESP32-S3](https://www.adafruit.com/product/5426) - US$12.50
