@@ -457,6 +457,10 @@ The Toyota Hilux also uses an ESP8266 for MAV telemetry but see below for the ES
 ESP32 MAV telemetry
 -------------------
 
+**TLDR;** use either the [WeAct ESP32-D0WD-V3](https://www.aliexpress.com/item/1005005645111663.html) or the [UnexpectedMaker TinyPico](https://www.adafruit.com/product/5028). Don't bother trying non-ESP32 classic boards like the S3 or C3. It'd be nice if the WeAct board had an LED (like nearly every other board) but it doesn't seem to have even a power LED.
+
+TODO: try using [remote developer tools for Android](https://stackoverflow.com/a/37256485/245602) to work out why my Google Pixel won't load the DroneBridge UI (but it works fine-ish - see note elsewhere on combining UI into single page - with macOS).
+
 **Question:** is a telemetry modules of any sort required if the companion computer is going to talk to the base station via WiFi? I suspect not - see this [video](https://www.youtube.com/watch?v=DGAB34fJQFc0) and see MAVProxy [here](https://ardupilot.org/dev/docs/raspberry-pi-via-mavlink.html) (see end of page for how to use with Mission Planner) or [APSync](https://ardupilot.org/dev/docs/apsync-intro.html) (the ArduPilot version is no longer supported and the MAVProxy link actually suggests using this [updated version](https://github.com/stephendade/apsync-Kakute) instead).
 
 Traditionally, Holybro [SiK telemetry radios](https://holybro.com/products/sik-telemetry-radio-v3) have been used for a wireless connection between laptop and drone/rover.
@@ -467,7 +471,7 @@ See the ArduPilot documentation [here](https://ardupilot.org/rover/docs/common-e
 
 ESP32 boards:
 
-* [WeAct ESP32-DOWD-V3](https://www.aliexpress.com/item/1005005645111663.html) - US$3
+* [WeAct ESP32-D0WD-V3](https://www.aliexpress.com/item/1005005645111663.html) - US$3
 * [LILYGO TTGO T7](https://www.aliexpress.com/item/32846710180.html) - US$5.50
 
 The above are proper ESP32s. Both WeAct and LILYGO also have S3 boards and other variants, e.g. here is [WeAct S3 board](https://www.aliexpress.com/item/1005005592730189.html) and a [LILYGO S3 board](https://www.aliexpress.com/item/1005004777561826.html).
@@ -502,7 +506,8 @@ Adafruit have some nice tiny boards:
 
 * [QT Py ESP32-S3 8MB Flash, no PSRAM](https://www.adafruit.com/product/5426) - US$12.50
 * [QT Py ESP32-S3 4MB Flash, 2MB PSRAM](https://www.adafruit.com/product/5700) - US$12.50
-* [TinyS3 ESP32-S3 with u.FL](https://www.adafruit.com/product/5747) - US$20 (by the same people who do the TinyPICO above).
+* [TinyPICO ESP32](https://www.adafruit.com/product/5028) - US$22 (as above) - like the WeAct board, it uses a WCH USB-to-serial chip.
+* [TinyS3 ESP32-S3 with u.FL](https://www.adafruit.com/product/5747) - US$20 (also by the TinyPICO people).
 
 I'm not sure when you'd choose the QT Py version with PSRAM vs no PSRAM but more flash.
 
