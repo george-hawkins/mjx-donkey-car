@@ -17,7 +17,9 @@ Note: macOS often reports that QGC crashed on closing - just click _OK_.
 SpeedyBee
 ---------
 
-Download latest Rover [beta firmware](https://firmware.ardupilot.org/Rover/beta/speedybeef4v4/) (there's been no stable Rover release since 2022) for the SpeedyBee F405 V4.
+Download the `ardurover_with_bl.hex` file from the SpeedyBee F405 V4 [beta firmware page](https://firmware.ardupilot.org/Rover/beta/speedybeef4v4/). As of Jan 2nd, 2024 there's been no stable Rover release since 2022 so, you have to use a beta release.
+
+**Update:** a new stable Rover 4.4.0 release came out on Dec 19th, 2023 (and at this time, the beta and stable `.hex` are identical).
 
 Download [STM32CubeProgrammer](https://www.st.com/en/development-tools/stm32cubeprog.html) (you have to provide a valid email address to download the software so, you might as well register a full account).
 
@@ -33,13 +35,15 @@ Now, open QGC and it should detect the board and jump to _Vehicle Setup_ and rep
 
 The following step may be unnecessary but I'm unsure on whether it resets the flash used to store parameters when you do an upgrade like this. So, go to the _Parameters_ tab, select _Tools_ (upper-right) and select _Reset all to firmware's defaults_ and then select _Reboot vehicle_.
 
+**Update:** for Mission Planner, see [here](https://ardupilot.org/copter/docs/common-parameter-reset.html) - go to _Config_, then _Full Parameter Tree_ (left-hand side) and then press _Reset to Default_ (righ-hand side). The FC is automatically rebooted - when I did this it failed (with a stacktrace shown in a dialog) but just pressing the _Connect_ button afterward worked.
+
 I find it odd that resetting the parameters is near instantaneous when reading them, on connecting the device, takes a noticeable amount of time.
 
 ### dfu-util
 
 Far easier, once the SpeedyBee F405 V4 bootloader is available (as of Dec 16th, 2023, only the bootloader for the V3 board was available) is to use `dfu-util`.
 
-**Note:** I tried using the bootloader for the V3 board - it almost works but it's the bootloader that tells QGC what kind of board it is and so there's no way to get it to load the V4 firmware rathter than the V3 firmware.
+**Note:** I tried using the bootloader for the V3 board - it almost works but it's the bootloader that tells QGC what kind of board it is and so there's no way to get it to load the V4 firmware rathter than the V3 firmware. See the ArduPilot issue [#25874](https://github.com/ArduPilot/ardupilot/issues/25874) that I logged.
 
 First, download the bootloader file - `speedybeef4v4_bl.bin` (once available) - from <https://firmware.ardupilot.org/Tools/Bootloaders/>
 
@@ -64,3 +68,81 @@ Click _OK_ and it'll start flashing the firmware and then reboot the board.
 ### Betaflight
 
 If you want to reintall Betaflight later, just start the Configurator then connect the board with the BOOT button held down. The Configurator should detect it as a device in DFU mode and you then need to flash it with _No reboot sequence_ and _Full chip erase_ enabled.
+
+Disabled features and PPM/S-BUS
+-------------------------------
+
+Initially, I wired up the PPM pins of the JHEMCU PWM to PPM/S-BUS converter (and the non-inverted RX signal pin of the FC).
+
+When you install Betaflight, there's a _Radio Protocol_ dropdown and it defaults to _CSRF,GHST,SBUS_ (at least for the SpeedyBee F405 V4 board) so, it's clear you have to switch to PPM if that's what you want.
+
+With PPM selected, everything worked fine in Betaflight.
+
+Ardupilot can autodetect between S-BUS and PPM so, I thought no special setup would be required. However, it completely failed to read any input from the RX.
+
+It turns out that many Ardupilot features are disabled by default so that everything will fit within the available RAM (see more [here](https://ardupilot.org/copter/docs/common-limited-firmware.html)). There's a table of disabled features for each flight controller [here](https://ardupilot.org/rover/docs/binary-features.html) and the one for the SpeedyBee F405 V4 shows a substantial list of disabled features. And it turns out that the only RX protocol that's disabled is PPM (as no modern RXs use PPM anymore).
+
+So, I switched my setup to S-BUS on both the JHEMCU converter and my FC and Ardupilot could read the RX input (and this could be seen in Mission Planner).
+
+JHEMCU converter
+----------------
+
+When the converter powers up initially the red LED above the block of PWM pins is solid as are the green LED beside the PPM pins and the blue LED pins beside the S-BUS pins.
+
+Solid means those pins are treated as input pins.
+
+Once the TX is powered up, the converter works out that there's input data on the PWM pins and switches the PPM and S-BUS pins to output. Their LEDs start flashing to indicate they're in output mode while the red LED remains solid.
+
+For the FlySky GT5, the steering is CH1, the throttle is CH2 and the toggle switch on the grip is CH3.
+
+TODO: check if the unbranded MJX TX maps things the same way.
+
+In Ardupilot Rover, **roll is used for steering** and the default setup is throttle on CH1 and roll on CH3.
+
+So, I connected:
+
+* CH1 of the RX to CH1 of the JHEMCU board.
+* CH2 of the RX to CH3 of the JHEMCU board.
+* CH3 of the RX to CH5 of the JHEMCU board.
+
+This means Ardupilot sees roll/steering and throttle on the expected channels and sees the grip's toggle switch on CH5 (the first channel that does not have a predefined meaning).
+
+TODO:
+
+* If soldering the JHEMCU board again, I might pull all the unneeded pins from the 5x3 header block and just solder those that are actually needed.
+* If soldering the FC RX pins again, I'd use a longer cable with a female connector on the end rather than my currect setup with a shrouded male connector and then an intermediate female-to-female cable.
+
+
+Mission Planner
+---------------
+
+TODO: Mission Planner drawing to the screen is extremely slow - this is odd given that everything else seems pretty snappy in the VM. Is this a known issue (perhaps a result of Mission Planner's 32 bit nature) and is it fixable, e.g. some DirectX driver that plays well with 32 bit apps like Mission Planner?
+
+Windows, like macOS, tries to make it difficult to run anything that isn't signed as being from a recognized published.
+
+In Windows, when you try to run it, it suggests deleting it and gives cancel as the alternative option with no obvious option to actually run it.
+
+You have to select the "see more" bit of the text in the warning dialog and only there do you see the option to run.
+
+A very similar thing happens when the Mission Planner installation also tries to initiate the installation of various drivers.
+
+I had to set up an Altitude Angel account as part of the initial Mission Planner installation (this allows Mission Planner to use Altitude Angel [drone safety map](https://dronesafetymap.com/) data and other features.
+
+TODO: note down the actual dialog text (the above is just what I remember).
+
+---
+
+When the FC is plugged in, the FC's bootloader temporarily appears as a USB device but then disappears and the FC's flight stack (Ardupilot) appears.
+
+As VMWare Fusion detects each of these devices, it asks if you want to connect them to the Mac or to the Windows VM.
+
+Ignore the first VMWare dialog (for the bootloader device), it'll disappear after a second. After a second or two more, it'll show a dialog for "Generic speedybeef4v4", click _Connect to Windows_ for this one.
+
+Initially, the connect dropdown is set to _AUTO_ - when I clicked _Connect_, it correctly detected the FC on COM5 (and from then on it defaulted to COM5).
+
+Note: on detecting the FC, it set the baud rate to 9600 - I _believe_ that the baudrate is irrelevant for these kind of USB-to-serial setups and  as far as I can see all values work and 1,200 baud works as fast as 1,500,000 baud.
+
+ESC and servo
+-------------
+
+HERE: rather than using motor 1 and 2 on the ESC connector of the FC, I suspect I should have plugged the signal pin for the ESC into motor 3. See <https://ardupilot.org/rover/docs/common-pixhawk-wiring-and-quick-start.html#connect-motors> - try driving a servo off each motor pin in turn and see what lines up with what (rather than plugging in ESC and servo from start).

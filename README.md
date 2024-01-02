@@ -423,6 +423,8 @@ Similar with JHEMCU branding:
 * [FC Drone store](https://www.aliexpress.com/item/1005004311590074.html)
 * [Gallop RC store](https://www.aliexpress.com/item/1005001892137682.html)
 
+**Update:** JHEMCU seems to a reasonably well know brand (GetFPV stock lots of their products) and the converter has a [product page](https://www.jhemcu.com/e_productshow/?51-SPP-SBUS-PPM-PWM-signal-conversion-51.html) with some instructions (in poor English). It's also available (but more expensive) from [Banggood](https://www.banggood.com/JHEMCU-SPP-8CH-Signal-Converter-Module-Support-SBUS-PPM-PWM-Output-for-Receiver-p-1549017.html).
+
 Mavros
 ------
 
@@ -716,7 +718,7 @@ TX and RX on AliExpress:
 * [GT5 from RC Fun City store](https://www.aliexpress.com/item/1005005773630207.html) - US$58 plus US$11 shipping from EU wareshouse (or US$4.50 for shipping from China).
 * [X8B from U-Angel-1988 store](https://www.aliexpress.com/item/32892188833.html) - US$17 plus US$2 shipping. Or from [RC Fun City store](https://www.aliexpress.com/item/4000169189998.html).
 
-Note: Flysky also have the [G7P](https://www.flysky-cn.com/g7pdescription) (305g) with a nicer LCD and using their new ANT protocol that supports telemetry. However, so far they've only brought out one pure digital RX with S.BUX - the [SRM](https://www.flysky-cn.com/srmspecifications). And it looks quite bulky - altough the weight, at about 305g, is about the same. 
+Note: Flysky also have the [G7P](https://www.flysky-cn.com/g7pdescription) (305g) with a nicer LCD and using their new ANT protocol that supports telemetry. However, so far they've only brought out one pure digital RX with S.BUS - the [SRM](https://www.flysky-cn.com/srmspecifications). And it looks quite bulky - although the weight is much the same. 
 
 RC Review's [Flysky G7P review](https://www.youtube.com/watch?v=otPYzx7fU7I).
 
@@ -1142,7 +1144,7 @@ Matek lost model buzzer from:
 
 Initially, I bought this [Matek lost model buzzer](http://www.mateksys.com/?portfolio=dbuz5v) as it's the simplest buzzer sold by GetFPV and is available from many AliExpress stores.
 
-But it seems to involve a weird amount of [circuitry](https://cdn-v2.getfpv.com/media/catalog/product/cache/b4872d6d0ceb3d2181c291dd3ccc7b81/m/a/matek-lost-model-beeper-fpv-fc-5v-loud-buzzer-2_1.jpg) (photo from GetFPV site) - on the Matek site they say the latest models come with a redesigned flat base (but is the circuitry still there but hidden away?).
+But it seems to involve a weird amount of [circuitry](https://cdn-v2.getfpv.com/media/catalog/product/cache/b4872d6d0ceb3d2181c291dd3ccc7b81/m/a/matek-lost-model-beeper-fpv-fc-5v-loud-buzzer-2_1.jpg) (photo from GetFPV site) - on the Matek site they say the latest models come with a redesigned flat base (but is the circuitry still there but hidden away? Answer: yes, it's still there but hidden under the buzzer).
 
 At any rate a simple buzzer like this is all that's needed: [Pololu 9mm 5V 40&Ohm; top-opening buzzer](https://www.pololu.com/product/1485).
 
@@ -1154,6 +1156,8 @@ Similar models include:
 In the end I ordered the [BMT1206SLF](https://www.tme.eu/ch/en/details/bmt-1205h09/electromagnetic-sounders-w-o-generator/bestar/bmt1206slf/) which has a different resonant frequency but was in stock.
 
 **Update:** the BMT1206SLF turned out to be the quietest buzzer I've used - it wouldn't be suitable for a drone where you want to be able to use it to find the drone.
+
+TODO: is `NTF_BUZZ_VOLUME` set to 100? And perhaps the buzzers I've used previously (which have all been in combination with LEDs) have always used separate power/amplification rather than just relying on the power available via the buzzer pin. If so, then perhaps the Matek buzzer (see above) is the way to go _if_ a louder buzzer is needed. See ArduPilot [buzzer documentation](https://ardupilot.org/copter/docs/common-buzzer.html) (which notes that "it is best to use a buzzer with separate power and amplification").
 
 USB voltage selector
 --------------------
