@@ -728,6 +728,16 @@ G7P on AliExpress:
 * [RC HobbyFly store](https://www.aliexpress.com/item/1005005210741036.html)
 * [Dragon Model store](https://www.aliexpress.com/item/1005004018517454.html)
 
+On Banggood [here](https://www.banggood.com/FlySky-FS-G7P-2_4GHz-7CH-ANT-Protocol-Radio-Transmitter-PWM-or-PPM-or-i-BUS-or-S_BUS-Output-with-FS-R7P-RC-Receiver-for-RC-Car-Boat-p-1937436.html) (FS-SRM RX is not available on Banggood).
+
+Note: in all reviews, the reviewers hated the plastic-only wheel - I presume they've updated to a foam covered wheel as this is what's shown in the product images on the Hundred Percent and RC HobbyFly stores. The Dragon Model and Banggood product images still show a plastic-only wheel (as does FlySky's own product page).
+
+FS-SRM:
+
+* <https://www.aliexpress.com/item/1005005900674091.html>
+* <https://www.aliexpress.com/item/1005006054152535.html>
+* <https://www.aliexpress.com/item/1005004277005404.html>
+
 RadioMaster are actually about to launch an EdgeTX based TX (that can work with any existing ExpressLRS RX) for RC cars - the [MT12](https://www.radiomasterrc.com/products/mt12-surface-radio-controller) (480g).
 
 Painless360 [RadioMaster MT12 review](https://www.youtube.com/watch?v=9k5FQxx34E0).
@@ -738,7 +748,7 @@ My alternative choice to the Flysky GT5 would be the [RadioLink RC6GS v3](https:
 
 The big plus vs the GT5 is that it has telemetry, i.e. the TX can display the RSSI and battery voltage reported back from the RX.
 
-They have a reasonable number of pure digital (i.e. no PWM outputs) 8-channel RXs with S.BUS:
+RadioLink have a reasonable number of pure digital (i.e. no PWM outputs) 8-channel RXs with S.BUS compatible with the RC6GS:
 
 * [R8XM](https://www.radiolink.com/r8xm) - with telemetry support (just connect the batteries balance lead directly to the RX).
 * [R8FM](https://www.radiolink.com/r8fm) - smaller, no telemetry.
@@ -750,6 +760,90 @@ On AliExpress:
 
 * [RC6GS v3 at Hundred Percent store](https://www.aliexpress.com/item/4000615916643.html) - no RX version is about US$57 (plus US$6 shipping).
 * [RC6GS v3 at BYRC store](https://www.aliexpress.com/item/1005002728220551.html) - no RX version is about US$50 (plus US$16 shipping).
+
+More basic TX options
+---------------------
+
+**DumboRC** don't seem to produce any non-PWM RXes, the nearest they seem to have is the X6FP which has 6 PWN channels but also has PPM output (so, you'd still need something like the JHEMCU converter to convert that to S.BUS if you didn't want to recompile ArduPilot to include RC_PPMSUM).
+
+**Update**: the PPM pins are PPM **input** pins, they read PPM output by the [trainer module](https://www.aliexpress.com/item/1005006094267059.html) which is used in a rather odd two RX setup - one of which, combined with the trainer module, is plugged into a secondary TX.
+
+Given that, I think the only option is to take an RX like the X6F Mini and you could solder a JHEMCU converter straight onto its pins. Or one could take the X6FP, as it does have that nice voltage telemetry, and discard the case.
+
+DumboRC is either a subsidiary or subcontractor of Radiolink (depending on where you read) and their RXes are extremely similar but as noted [here](https://www.radiolink.com/DUMBORC) by RadioLink, their TXes and RXes are not compatible. I suspect they've just done this for market segmentation reasons - if you look as the open source MULTI-Module project, they just classify the the DumboRC RX protocol as a subprotocol in their [RadioLink page](https://www.multi-module.org/using-the-module/protocol-details/radiolink).
+
+It simply comes down to:
+
+* Two registry values (see [here](https://github.com/pascallanger/DIY-Multiprotocol-TX-Module/blob/8099018/Multiprotocol/RadioLink_cc2500.ino#L136)).
+* A one byte change to outgoing packets (see [here](https://github.com/pascallanger/DIY-Multiprotocol-TX-Module/blob/8099018/Multiprotocol/RadioLink_cc2500.ino#L182)).
+
+You can buy the XPM-350 TX in combination with the X6FP for US$30 here:
+
+* <https://www.aliexpress.com/item/1005005362512091.html>
+* <https://www.aliexpress.com/item/1005005667298301.html>
+
+Both stores also have a foam wheel for this TX:
+
+* <https://www.aliexpress.com/item/1005005721707131.html>
+* <https://www.aliexpress.com/item/1005005356110034.html>
+
+TX and wheel from Banggood:
+
+* [TX](https://www.banggood.com/DumboRC-X6PM-350-2_4GHz-6CH-Mini-Radio-Transmitter-Support-Gyro-With-X6FG-or-X6DCG-or-X6FP-or-X4FMG-or-BL3F-Receiver-for-RC-Car-Boat-Tank-Model-Parts-p-1984363.html)
+* [Wheel](https://www.banggood.com/DumboRC-Controller-Metal-Handwheel-with-Brake-Pads-EVA-Sponge-Cover-Upgrade-for-Radiolink-DumboRC-X4-X6-X5-X6P-RC-Car-Transmitter-p-1979469.html)
+
+Note: judging from [QuadrifyRC's review](https://www.quadifyrc.com/rccarreviews/dumborc-upgrade-handwheel-install-and-review-a-must-have-upgrade-for-your-dumborc-radio), the pictures used by the second store match those from Banggood where he got the wheel but what he actually got matches the pictures used by the first store.
+
+QuadrifyRC really likes the XPM-350 and it this [review](https://www.quadifyrc.com/rccarreviews/dumborc-x6pm-350-radio-review-which-receiver-to-choose) says it's his choice for a cheap RX if something like the G7P is out of your price range.
+
+See QuadrifyRC's review for how to remove the original wheel and replace it.
+
+The older X6 is a few dollars cheaper but isn't as compact (which depending on taste maybe seen as a plus). However, you have to buy the PPM capable X6FP separately so it doesn't end up cheaper:
+
+* <https://www.aliexpress.com/item/33054446499.html>
+* <https://www.aliexpress.com/item/1005002756021132.html>
+
+The wheel above can also be used with the X6.
+
+**FlySky** have something simialar to the XPM-350 (but a few dollars more), the FS-MG7 from these AliExpress stores:
+
+* [Dragon model](<https://www.aliexpress.com/i/1005005436199853.html)
+* [Flyhike](https://www.aliexpress.com/item/1005005397199645.html)
+
+From Banggood [here](https://uk.banggood.com/Flysky-FS-MG7-2_4GHz-7CH-Ant-Protocol-Radio-Transmitter-with-FS-R7D-Receiver-for-RC-Car-Boat-Tanks-p-1985351.html).
+
+Except at Dragon model (where it was about US$25), it seems somewhat overpriced compared to the other TXes and to have very limited sales compared to the DumboRC TXes.
+
+It has the big plus over the DumboRC TXes that it uses the ANT protocol and can be used with the same RXes as the G7P, i.e. ones with S.BUS and i-BUS output.
+
+Unlike the DumboRC TXes above this basic TX can be bound to multiple (up to five) RXes.
+
+The downside (for me) is that unlike the DumboRC TXes (which take AA batteries) is that this takes AAA batteries (which I never have around).
+
+---
+
+There are actually no end of cheap basic TXes with at least five channels e.g. the LDARC CT01 and the Rlaarlo CT8A. But like the DumboRC TXes they don't have compatible i-BUS or S.BUS capable RXes so there's little point looking at them. I only looked at DumboRC as I originally hoped they might be cross-compatible with the RadioLink RXes.
+
+Color screen TX
+---------------
+
+An odd product, given that DumboRC is supposed to RadioLink's budget range, is the recent DDF-350 that comes with a color screen and is priced higher than the RadioLink RC6GS.
+
+It has 10 channels and is available with a 10 channel PPM capable RX (the X10F - basically the X6FP seen above with 4 more channels) but still no S.BUS or i-BUS.
+
+Available here:
+
+* <https://www.aliexpress.com/item/1005006369839161.html>
+* <https://www.aliexpress.com/item/1005006369731398.html>
+* <https://www.aliexpress.com/item/1005006369758852.html>
+
+For a review, see [here](https://www.youtube.com/watch?v=q3pb1qFnL4I) - as of Jan 5, 2023 it doesn't seem to have been picked up for review by any of the bigger RC channels.
+
+However, DumboRC don't seem to have got their web presence sorted out (their [website](https://www.dumborc.com/) is basically a bad brochure).
+
+So, it seems odd to buy a sophisticated radio when DumboRC don't seem to make firmware updates available or even have their manuals available in PDF format.
+
+While color looks cool, if I wanted a fancy TX, I'd rather pay more for a RadioMaster MT12 or go for the cheaper G7P even if they're black and white, they both clearly get firmware updates.
 
 ### Multiprotocol modules
 
