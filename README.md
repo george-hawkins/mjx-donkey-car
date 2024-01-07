@@ -800,7 +800,7 @@ It simply comes down to:
 * Two registry values (see [here](https://github.com/pascallanger/DIY-Multiprotocol-TX-Module/blob/8099018/Multiprotocol/RadioLink_cc2500.ino#L136)).
 * A one byte change to outgoing packets (see [here](https://github.com/pascallanger/DIY-Multiprotocol-TX-Module/blob/8099018/Multiprotocol/RadioLink_cc2500.ino#L182)).
 
-You can buy the XPM-350 TX in combination with the X6FP for US$30 here:
+You can buy the X6PM-350 TX in combination with the X6FP for US$30 here:
 
 * <https://www.aliexpress.com/item/1005005362512091.html>
 * <https://www.aliexpress.com/item/1005005667298301.html>
@@ -817,7 +817,7 @@ TX and wheel from Banggood:
 
 Note: judging from [QuadrifyRC's review](https://www.quadifyrc.com/rccarreviews/dumborc-upgrade-handwheel-install-and-review-a-must-have-upgrade-for-your-dumborc-radio), the pictures used by the second store match those from Banggood where he got the wheel but what he actually got matches the pictures used by the first store.
 
-QuadrifyRC really likes the XPM-350 and it this [review](https://www.quadifyrc.com/rccarreviews/dumborc-x6pm-350-radio-review-which-receiver-to-choose) says it's his choice for a cheap RX if something like the G7P is out of your price range.
+QuadrifyRC really likes the X6PM-350 and it this [review](https://www.quadifyrc.com/rccarreviews/dumborc-x6pm-350-radio-review-which-receiver-to-choose) says it's his choice for a cheap RX if something like the G7P is out of your price range.
 
 See QuadrifyRC's review for how to remove the original wheel and replace it.
 
@@ -837,7 +837,7 @@ Notes on the X6FP - the documentation in English is non-existent. Here's some in
 * For the voltage telemetry function, see this [video](https://www.bilibili.com/video/BV1Be4y1L7Yt/) - basically, it seems the TX (or perhaps it's the RX)  seems to guess if your setup is 2S or 3S from the value it sees when it's powered on.
 * For the head tracking function of the module that can be plugged into the PPM pins of the RX, see my comment [here](https://www.reddit.com/r/rccars/comments/18hwybu/comment/kgku0ay/?utm_source=share&utm_medium=web2x&context=3) on Reddit.
 
-**FlySky** have something simialar to the XPM-350 (but a few dollars more), the FS-MG7 from these AliExpress stores:
+**FlySky** have something simialar to the X6PM-350 (but a few dollars more), the FS-MG7 from these AliExpress stores:
 
 * [Dragon model](<https://www.aliexpress.com/i/1005005436199853.html)
 * [Flyhike](https://www.aliexpress.com/item/1005005397199645.html)
@@ -1326,6 +1326,27 @@ Double-sided mounting tape from Scotch or Tesa should be fine, e.g.:
 * [Tesa Powerbond Ultra Strong](https://www.tesa.com/en-gb/consumer/tesa-powerbond-ultra-strong.html)
 * [Scotch-Mount Extreme](https://www.scotchbrand.com/3M/en_US/p/d/cbgnawus1861/)
 
+Heatshrink
+----------
+
+It's hard to find what sizes of heat shrink to use. However, Team Black Sheep sell two size of heat shrink [here](https://www.team-blacksheep.com/shop/q:shrink).
+
+The 23mm is for their 11mm wide boards - 11mm is essentially 4-pins wide so, few if any boards will ever be narrower than this. See such a board [here](https://www.team-blacksheep.com/products/prod:crossfire_nano_rx).
+
+While the 31mm is for boards like this [one](https://www.team-blacksheep.com/products/prod:unify_pro_hv) that are about 20mm wide (and, factoring in the connector, about 4mm tall).
+
+However, who knows if they're talking about the tubing in terms of its width when flattened into rectangular pieces or its inner diameter (the more usual measure).
+
+This difference is explained in depth in the description for heat shrink [here](https://www.aliexpress.com/item/1005001371270910.html) on AliExpress.
+
+Looking at a RadioMaster RX that I have, the idea seems to be that you really start with a tube that's only a little larger than the thing it's going to wrap and then let it shrink tight around the item (and close in at the ends). So, they supply an 18mm flat-width tube for their 13mm wide RX.
+
+Note: 1.5mm, 3mm and 6mm diameter are the typical sizes that you get in the assortment packs of red and black heat shrink for drone wiring.
+
+So, buying all sizes between 8mm and 35mm diameter would seem to cover almost anything (35mm would have an inner circumference of 110mm and that would easily fit around even a bulky 8 channel PWM RX).
+
+I bought clear heat shrink tubing [here](https://www.aliexpress.com/item/1005001371270910.html) on AliExpress.
+
 Purchases
 ---------
 
@@ -1339,4 +1360,3 @@ Purchases
 * FeiYing RC Store 2S balance lead extenders and Matek buzzer arrived 5 Dec.
 * U-Angel-1988 Foxeer GPS and GPS mast arrived 5 Dec.
 * Lilygo patch antenna, ESP32 breakout and modules arrived 5 Dec.
-
