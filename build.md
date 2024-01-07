@@ -146,3 +146,50 @@ ESC and servo
 -------------
 
 HERE: rather than using motor 1 and 2 on the ESC connector of the FC, I suspect I should have plugged the signal pin for the ESC into motor 3. See <https://ardupilot.org/rover/docs/common-pixhawk-wiring-and-quick-start.html#connect-motors> - try driving a servo off each motor pin in turn and see what lines up with what (rather than plugging in ESC and servo from start).
+
+See also <https://ardupilot.org/rover/docs/rover-motor-and-servo-configuration.html> the _ESC configuration_ section for how motors are bound.
+
+You need to insert an SD card formatted as exFAT otherwise in messages you see:
+
+```
+PreArm: logging failed
+```
+
+I set PreArm checks not to include compass and GPS.
+
+Reboot is in a really weird place - press ctrl-F and you'll find it in the right-hand column of buttons in the lower half.
+
+The motor test kept failing with "autopilot denied command".
+
+I had to:
+
+* Set the RC4_TRIM to 2154 and RC4_MIN to 2124 and RC4_MAX to 2184.
+* COMPASS_USE to 0
+* Disable compass and GPS in ARMING_CHECK.
+
+I don't know which except for the first is crucial - the RC4 channel isn't used and defaults to its max (of 2154) and the arm check complained it wasn't in neutral (why it doesn't RC2 (which is the same), I don't know.
+
+It looks like you need the GPS and compass connected even if you've excluded them from ARMING_CHECK otherwise arm checks complain compass is in bad health (doesn't seem to care about GPS), hence `COMPASS_USE` as well. So, **next time** plug in GPS.
+
+The buzzer is super quiet if powered just by USB.
+
+Motor B corresponds to orange wire and works.
+
+Yellow wire doesn't seem to do anything.
+
+I think I had to put in common ground between my 5V source and the FC setup (I connected one of the ground pins of the JHEMCU converter to ground on the 5V breadboard setup).
+
+Much better is to just wire in the ESC and uses its BEC - that works without any extra wiring.
+
+The red LED on the ESC seems to blink continuously - I don't know if this because it's getting no PWM signal or because it's not connected to a brushless motor.
+
+In the motor test, the default is just to apply 5% (or is it 15%) throttle to each motor - raise this to something higher if you want more than a twitch out of the motor you're testing.
+
+Oddly, the steering servo seems to work even while in disarmed state - i.e. you don't need to go into motor test to test it.
+
+So, current status is:
+
+* YELLOW WIRE DOES NOTHING.
+* TRY ADDING ANOTHER WIRE (BEFORE REMOVING YELLOW) FOR MOTOR 3 AND TRYING.
+* IS IT JUST STEERING THAT'S ALLOWED WITHOUT ARMING?
+* DID THE MJX SERVO JUST NOT WORK BECAUSE THROTTLE % IN MOTOR TEST WAS TOO LOW?
