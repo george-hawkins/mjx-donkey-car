@@ -211,6 +211,22 @@ The same channel has several other videos taking this setup further (and also on
 
 ---
 
+Drone Dojo's video above covers handling the ESC deadzone by just telling ArduPilot to start at 15%, i.e. you loose the lower 15% of the throttle range.
+
+A more sensible thing to do would be to calibrarte the ESC. Painless360 shows how to do this here: <https://www.youtube.com/watch?v=whgtBSsWJ2w>
+
+He notes, you only have to do this if using PWM output and if you're using a more modern protocol like DSHOT this isn't necessary.
+
+He's using a drone/wing ESC so, it's not clear to me if car ESCs typically behave the same. He does note at 5m 36s that you shouldn't leave the throttle high too long when calibrating as otherwise it'll go into programming mode.
+
+I think car ESC may have their own per-manufacturer scheme for programming the ESC and the easiest way to do this is with a program card (like this [one](https://www.hobbywingdirect.com/products/led-pc2c) for Hobbywing ESCs).
+
+Typically, this can also be done without a programming card by listening to sequences of beeps from the ESC as shown in this [video](https://www.youtube.com/watch?v=bQJUgOBa0WE).
+
+See also the note below on Razor RC's video and calibrating after switching a RC car to use a GT5 compatible RX.
+
+---
+
 ROS 1 had rosserial. Tiziano Fiorenzani shows how to use it to add your classic RC controller between your ROS <https://www.youtube.com/watch?v=WLVfZXxpHYI>
 
 Tiziano Fiorenzani shows how to use it to add an Arduino as an intermediary between your ROS capable Pi (or whatever) and the steering and throttle controls so, that the Arduino can take inputs from either the Pi or the RX bound to your RC controller.
@@ -410,6 +426,8 @@ A similar looking but encased version:
 * [RCMOY FPV HOBBY store](https://www.aliexpress.com/item/1005005114215387.html)
 * [Goodluck338 store](https://www.aliexpress.com/item/32975956221.html)
 * [Onemodel store](https://www.aliexpress.com/item/1005004678146699.html)
+
+**Update:** the two products above only output PPM - this protocol is now so old and uncommon in real RXes that it's the only RC protocol that's now excluded by the default in ArduPilot builds for more memory constrained devices like the SpeedyBee F405 V4. The two devices below output more modern protocols (in addition to PPM), the T1P can output S.BUS and CSRF while the JHEMCU converter can output S.BUS.
 
 Bulkier but better selling:
 
@@ -709,7 +727,7 @@ Many manuals (and some TX firmware in the form of `.exe`, `.zip` and `.rar` file
 
 AFHDS 2A clearly does support reporting telemetry back to the transmitters, as is clear from the README for the [GitHub FlySkyRxFirmwareRssiMod repo](https://github.com/Cleric-K/FlySkyRxFirmwareRssiMod). It mods binary dumps of the original firmware to include RSSI in the information forwarded to the FC but makes clear RSSI is already communicated by default to the TX. However, I can't find anything that indicates that the GT5 can display this information (or is in anyway aware of the RX that its bound to).
 
-**Important:** Razor RC has a nice video on the basic setup that you really should do having installed an FS-GTx RX and bound it with the GT5: <https://www.youtube.com/watch?app=desktop&v=WzhfpqNaRig> - in particular he covers calibrating the RC which seems important but I can't find anything on putting the MJX ESC into calibration mode. He shows how to setup the gyro but says it's less important for 4WD. See also <https://www.youtube.com/watch?v=Oiyhv-tj-RQ>
+**Important:** Razor RC has a nice video on the basic setup that you really should do having installed an FS-GTx RX and bound it with the GT5: <https://www.youtube.com/watch?app=desktop&v=WzhfpqNaRig> - in particular he covers calibrating the RC which seems important but I can't find anything on putting the MJX ESC into calibration mode. He shows how to setup the gyro but says it's less important for 4WD. See also <https://www.youtube.com/watch?v=Oiyhv-tj-RQ> - see also larger section on calibrating ESCs above.
 
 Flysky aren't great at making the RX firmware available - however, they are available from the [GitHub FlySkyRxFirmware repo](https://github.com/povlhp/FlySkyRxFirmware) - most of the images have simply been extracted from RXs, including those for the X8B and X6B. I assume these images are the basis for the images that are modded by the FlySkyRxFirmwareRssiMod project.
 
@@ -734,9 +752,10 @@ Note: in all reviews, the reviewers hated the plastic-only wheel - I presume the
 
 FS-SRM:
 
+* <https://www.aliexpress.com/item/1005004265310293.html>
 * <https://www.aliexpress.com/item/1005005900674091.html>
-* <https://www.aliexpress.com/item/1005006054152535.html>
 * <https://www.aliexpress.com/item/1005004277005404.html>
+* <https://www.aliexpress.com/item/1005005905357480.html>
 
 RadioMaster are actually about to launch an EdgeTX based TX (that can work with any existing ExpressLRS RX) for RC cars - the [MT12](https://www.radiomasterrc.com/products/mt12-surface-radio-controller) (480g).
 
@@ -764,13 +783,17 @@ On AliExpress:
 More basic TX options
 ---------------------
 
+**Note to self:** I bought an X6FP, an X6F Mini and an X6F - I just bought the X6F as an ersatz for demoing taking apart the RX that came with the MJX. Otherwise, I'd only consider the X6F Mini or the X6FP.
+
 **DumboRC** don't seem to produce any non-PWM RXes, the nearest they seem to have is the X6FP which has 6 PWN channels but also has PPM output (so, you'd still need something like the JHEMCU converter to convert that to S.BUS if you didn't want to recompile ArduPilot to include RC_PPMSUM).
 
 **Update**: the PPM pins are PPM **input** pins, they read PPM output by the [trainer module](https://www.aliexpress.com/item/1005006094267059.html) which is used in a rather odd two RX setup - one of which, combined with the trainer module, is plugged into a secondary TX.
 
-Given that, I think the only option is to take an RX like the X6F Mini and you could solder a JHEMCU converter straight onto its pins. Or one could take the X6FP, as it does have that nice voltage telemetry, and discard the case.
+**Update 2:** wow - DumboRC information in English is non-existent. However, this [video](https://www.dumborc.com/?p=878) from the Chinese-language version of their site shows that it actually is PPM output.
 
-DumboRC is either a subsidiary or subcontractor of Radiolink (depending on where you read) and their RXes are extremely similar but as noted [here](https://www.radiolink.com/DUMBORC) by RadioLink, their TXes and RXes are not compatible. I suspect they've just done this for market segmentation reasons - if you look as the open source MULTI-Module project, they just classify the the DumboRC RX protocol as a subprotocol in their [RadioLink page](https://www.multi-module.org/using-the-module/protocol-details/radiolink).
+Without PPM, you could just take an RX like the X6F Mini and solder a JHEMCU converter straight onto its pins. Or one could take the X6FP, as it does have that nice voltage telemetry, and discard the case.
+
+DumboRC is a subsidiary of Radiolink (depending on where you read) and their RXes are extremely similar but as noted [here](https://www.radiolink.com/DUMBORC) by RadioLink, their TXes and RXes are not compatible. I suspect they've just done this for market segmentation reasons - if you look as the open source MULTI-Module project, they just classify the the DumboRC RX protocol as a subprotocol in their [RadioLink page](https://www.multi-module.org/using-the-module/protocol-details/radiolink).
 
 It simply comes down to:
 
@@ -798,12 +821,21 @@ QuadrifyRC really likes the XPM-350 and it this [review](https://www.quadifyrc.c
 
 See QuadrifyRC's review for how to remove the original wheel and replace it.
 
+**Note:** once you've added the wheel to the total cost, you're not really far off the price of something like the G7P.
+
 The older X6 is a few dollars cheaper but isn't as compact (which depending on taste maybe seen as a plus). However, you have to buy the PPM capable X6FP separately so it doesn't end up cheaper:
 
 * <https://www.aliexpress.com/item/33054446499.html>
 * <https://www.aliexpress.com/item/1005002756021132.html>
 
 The wheel above can also be used with the X6.
+
+Notes on the X6FP - the documentation in English is non-existent. Here's some information:
+
+* For the wireless trainer module, see my comment [here](https://www.reddit.com/r/rccars/comments/18hwybu/comment/kgkpgf1/?utm_source=share&utm_medium=web2x&context=3) on Reddit.
+* For the LED pins can be associated with a channel that's already used to control something else, see this [video](https://www.bilibili.com/video/BV1z8411n7gs/).
+* For the voltage telemetry function, see this [video](https://www.bilibili.com/video/BV1Be4y1L7Yt/) - basically, it seems the TX (or perhaps it's the RX)  seems to guess if your setup is 2S or 3S from the value it sees when it's powered on.
+* For the head tracking function of the module that can be plugged into the PPM pins of the RX, see my comment [here](https://www.reddit.com/r/rccars/comments/18hwybu/comment/kgku0ay/?utm_source=share&utm_medium=web2x&context=3) on Reddit.
 
 **FlySky** have something simialar to the XPM-350 (but a few dollars more), the FS-MG7 from these AliExpress stores:
 
