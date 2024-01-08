@@ -183,13 +183,33 @@ Much better is to just wire in the ESC and uses its BEC - that works without any
 
 The red LED on the ESC seems to blink continuously - I don't know if this because it's getting no PWM signal or because it's not connected to a brushless motor.
 
-In the motor test, the default is just to apply 5% (or is it 15%) throttle to each motor - raise this to something higher if you want more than a twitch out of the motor you're testing.
+In the motor test, the default is just to apply 5% throttle to each motor - raise this to something higher if you want more than a twitch out of the motor you're testing.
+
+At 5% one of my servos didn't respond at all and one just twitched. And note that at 100% the servo just turns thru 50% of it's range as it just goes full one way from it's mid point and back to the mid point rather than going from its min to its max.
 
 Oddly, the steering servo seems to work even while in disarmed state - i.e. you don't need to go into motor test to test it.
 
-So, current status is:
+The throttle, i.e. the wire to the ESC, however has to be tested via the motor test (or by fully arming the FC).
 
-* YELLOW WIRE DOES NOTHING.
-* TRY ADDING ANOTHER WIRE (BEFORE REMOVING YELLOW) FOR MOTOR 3 AND TRYING.
-* IS IT JUST STEERING THAT'S ALLOWED WITHOUT ARMING?
-* DID THE MJX SERVO JUST NOT WORK BECAUSE THROTTLE % IN MOTOR TEST WAS TOO LOW?
+As before, I find it odd that most everywhere the motors are labelled 1 to 4 while in the motor tester they're labeled a to d _and_ it's a non-obvious mapping.
+
+For the rover:
+
+steering = motor 1 = b
+throttle = motor 3 = a
+
+Yes, that's not a mistake _a_ isn't 1.
+
+For a four motor quadcopter setup the motors are labeled 1 to 4 starting at front right and going clockwise while, for motor testing, they're labeled A to C starting front right as well but going clockwise.
+
+See <https://github.com/george-hawkins/arf-drone/blob/docusaurus/docs/assets/images/assembly/frame/arm-numbering.svg>
+
+TODO: 
+
+Connect the GPS so you can get rid of bad compass (now that I've got `COMPASS_USE` set to 0, it seems to be gone from the Mssages tab but still appears in the HUD).
+Connect up the brushed motor
+Blank the FC and see that you can still test the motors.
+Check you don't need the TX powered up to test the motors (initially I thought this was necessary but it's not but that might because I disabled RC ARM checks).
+REMEMBER you may still have to set RC4_TRIM etc. as above - work out how to get to a state where this isn't needed.
+Get some photos of the full setup with charger as desktop power supply.
+Note: the horn on the MJX servo comes from the Emax servo.
