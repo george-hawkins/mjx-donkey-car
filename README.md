@@ -752,8 +752,8 @@ Note: in all reviews, the reviewers hated the plastic-only wheel - I presume the
 
 FS-SRM:
 
-* <https://www.aliexpress.com/item/1005004265310293.html>
-* <https://www.aliexpress.com/item/1005005900674091.html>
+* <https://www.aliexpress.com/item/1005004265310293.html> - Dragon model.
+* <https://www.aliexpress.com/item/1005005900674091.html> - NEEBRC didn't ship (to be fair I didn't give them much time) and I then bought from Dragon model.
 * <https://www.aliexpress.com/item/1005004277005404.html>
 * <https://www.aliexpress.com/item/1005005905357480.html>
 
