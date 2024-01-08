@@ -17,6 +17,15 @@ I used a small fret saw to cut apart the 3-row pin header - it worked surprising
 
 I didn't tin the GPS wire ends.
 
+Oddy, all that came in the GPS bag was the cable (with connector on just one end) and the GPS module - there was no heat shrink. Just like this customer image on Banggood:
+
+<https://imgaz.staticbg.com/customers_images/newlarge/c9/32/2023112104141592-1986091.jpg>
+
+Or these images from a Japanese online store:
+
+* <https://cart.fc2img.com/user_img/goldstonejapan/efacad00c4caf57d9085b9f8a5925d95.JPG>
+* <https://cart.fc2img.com/user_img/goldstonejapan/11df52144749239b78e4121e0faec7af.JPG>
+
 I just yanked out the signal wire when creating the servo cable to deans connectors setup.
 
 The buzzer only sounds if there's battery power - I actually replaced the buzzer, believing it dead, before discovering this.
