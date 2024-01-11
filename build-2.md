@@ -35,3 +35,7 @@ To use PPM, you have to select it as the RX protocol when flashing Betaflight (i
 ESP32 - in short only a classic ESP32 board will work, if using the WeAct ESP32-D0WD-V3, you need to install a driver for the USB-to-UART chip they use (on Linux, it's builtin).
 
 Once, I'd connected the DroneBridge to my home AP, trying to set it back to acting as an AP again caused it not to not reappear as an AP and I had to reflash it. Nothing looked obviously wrong when running `idf.py monitor` - I wonder if it was doing something stupid like trying the create an AP with the SSID and password given it to it to connect to my home AP.
+
+I got the ESC connector wiring wrong and ended up having the stick the green wire (motor 3) back in after popping it out - from googling, I now find I popped it in upsidedown but it's jammed in so I hope it holds and I hope it hasn't bent the corresponding pin in the FC.
+
+Look at this video - <https://www.youtube.com/watch?v=D1ErLvXlOTs> - JST-XH connectors have a little tab on the back so the go in upside down relative to how you put in connectors into a Dupont connector.  ESC connectors use JST-SH which also have a tab on the back. 

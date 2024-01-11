@@ -45,7 +45,9 @@ Far easier, once the SpeedyBee F405 V4 bootloader is available (as of Dec 16th, 
 
 **Note:** I tried using the bootloader for the V3 board - it almost works but it's the bootloader that tells QGC what kind of board it is and so there's no way to get it to load the V4 firmware rathter than the V3 firmware. See the ArduPilot issue [#25874](https://github.com/ArduPilot/ardupilot/issues/25874) that I logged.
 
-First, download the bootloader file - `speedybeef4v4_bl.bin` (once available) - from <https://firmware.ardupilot.org/Tools/Bootloaders/>
+**Update:** the issue has since been resolved. Note: the documentation points one at <https://firmware.ardupilot.org/Tools/Bootloaders/> - but it seems that <https://github.com/ArduPilot/ardupilot/tree/master/Tools/bootloaders> is more up-to-date and `firmware.ardupilot.org` isn't automatically synced with it.
+
+First, download the bootloader file - `speedybeef4v4_bl.bin` from <https://github.com/ArduPilot/ardupilot/tree/master/Tools/bootloaders>
 
 Then:
 
@@ -167,6 +169,8 @@ I had to:
 * COMPASS_USE to 0
 * Disable compass and GPS in ARMING_CHECK.
 
+**Update:** you can set `COMPASS_USE` via _Setup / Mandatory Hardware / Compass_ and tick/untick _Use Compass 1_.
+
 I don't know which except for the first is crucial - the RC4 channel isn't used and defaults to its max (of 2154) and the arm check complained it wasn't in neutral (why it doesn't RC2 (which is the same), I don't know.
 
 It looks like you need the GPS and compass connected even if you've excluded them from ARMING_CHECK otherwise arm checks complain compass is in bad health (doesn't seem to care about GPS), hence `COMPASS_USE` as well. So, **next time** plug in GPS.
@@ -182,6 +186,8 @@ I think I had to put in common ground between my 5V source and the FC setup (I c
 Much better is to just wire in the ESC and uses its BEC - that works without any extra wiring.
 
 The red LED on the ESC seems to blink continuously - I don't know if this because it's getting no PWM signal or because it's not connected to a brushless motor.
+
+**Update:** it blinks even if the motor is connected - it blinks until the PWM signal is connected. After that it blinks when the motor is turning.
 
 In the motor test, the default is just to apply 5% throttle to each motor - raise this to something higher if you want more than a twitch out of the motor you're testing.
 
@@ -209,7 +215,106 @@ TODO:
 Connect the GPS so you can get rid of bad compass (now that I've got `COMPASS_USE` set to 0, it seems to be gone from the Mssages tab but still appears in the HUD).
 Connect up the brushed motor
 Blank the FC and see that you can still test the motors.
-Check you don't need the TX powered up to test the motors (initially I thought this was necessary but it's not but that might because I disabled RC ARM checks).
+You don't need the TX powered up to test the motors - initially I thought this was necessary
+BUT check it's not necessary just because I disabled RC ARM checks.
 REMEMBER you may still have to set RC4_TRIM etc. as above - work out how to get to a state where this isn't needed.
 Get some photos of the full setup with charger as desktop power supply.
 Note: the horn on the MJX servo comes from the Emax servo.
+Go to the _Install firmware_ tab - I'm curious if Rover icon shows there given that everything looks like a quad in the frametype tab.
+Look at _Telemetry module_ section below.
+
+**Compass**: I tried doing the ArduPilot compass calibration but the green bar kept reaching its max before just resetting to 0. I think the issue is as described [here](https://discuss.ardupilot.org/t/compass-calibration-never-completes/66085/6), i.e. it won't work if the gyro and accelerometer aren't reporting data that coincides with the movements of the compass. I.e. both must be mounted on a common platform  before it'll work.
+
+The compass really does have to be disabled if you haven't calibrated it for motor test to work.
+
+So, I think you really do need everything setup on a big piece of card - with telem module and battery so you can move it all round.
+
+This is essentially what Painless360 says at the 12m 42s mark as he starts the proces [here](https://www.youtube.com/watch?v=_ketmb8u2UI&list=PLYsWjANuAm4rXSCRfiZkpuBmUP0u-lLby) but I wasn't paying attention.
+
+**Note:** always remember to turn on the ESC - I've been looking at the setup, the FC's all lit up etc. but the motors don't work because the ESC isn't on.
+
+The Foxeer GPS has no arrow printed on it to point to the front - I think you just have to assume the connector is at the back. Cf with Matek M10Q-5883 that has a small arrow on its front edge:
+
+<https://cdn-v2.getfpv.com/media/catalog/product/cache/3979b3fd908fbb12b31974edb6316b2e/m/a/mateksys-m10q-5883-gnss-_-compass_1.jpg>
+
+LEDs:
+
+* red flickers when powered - it never goes solid.
+* green is solid initially and starts flickering once it's achieved some level (unspecific) of position lock.
+
+Telemetry module
+----------------
+
+Don't forget TODO above.
+
+UART3 seems to be the only completely free one: <https://github.com/ArduPilot/ardupilot/blob/2bef8f2/libraries/AP_HAL_ChibiOS/hwdef/speedybeef4v4/hwdef.dat#L70>
+
+I don't why it's labelled CAM it its `hwdef` [README](https://github.com/ArduPilot/ardupilot/tree/master/libraries/AP_HAL_ChibiOS/hwdef/speedybeef4v4)
+
+Googling didn't get me anywhere - CAM seems to be camera, e.g. the the `CAM_xyz` [camera parameters](https://ardupilot.org/copter/docs/parameters.html#cam-parameters).
+
+But the only camera related functionality that involves a UART seems to be related to a RunCam specific protocol covered [here](https://ardupilot.org/plane/docs/common-camera-runcam.html).
+
+**Update:** "CAM" I think isn't actually an ArduPilot reference, I think instead it's referring to the fact that the block of pins that includes SERIAL3 is marked as CAM on the FC as shown here:
+
+<https://store-fhxxhuiq8q.mybigcommerce.com/product_images/img_SpeedyBee_F405_V4_Stack/SB_F405V4-Other-7.jpg>
+
+As shown in the SpeedyBee [wiring diagram](https://store-fhxxhuiq8q.mybigcommerce.com/product_images/img_SpeedyBee_F405_V4_Stack/SB_F405V4-Other-2.jpg), it's meant for an analog camera.
+
+So, in this block, you've got:
+
+```
+5V |  G
+---+---
+R3 | T3
+```
+
+It'll be a pain in the ass to solder that as the pins aren't even offset like on the opposite side.
+
+_Maybe_ it's possible to solder diagonally onto pins:
+
+```
+  | |   | |
++-|-|-+-|-|-+
+| | | | | | |
+| \ | | \ | |
+|   | |   | |
++---|-+---|-+
+|   | |   | |
+|  /  |  /  |
+|     |     |
++-----+-----+
+```
+
+Anyway, even it the `hwdef` README, their example of taking a UART for FrSky Telemetry uses SERIAL3.
+
+So, I think you want:
+
+```
+SERIAL3_PROTOCOL 2 // MAVLink2
+```
+
+There's also `SERIAL3_OPTIONS`, `SERIAL3_BAUD`, these may have to be set too.
+
+E.g. in the `hwdef.dat` for the QioTek Zealot F427, you can see:
+
+```
+# USART2 for Mavlink2 wifi module set baudrate to 921600
+...
+define DEFAULT_SERIAL2_PROTOCOL SerialProtocol_MAVLink2
+define DEFAULT_SERIAL2_BAUD 921600
+```
+
+See also <https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_SerialManager/AP_SerialManager.cpp>
+
+**Note:** baud rate when entered as a parameter has to be one of these values: <https://ardupilot.org/copter/docs/parameters.html#serial3-baud-serial-3-gps-baud-rate>
+
+E.g. 57 is 57600.
+
+See what baud rate <https://github.com/DroneBridge/ESP32> configures by default - in the README, one sees an image with 57600 and in another a setting with 115200.
+
+If mavlink doesn't look like it's working at all, see if it's an enabled feature (see elsewhere) for the SpeedyBee F405 V4 and compare with the features of the QioTek Zealot F427 (which presumable has mavlink enabled if a UART is specified to use it).
+
+For SiK telemery in Mission Planner see <https://ardupilot.org/copter/docs/common-configuring-a-telemetry-radio-using-mission-planner.html> - I wonder if https://github.com/DroneBridge/ESP32 supports the _Load Settings_ button.
+
+

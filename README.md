@@ -1347,6 +1347,39 @@ So, buying all sizes between 8mm and 35mm diameter would seem to cover almost an
 
 I bought clear heat shrink tubing [here](https://www.aliexpress.com/item/1005001371270910.html) on AliExpress.
 
+JST-SM cable-to-cable connectors
+--------------------------------
+
+See:
+
+* <https://www.aliexpress.com/item/1718558728.html>
+* <https://www.aliexpress.com/item/1005004615616698.html>
+* <https://www.aliexpress.com/item/1005002783504563.html>
+* <https://www.aliexpress.com/item/1005001698906223.html>
+
+Deans with JST output
+---------------------
+
+* <https://www.aliexpress.com/item/1005004865581224.html> ali77
+* <https://www.aliexpress.com/item/1005004865438507.html> AJQ (weird AJQ and ali77 are registered to the same company).
+* <https://www.aliexpress.com/item/1005005270687703.html>
+* <https://www.aliexpress.com/item/1005003297131515.html>
+
+Red JST 2-pin male/female pigtail pairs
+---------------------------------------
+
+* <https://www.aliexpress.com/item/1862371643.html>
+* <https://www.aliexpress.com/item/1005005491515712.html>
+* <https://www.aliexpress.com/item/1005004085214518.html>
+* <https://www.aliexpress.com/item/1005003041545482.html>
+
+Asyncio and MicroPython
+-----------------------
+
+See this UART example: <https://github.com/peterhinch/micropython-async/blob/master/v3/as_demos/auart.py>
+
+And this [comment](https://github.com/orgs/micropython/discussions/11045#discussioncomment-6570637) for improvements to the example.
+
 Purchases
 ---------
 
@@ -1360,3 +1393,17 @@ Purchases
 * FeiYing RC Store 2S balance lead extenders and Matek buzzer arrived 5 Dec.
 * U-Angel-1988 Foxeer GPS and GPS mast arrived 5 Dec.
 * Lilygo patch antenna, ESP32 breakout and modules arrived 5 Dec.
+
+* SanDisk Extreme PRO 32GB U1/V30/A1 SDHC card - the card must be SDHC (above 32GB the cards are SDXC).
+
+<https://www.digitec.ch/de/s1/product/sandisk-extremepro-microsd-a1-microsdhc-32-gb-u3-uhs-i-speicherkarte-6613018>
+
+Betaflight only supports FAT32. FAT32 only supports up to 4GB but you can't buy cards with a capacity below 32GB these days.
+
+Confusingly, Apple call FAT32 FAT in _Disk Utility_.
+
+ArduPilot _apparently_ supports exFAT - exFAT was developed for flash memory and should achieve better performance that FAT32 (as well as supporting disks up to at least 512TB).
+
+Some people report success using SDXC cards with ArduPilot but bug reports and Discourse discussion indicate that many SDXC cards clearly do not work.
+
+You might imagine the lowest performance card would do but apparently, this isn't the case. SpeedyBee, on their F405 V4 FC product page, point to this Betaflight SD card [documentation](https://github.com/betaflight/betaflight.com/blob/master/docs/development/Blackbox.md#microsdhc). Note: if you look at this section is the original Cleanflight documentation as it was in [March 2015](https://github.com/cleanflight/cleanflight/blob/54acc6776763b259d31ed3cea19fd6e6bc60aacc/docs/Blackbox.md), you can see that this information hasn't been updated since.
