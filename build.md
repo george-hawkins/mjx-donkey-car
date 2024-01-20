@@ -86,6 +86,8 @@ It turns out that many Ardupilot features are disabled by default so that everyt
 
 So, I switched my setup to S-BUS on both the JHEMCU converter and my FC and Ardupilot could read the RX input (and this could be seen in Mission Planner).
 
+The ArduPilot [RC input](https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_HAL_ChibiOS/hwdef/speedybeef4v4/README.md#rc-input) section of the `hwdef` `README` for the SpeedyBee F405 v4 actually says "PPM is not supported" but as it works fine with Betaflight, I assume it's just pointing out that support is disable _by default_ (but one could compile a suitable image with PPM enabled).
+
 JHEMCU converter
 ----------------
 
@@ -128,7 +130,7 @@ You have to select the "see more" bit of the text in the warning dialog and only
 
 A very similar thing happens when the Mission Planner installation also tries to initiate the installation of various drivers.
 
-I had to set up an Altitude Angel account as part of the initial Mission Planner installation (this allows Mission Planner to use Altitude Angel [drone safety map](https://dronesafetymap.com/) data and other features.
+I had to set up an Altitude Angel account as part of the initial Mission Planner installation (this allows Mission Planner to use Altitude Angel [drone safety map](https://dronesafetymap.com/) data and other features).
 
 TODO: note down the actual dialog text (the above is just what I remember).
 
@@ -305,6 +307,18 @@ define DEFAULT_SERIAL2_PROTOCOL SerialProtocol_MAVLink2
 define DEFAULT_SERIAL2_BAUD 921600
 ```
 
+**Updates:**
+
+* `SERIAL3_PROTOCOL` was none by default, changed to Mavlink2.
+* `SERIAL3_BAUD` was 38400 by default, changed to 57600 as this is the rate specified [here](https://ardupilot.org/copter/docs/common-configuring-a-telemetry-radio-using-mission-planner.html)) for the Mission Planner radio connected to your PC/laptop. I later tried increasing to higher rates but even 115,200 didn't work.
+* Pressed _Write Params_.
+* Once, I'd set the parameters, I thought I'd be able to at least read the settings from radio (see below) with the FC still connected by USB. But to get any further, you have to disconnect the FC and connect the other radio by USB. I powered the FC via a USB charger and its radio and the one plugged into my laptop connected to each immediately without any action on my part (green LED went solid - see [here](https://docs.holybro.com/radio/sik-telemetry-radio-v3/led-and-connection) for how to interpret LEDs).
+* The Holybro SiK radio uses a FTDI FT231X UART-to-USB chip which (surprisingly) surprisingly isn't a pre-installed driver on Windows 11. The driver can be found [here](https://ftdichip.com/drivers/vcp-drivers/). Initially, I downloaded and installed the _setup executable_ linked to on the row for _Windows (Desktop)_ - this installed without issue but didn't work. So, still on the _Windows (Desktop)_ row, I downloaded the `.zip` file linked to in the ARM column. I extracted that, opened _Device Manager_, found _FT231X USB UART_ under _Other devices_, double-clicked it, clicked _Update Driver_, select _Browse my computer for drivers_ and selected the extract folder. Oddly, this didn't quite work either, it then showed up in _Other devices_ with a new name (just "USB UART Device" _I think_) and I double-clicked it again and this time selected the root extracted folder (previously, I'd navigated down to to the `ARM64\\Release` subfolder. Whether things just needed to done twice for some reason or selecting the root folder was the issue, I don't know. Anyway it worked then and showed up as a COM port.
+* As Sparkfun use this FTDI chip, they have an easy to follow guide [here](https://learn.sparkfun.com/tutorials/how-to-install-ftdi-drivers/all) that covers intalling the driver on all platforms. I suspect if you're not on an ARM VM, the standard _setup executable_ will work fine.
+* Go to _Setup / Optional Hardware / Sik Radio_. I tried the _Load Settings_ button but kept getting _Failed to enter command mode_ - it turns out that this only works if Mission Planner is **not** already connected to the radio. Once that was resolved, it did load (it takes quite a few seconds of apparently doing nothing) and showed the details for both the local and remote radio. And showed that they both had firmware version "RFD SiK 2.0 on HM-TRP". I tried the _Upload Firmware (Local)_, it just immediately tried to upload firmware and completed but the radio entered a bricked mode (the red LED stayed solid which means its still in firmware update mode). I could unbrick it by running QGroundControl, going to the _Firmware_ section and unplugging the radio and reconnecting it - on reconnect QGroundControl automatically updated its firmware (and this time, the LEDs went back to normal). The process was all pointless as the latest firmware version is 2.0 (where the firmware comes from - the [SiK repo](https://github.com/ArduPilot/SiK) is clearly under moderately active development but hasn't published a release there since version 1.9 in early 2014).
+* Loading parameters when connecting is very slow - I've had it hang during this phase, just clicking _Cancel_ and connecting again seems to work.
+* Note: using the supplied micro USB cable (with red connector at one end) with the supplied micro-USB to USB-C adapter didn't work for connecting the radio to the laptop (the radio showed no sign of having power). It turns out this is an OTG cable so it's meant for connecting to ground control s/w running on a phone or tablet. I tried this but same result (no power). I tried a different cable and Android recognised the device and offered to connect it to the SpeedyBee Betaflight app that I already had installed. I looked for Android ground control apps but it seems [Tower](https://github.com/DroidPlanner/Tower) hasn't been updated for 7 years, the version of QGroundControl (last released in 2021) on the Google Play store is too old for my device (tho' there seem to regular updates to the [Android section](https://github.com/mavlink/qgroundcontrol/tree/master/android) of the GitHub repo and they release APKs here [releases](https://github.com/mavlink/QGroundControl/releases) so these might work). Mission Planner for Android would install on my phone and when I plugged in the radio, Android correctly suggested connecting it through to Mission Planner but Mission Planner failed to see it when I pressed _Connect_.
+
 See also <https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_SerialManager/AP_SerialManager.cpp>
 
 **Note:** baud rate when entered as a parameter has to be one of these values: <https://ardupilot.org/copter/docs/parameters.html#serial3-baud-serial-3-gps-baud-rate>
@@ -316,5 +330,115 @@ See what baud rate <https://github.com/DroneBridge/ESP32> configures by default 
 If mavlink doesn't look like it's working at all, see if it's an enabled feature (see elsewhere) for the SpeedyBee F405 V4 and compare with the features of the QioTek Zealot F427 (which presumable has mavlink enabled if a UART is specified to use it).
 
 For SiK telemery in Mission Planner see <https://ardupilot.org/copter/docs/common-configuring-a-telemetry-radio-using-mission-planner.html> - I wonder if https://github.com/DroneBridge/ESP32 supports the _Load Settings_ button.
+
+ESC 6v power distribution
+-------------------------
+
+A 2x3 piece of pin header.
+
+Use stranded wire as it'll wick up solder and tin the pins, and solder the wire across the outside edges of the two rows.
+
+Remember, it's a **6V** supply so, no one else will want this power other that:
+
+1. ESC
+2. Steeting servo
+3. Lights
+3. Fan 1
+4. Fan 2 (optional)
+
+If you look at the RX in the car, this is how its 4 outputs are labelled. The lights seem very secondary at the moment and fan 2 is unlikely - but still go for at least 4x2.
+
+Lessons:
+
+* Holding the wire in-place as you apply the soldering iron tip at the points where it touches the pins isn't easy.
+* Initially, I held the header in a vice but the pins heated up the plastic of the header so much that they started to waggle about.
+* So, I switched to doing it with the header inserted into a breadboard - this worked well.
+* The little solder points that formed at the end of the pins were so sharp it was painful pushing on them when inserting servo plugs onto other side.
+* In the end, I put the header back into a breadboard and "sanded" the pins on a piece of cardboard to remove these sharp points.
+
+FlySky G7P
+----------
+
+We really don't need any of the smart features of the G7P - all the intelligence in our setup is in the FC.
+
+However, I can't own something without trying to understand all its features.
+
+The G7P is typically sold with a choice of 7 channel RX:
+
+* FS-R7P - base model.
+* FS-R7V - in-built gyro.
+* FS-R7D - light controller (i.e. wire up headlights etc.).
+
+I bought it with the FS-R7P RX - this is the cheapest standard 7 channel RX (and perfect for our setup as we actively don't want a gyro in the RX working against the gyro on the FC and light control is really just a fun feature).
+
+It turns out that the FS-R7P etc. can be set to output S.BUS/i-BUS (which is clear from its manual but wasn't clear to me from the FlySky product page).
+
+So, the FS-R7P will work perfectly with out FC directly. However, as we don't need any of its PWM outputs we could use an RX like the [FS-SRM](https://www.flysky-cn.com/srmspecifications) that comes without all those PWM pins.
+
+Note: BVD (being able to see the LiPo voltage on the TX) is a nice feature of the FS-R7P and similar RXes but as the FC also sees the battery voltage its not that valuable (like having a gyro in the RX, it's one of those features that's nice to have in a setup where the vehicle itself is dumb, i.e. has no FC).
+
+There are many YouTube reviews of the G7P but I suggest these two as they also include good overviews to get you started using the TX:
+
+* RC Review's [Flysky G7P Review - better than the Flysky GT5?](https://www.youtube.com/watch?v=otPYzx7fU7I).
+* RC Escape's [FlySky FS-G7P 2.4GHz 7CH ANT Protocol Radio Transmitter](https://www.youtube.com/watch?v=aDoT6LgR_tk).
+
+They seem to have resolved all issues that I noticed being mentioned in the various review videos, e.g. my one came with a foam steering wheel and the firmware has been updated several times to add or improve features that people commented on. My TX came with the latest firmware available at the time (1.0.30 release mid 2023).
+
+In addition to the reviews above, the channel _WTF RC Cars_ has a whole series of short how-to videos covering the G7P and the RXes that can be used with it. Ones I found useful include:
+
+* [Set up the auxiliary channels](https://www.youtube.com/watch?v=xv5r0Fgbizc) - associate the knobs and switches on the TX with particular channels.
+* [Replace the timer on the main screen with BVD and signal strength](https://www.youtube.com/watch?v=VRon1zvNHyM) - replace the huge but largely pointless 00:00.00 timer display with more useful values.
+* [Set up failsafe](https://www.youtube.com/watch?v=H1RJCjKV8bE) - set up what the RX does if it looses connection with the TX.
+* [FS-R7P BVD setup and binding](https://www.youtube.com/watch?v=Zuz7hNoOgVw) - at the 7m 52s mark, he covers the bind process (which is actually trivial - also note, you can just leave the _Frequency_ as _Analog_).
+
+You can find the [G7P manual](https://www.flysky-cn.com/g7pdownloads) on the FlySky and also the manual for the [FS-R7P RX](https://www.flysky-cn.com/r7p-manual-1-1-1) and they're actually quite good.
+
+Header and jumper wires
+-----------------------
+
+I mainly used pre-crimped jumper wires like these [15cm red ones](https://www.pololu.com/product/1722) from Pololu (I think it's a shame they don't sell multi-colored assortments in lengths greater than 5cm).
+
+Many companies sell multi-colored assortments, e.g. [here](https://www.mikroe.com/wire-jumpers-male-to-female-15cm-10pcs) from Mikroe (in Europe, I bought these from [TME](https://www.tme.eu/)).
+
+Note: make sure to get the ones with square plastic connectors (called Dupont connections) with square pins - some jumper wires come rounds connectors and pins.
+
+Note: both the Pololu and Mikroe wires are plastic coated. For breadboarding the stiffness of plastic is a positive but when wiring things up in space-constrained setups, silicone coated wires are generally preferable. Generally, you make up your own length silicone wires so, I didn't find much in the way of pre-made jumper wires using silicone but there are [these ones](https://www.aliexpress.com/item/1005003208833622.html) from WeAct.
+
+To connect the 6V positive and negative output of the ESC to the motor fan and servo, I two row header (generally sold in 2x40 strips) like these [ones](https://www.pololu.com/product/966) from Pololu.
+
+Similar items on AliExpress:
+
+* [Kailanda store](https://www.aliexpress.com/item/1005005691532643.html) (the 2.54mm 2x40 L11.5mm ones).
+* [Ky Win Robot store](https://www.aliexpress.com/item/32848276499.html)
+
+Solderless connectors
+---------------------
+
+Connecting wires without the soldering step by using heatshrink tubing with a builtin ring of low-temperature (140C) solder at the middle sounds interesting.
+
+This is product that was originally marketed as SolderSeal&tm; and I came across them recommend [here](https://www.youtube.com/watch?v=vDsVwbWiVFI) by Adam Savage (when he uses them, he doesn't even bother twisting the wire ends together).
+
+Two keys things seem to be:
+
+* The solder does not really wick into the strands as it would with when using a soldering iron - despite that it, it creates a connection that has nearly the same resistence and strength.
+* It requires a hotair gun that can produce at least 150C. Despite claims of 200C, many cheap hotair guns intended purely for heatshrink (e.g. something like [this](https://cdn-v2.getfpv.com/media/catalog/product/cache/b4872d6d0ceb3d2181c291dd3ccc7b81/1/1/110v-300w-portable-mini-heat-gun-tool---hot-air-gun-5_2.jpg)) won't melt the solder.
+
+I have this [hotair gun](https://hobbyking.com/en_us/dual-power-heat-gun-750w-1500w-output-230v-50hz-version.html) from Hobbyking which seems to be hot enough. Unfortunately, they've discontinued it and I couldn't find a particularly convincing branded product on AliExpress. Rather pricey alternatives (for around US$50) include:
+
+* Steinel HL 1821S
+* Atten AT-A2231
+
+Pricier still (around US$60):
+
+* Makita HG5030K
+* Bosch Easy Heat 500
+
+Warning: many cheap heat guns, e.g. the Black&Decker HG1300 at US$20, are meant for stripping paint and have a minimum temperature of 400C which is too hot.
+
+There are lots of videos on YouTube saying that these products are simply junk, e.g. this [one](https://www.youtube.com/watch?v=kzDjy3Fv_K4) from DoItYourselfDad is typical. However, in this [follow-up video](https://www.youtube.com/watch?v=Janu2I8ofyY), he essentially says that it's easy to use them incorrectly but if done correctly they actually work very well.
+
+DoItYourselfDad says the product was originally developed by an Irish company, if so there's no sign of them any more and the trademark now seems to be held by Master and there current version of the product (see [here](https://www.masterappliance.com/solderseal-butt-splice-connector-jar-lead-free/)) doesn't seem to feature the waterproof seals that most other versions do (not that that's essential for most uses).
+
+There are no end of knock-offs on AliExpress, generally sold by stores that just seem to have popped up yesterday. After a lot of searching, I bought them [here](https://www.aliexpress.com/item/1005002524941643.html) from Lincoiah - Lincoiah looks like a real manufacturer and is probably the original source for the products it's selling (and the AliExpress is registered to the real Lincoiah company).
 
 
