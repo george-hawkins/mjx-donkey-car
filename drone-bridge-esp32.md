@@ -142,6 +142,8 @@ Debugging
 
 For Linux, there's no issue with accessing serial devices from within the container, you just have to specify the device with the `--device` argument.
 
+See below for Mac.
+
 So, I could monitor what was going on:
 
 ```
@@ -189,3 +191,16 @@ I (922) TCP_SERVER_SETUP: Opened TCP server on port 1603
 ```
 
 But this may be down to not using the "fat" `index.html` for the S3 (I wanted to eliminate it as part of the problem).
+
+### Mac
+
+On Mac:
+
+```
+$ pip install esp-idf-monitor
+$ python -m esp_idf_monitor
+```
+
+And use `ctrl-]` to exit. It tries to auto-detect the appropriate device.
+
+For some reason, the `pip install` step doesn't install a monitor executable in `env/bin` so instead you have to invoke it as a module with `python -m`.

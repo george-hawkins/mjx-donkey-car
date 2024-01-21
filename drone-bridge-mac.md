@@ -82,3 +82,29 @@ $ esptool.py \
 **6.** Then open the link <http://192.168.2.1/> in a browser (the link <http://dronebridge.local/> may also work).
 
 I found the link never worked on my Pixel (for either a classic ESP32 board or a C3 one) but worked fine (except for this [issue](https://github.com/DroneBridge/ESP32/issues/53) which has been addressed) on my MacBook Air. Interestingly, the author reports the opposite experience [here](https://github.com/DroneBridge/ESP32/releases/tag/v1.3) (search for "load errors" line).
+
+Important
+---------
+
+Don't forget to change from _WiFi Access Point Mode_ to _WiFi Client Mode_ when entering your WiFi SSID and passphrase otherwise it just starts an AP using the same SSID and passphrase.
+
+The C3 never seemed to be able to connect to my WiFi.
+
+I spent a lot of time wondering why QGC couldn't connect and it turned out it was the DroneBridge didn't have the correct baud setting for the FC - it defaulted to 115k and I'd set my FC to 56k.
+
+Setting up the UDP link in QGC is a bit weird:
+
+* Click the Q icon (upper left).
+* Select _Application Settings_.
+* Go to _Comm Links_.
+* Click _Add_ and change the _Type_ to _UDP_ and set the name to e.g. "DroneBridge" and enter 14550 as the _Port_.
+
+When DroneBridge is in AP point mode it sees each device that joins its network and automatically starts publishing to port 14550 on that device.
+
+If the DroneBridge was not in AP mode, I _guess_ you'd specify it as a _Server Address_ as I can't see how it would know who to publish to. But probably easier to use TCP.
+
+UDP won't work for Mission Planner running in a VMware Fusion VM as port forwarding requires a Pro license.
+
+But TCP does work - you have to select TCP, click connect then specify 192.168.2.1 as the host and confirm 5760 as the port.
+
+Note: several times, I've had Mission Planner appear to succeed in connecting but if I waggle the FC no corresponding motion is seen on the Mission Planner artifical horizon. Disconnecting and reconnecting seems to fix this.
