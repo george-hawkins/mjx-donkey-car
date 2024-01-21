@@ -500,7 +500,9 @@ LILYGO also have a nice mini module that can take an external antenna:
 
 * [LILYGO T-Micro32 V2.0](https://www.aliexpress.com/item/32869180373.html)
 * [LILYGO TTGO ESP32-Micro](https://www.aliexpress.com/item/32879336509.html)
-* [LILYGO 2.4GHz/5GHz antenna](https://www.aliexpress.com/item/32847895603.html) (I'd probably rather one of the balun antenna that I already have).
+* [LILYGO 2.4GHz/5GHz antenna](https://www.aliexpress.com/item/32847895603.html) (I'd probably rather one of the sleeved-balun antenna that I already have).
+
+Note: I asked about sleeved-balun antennas [here](https://www.eevblog.com/forum/rf-microwave/why-are-sleeved-balum-wifi-antennas-more-expensive-than-pcb-trace-(on-digikey)/) on EEVblog.
 
 The TTGO ESP32-Micro is a board with the supporting circuitry and USB power for the T-Micro32. The T-Micro32 can only take 3.3V and it's not clear to me whether it requires its reset pin held high or low, you can find a datasheet [here](https://github.com/LilyGO/TTGO-Micro32-V2.0/tree/master/Datasheet) that shows some sample circuits. 
 

@@ -1,6 +1,10 @@
 DroneBridge ESP32
 =================
 
+**Update:** since release 1.3, I think DroneBridge on a C3 board is the best option - see [`drone-bridge-mac.md`](drone-bridge-mac.md).
+
+---
+
 I found that my Android Pixel phone could connect to the AP created by the DroneBridge device but couldn't load the device's website.
 
 If I tried <http://dronebridge.local>, it failed with `DNS_PROBE_FINISHED_NXDOMAIN`.
