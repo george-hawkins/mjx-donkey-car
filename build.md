@@ -239,6 +239,12 @@ The Foxeer GPS has no arrow printed on it to point to the front - I think you ju
 
 <https://cdn-v2.getfpv.com/media/catalog/product/cache/3979b3fd908fbb12b31974edb6316b2e/m/a/mateksys-m10q-5883-gnss-_-compass_1.jpg>
 
+**Update:** the _specifications_ tab on the Foxeer product page for the GPS states:
+
+> Compass Orientation: Plug facing direction of flight and obviously antenna up
+
+So, the opposite of what I assumed!
+
 LEDs:
 
 * red flickers when powered - it never goes solid.
@@ -441,4 +447,26 @@ DoItYourselfDad says the product was originally developed by an Irish company, i
 
 There are no end of knock-offs on AliExpress, generally sold by stores that just seem to have popped up yesterday. After a lot of searching, I bought them [here](https://www.aliexpress.com/item/1005002524941643.html) from Lincoiah - Lincoiah looks like a real manufacturer and is probably the original source for the products it's selling (and the AliExpress is registered to the real Lincoiah company).
 
+Mission Planner via serial
+--------------------------
 
+It is possible for Mission Planner, running in a Windows VM, to connect directly to the FC via the telemetry serial port (as QGC, running on the Mac, can).
+
+I used an Adafruit [CP2102N USB-to-serial converter](https://www.adafruit.com/product/5335) (as Prolific deliberately bricked my old converter so it can't work on Windows 11).
+
+The CP2102N [driver](https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers?tab=downloads) is a little odd - it doesn't come with an installer. Instead, I unpacked it, opened _Device Manager_, found the device under _Other devices_, right clicked it, selected _Properties_, clicked _Update Driver_ and pointed it at the root folder of the unpacked `.zip` file.
+
+**Update:** apparently, I could have skipped downloading the driver and in _Update Driver_, just select _Search automatically for drivers_ and it should have found things itself.
+
+But Mission Planner still couldn't connect - it'd just fail with:
+
+```
+COM6 System.IO.IOException: A device which does not exist was specified.
+
+    at System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+    ...
+```
+
+It seems the Windows serial setup is none too sophisticated - you have to open the device again in _Device Manager_, go to the _Port Settings_ tab and change the _Bits per second_ from the 9600 value to the 57600, i.e. the same value you selected in the Mission Planner dropdown (and as previously configured for the relevant serial port in ArduPilot). And even then, the change didn't really seem to take effect (I still got the same `A device which does not exist` error) until I rebooted the VM.
+
+But then everything did work fine.
