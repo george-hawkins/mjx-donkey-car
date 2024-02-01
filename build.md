@@ -470,3 +470,73 @@ COM6 System.IO.IOException: A device which does not exist was specified.
 It seems the Windows serial setup is none too sophisticated - you have to open the device again in _Device Manager_, go to the _Port Settings_ tab and change the _Bits per second_ from the 9600 value to the 57600, i.e. the same value you selected in the Mission Planner dropdown (and as previously configured for the relevant serial port in ArduPilot). And even then, the change didn't really seem to take effect (I still got the same `A device which does not exist` error) until I rebooted the VM.
 
 But then everything did work fine.
+
+RC car TX
+---------
+
+**TLDR;** either buy a RadioMaster MT12 (currently the only RC car TX that runs EdgeTX) or buy plane/drone TX like the RadioMaster Boxer or Pocket. When working with something like ArduPilot, the more buttons a TX has the better when it comes to e.g. things like switching through control modes.
+
+Initially, I liked the idea of using an RC car style TX rather than a TX designed primarily for use with a plane or drone.
+
+For some approaches to autonomous driving, you teach the car to drive by driving yourself and having the car learn from your actions.
+
+So, a TX designed for driving _seemed_ like a good match.
+
+However, after using the mid-rangle Flysky G7P for a while - a drone TX is designed to work well with a FC - the TX is super configurable and works well with something that itself is very configurable.
+
+But an RC car TX, even a fairly fancy one like the G7P, assumes essentially no intelligence on the other end and feels extremely primative in comparison to something like [EdgeTX](https://edgetx.org/).
+
+One starts to notice the lack of simple features that one took for granted - e.g. when you power up a TX running EdgeTX it warns you if the throttle isn't at zero and the switches aren't all in a neutral position. Often having it shout a verbal warning at you feels a bit irritating but not having it feels more uncomfortable - the G7P doesn't care what position any switch is in when you turn it on so, if you've assigned them a meaning, e.g. start mission, you may get a surprise if the car suddenly starts doing something the second you arm it.
+
+Admittedly, the consequences of an RC car doing something unexpected are likely to be minor - an RC car moving off is substantially safer that propellers on a drone suddenly spinning up and an unexpected takeoff (followed by a paniced attempt to regain control and a probable sudden crash to earth).
+
+On a TX running EdgeTX there's almost no predefined constraints as to what you can do with any of the controls and the behavior of buttons and knobs can be combined in essentially any way to produce a values that it's then up to the FC to assign a meaning.
+
+With the G7P, there isn't this flexibility - you have to give a button some predefined meaning, e.g. a simple toggle switch can be set to "enable mix 1" or a knob can be assigned to set the "mix 1 offset" value. You then have to work out how you can use these behaviors to produce some set of values that you want in order to control the FC in some way.
+
+E.g. I wanted to use the two knobs in combination to produce a neutral value and six additional values on a single RC channel so, I could flip between different [control modes](https://ardupilot.org/rover/docs/rover-control-modes.html).
+
+With EdgeTX this would have been fairly clear cut but with the G7P, it's mix process is so geared towards actions that make sense for some constrained set of obvious RC car activities that it's extremely difficult to see how to configure the values involves to achieve a goal (outputting seven distinct channel values in order to switch between control modes) that isn't e.g. about controlling the multiple motors in an AWD or crawler setup.
+
+In fact, I ended up writing a small Python program in order to work out what _high_ and _low_ values would allow me to combine VR1 (as the master) and VR2 (as the mix offset), or vice-versa, to produce the seven distinct channel values that I wanted.
+
+See [`hi-lo-finder.py`](hi-lo-finder.py)
+
+E.g. if, in _AUX.CH_, you associate VR2 with channel 3 and in _SW ASSIGN_, you set the _FUN_ for VR1 to _MIX1 OFFSET_ and then go to _MIXES_, select _MIX1_ and set:
+
+* Use: on
+* Master: CH3
+* Slave: CH3
+* High: 0.75
+* Low: 0.75
+
+Then you can flip thru seven states, each generating a distinct channel value, like so:
+
+* First state: start with VR2 and VR1 in neutral.
+* Second state: flip VR2 to its forward position.
+* Third state: twist VR1 all the way CCW.
+* Forth state: twist VR1 and the way CW.
+* Fifth state: twist VR1 back to neutral and flip VR2 to its back position.
+* Sixth state: twist VR1 all the way CCW.
+* Seventh state: twist VR1 and the way CW.
+
+A much simpler setup for five states, involves setting up VR2 as before and setting up SW1 as _MIX1 ENABLE_ and set high and low to 0.5. Then you get three states for the three VR2 positions and then when you toggle SW1 on, you get an additional two states when VR2 is flipped back and when its flipped forward (its neutral/middle postion generates the same 0 value irrespective of whether SW1 is toggled on or off).
+
+---
+
+**Important:** when associating a switch with a channel, setting its mode to reversed doesn't invert its value as you might assume - it switches its behavior between toggle and momnetary.
+
+---
+
+However, once you've got however many states you want, you'll have to remember what each position means. Whereas with an EdgeTX TX you could either:
+
+* Associate some text with each state and have the TX display this text as you switched to a particular state.
+* Or, even smarter, in the case of e.g. switching between control modes, the FC would communicate the mode to the TX as telemetry data and the TX could be setup to display this.
+
+---
+
+The FC is typically armed using a combination that's deliberately hard to accidentally achieve (e.g. as described [here](https://ardupilot.org/rover/docs/arming-your-rover.html), throttle in neurtral and steering held all the way left for two seconds).
+
+On a drone, using a simple switch on the TX instead as an arming button - accidentally knocking this button in-flight would result in it falling out of the sky (and probably stuck in a tree).
+
+But for an RC car, the worst that's going to happen is that it comes to a halt so, on the G7P it might be nice to use SW2 to arm.
