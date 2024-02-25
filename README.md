@@ -677,6 +677,12 @@ Note: Matek recommend trying to keep these kind of modules 10cm away from ESCs, 
 
 [Foxeer M10Q 250](https://www.aliexpress.com/item/1005005472961041.html) from U-Angel-1988 store on AliExpress.
 
+Stores for HGLRC:
+
+* <https://www.aliexpress.com/item/1005005859619077.html>
+* <https://www.aliexpress.com/item/1005005789393676.html>
+* <https://www.aliexpress.com/item/1005005790170550.html>
+
 ### GPS masts
 
 GPS masts on AliExpress:
@@ -688,6 +694,37 @@ Both masts are probably around 15cm so, I'd suggest cutting them down to 10cm - 
 
 Transmitters and receivers
 --------------------------
+
+**Update:** in retrospect, I'm not sure I'd bother with a RC car style TX.
+
+I'd probably go for:
+
+* RadioMaster [Boxer](https://www.radiomasterrc.com/products/boxer-radio-controller-m2) - US$140
+* Or a more budget RadioMaster [Pocket](https://www.radiomasterrc.com/products/pocket-radio-controller-m2) - US$65
+
+It's all about switches and the Pocket has way fewer of them than the Boxer.
+
+If I was going for an RC car style controller, I'd go for:
+
+* RadioMaster [MT12](https://www.radiomasterrc.com/products/mt12-surface-radio-controller) - US$130
+* Or a more budget FlySky [G7P](https://www.flysky-cn.com/g7pdescription) - ~US$60
+
+I'm not very enthusiastic about the G7P and after trying things like the DumboRC X6PM-350 wouldn't recommend a TX without an LCD (and the easier configurability that comes with it).
+
+Compared to open source firmware like [EdgeTX](https://edgetx.org/), the firmware on the G7P feels very limited. I also tried the FlySky [GT5](https://www.flysky-cn.com/gt5-gaishu) but while it has an LCD, it isn't much nicer to work with than programming a 1990s VCR (and the lack of any form of telemetry feels odd in this day and age). The RadioLink [RC6GS V3](https://www.radiolink.com/rc6gsv3) is another popular TX, in the same price range at the G7P, and despite having features like telemetry, it's often described as making even the GT5 feel modern (e.g. see this [comparison](https://www.youtube.com/watch?v=8WxZb6vLdYI) by RC Review).
+
+**TLDR;** I'd suggest:
+
+* Sticking with the no-name three channel TX that came with the car and control everything else from your laptop.
+* If you really want to switch up to something a bit more advanced then try the FlySky G7P but don't expect the flexibility of firmware like EdgeTX.
+* For a entry-level EdgeTX TX, try the RadioMaster Pocket.
+* For a full-feature EdgeTX TX, with lots of switches, try the RadioMaster Boxer or MT12.
+
+The MT12 TX is the first RC car style EdgeTX TX and hasn't been around long enough for EdgeTX to have really proven itself in this form factor - maybe it'll be a one off or maybe other manufacturers, like [Jumper](https://www.jumper-rc.com/) (typically a bit more budget and slightly poorer build quality than RadioMaster), will start producing competing models.
+
+If you're main interest is in building an autonomous car then the TX will not be the primary means of control so, a US$100+ TX feels like over-kill for this scenario. So, I'd suggest sticking with the no-name TX. However, being able to trigger various actions (like return-to-home) without having to click around on your laptop - if this becomes a requirement then I'd suggest jumping straight to a RadioMaster Boxer or perhaps an MT12, anything in-between is just going to be rather unsatisfactory. The only reason to go with something like the G7P is that EdgeTX is so flexible that it can seem overwhelming initally.
+
+---
 
 In the drone world, there's always a flight controller (FC) between the receiver (RX) and everything else.
 
