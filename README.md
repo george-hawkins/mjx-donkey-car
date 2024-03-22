@@ -494,7 +494,7 @@ ESP32 boards:
 * [WeAct ESP32-D0WD-V3](https://www.aliexpress.com/item/1005005645111663.html) - US$3
 * [LILYGO TTGO T7](https://www.aliexpress.com/item/32846710180.html) - US$5.50
 
-The above are proper ESP32s. Both WeAct and LILYGO also have S3 boards and other variants, e.g. here is [WeAct S3 board](https://www.aliexpress.com/item/1005005592730189.html) and a [LILYGO S3 board](https://www.aliexpress.com/item/1005004777561826.html).
+The above are proper ESP32s. Both WeAct and LILYGO also have S3 boards and other variants, e.g. here is [WeAct S3 board](https://www.aliexpress.com/item/1005006177646698.html) and a [LILYGO S3 board](https://www.aliexpress.com/item/1005004777561826.html).
 
 LILYGO also have a nice mini module that can take an external antenna:
 
@@ -529,17 +529,33 @@ Adafruit have some nice tiny boards:
 * [QT Py ESP32-S3 8MB Flash, no PSRAM](https://www.adafruit.com/product/5426) - US$12.50
 * [QT Py ESP32-S3 4MB Flash, 2MB PSRAM](https://www.adafruit.com/product/5700) - US$12.50
 * [TinyPICO ESP32](https://www.adafruit.com/product/5028) - US$22 (as above) - like the WeAct board, it uses a WCH USB-to-serial chip.
-* [TinyS3 ESP32-S3 with u.FL](https://www.adafruit.com/product/5747) - US$20 (also by the TinyPICO people).
+* [TinyS3 ESP32-S3 with u.FL](https://www.adafruit.com/product/5747) - US$20 (also by the TinyPICO people) - see also <https://esp32s3.com/tinys3.html>
 
 I'm not sure when you'd choose the QT Py version with PSRAM vs no PSRAM but more flash.
 
 The TinyS3 is interesting not just because of its size but also because one could attach a u.FL antenna for improved range.
 
+u.FL antenna are horrible to connect and remove. Seeed have a little section that makes it look easy, I'm sceptical:
+
+<https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/#installation-of-antenna>
+
+WARNING: some of Xiao range of boards have a VIN pin - however, the Xiao S3 and C3 (there's no classic variant) don't - instead they have battery pins with associated recharging circuitry so, the B+ pin can't be treated as VIN (as you're source, if it's not a battery, will presumably not be happy in a reverse polarity charging situation). Instead, you need to connect a diode to the 5V pin:
+
+<https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/#power-pins>
+
+The corresponding Adafruit Qt Py C3 power [documentation](https://learn.adafruit.com/adafruit-qt-py-esp32-c3-wifi-dev-board?view=all#power-3112671) seems to imply that you can use _its_ battery pads (and the associated diode) as VIN/GND, i.e. use it for power from a non-battery source.
+
+QUESTION: does this mean the Adafruit board can't recharge a connected battery? According to the Seeed overview of the different Xiao variants [here](https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/#specifications-comparison), the C3 has _builtin_ battery charging support. So, it would be odd if Adafruit had deliberately disabled that.
+
 Seeed sell something similar to the QT Py ESP32-S3 but with an external antenna - [Seeed Studio XIAO ESP32S3](https://www.seeedstudio.com/XIAO-ESP32S3-p-5627.html) - US$7.50
 
 TME, PiHut and many others carry the Seeed Studio XIAO ESP32S3.
 
+Seeed also sell C3 variants and, interestingly, a whip antenna: <https://www.seeedstudio.com/2-4GHz-2-81dBi-Antenna-for-XIAO-ESP32C3-p-5475.html>
+
 The SparkFun [Thing Plus - ESP32](https://www.sparkfun.com/products/20168) at $US25 seems hard to justify vs e.g. the WeAct board.
+
+Update: SparkFun now have the [Pro Micro - ESP32-C3](https://www.sparkfun.com/products/23484) for $US10 with a similar form factor to the WeAct board.
 
 For a comparison of ESP32 MCUs, see this [table](https://gist.github.com/fabianoriccardi/cbb474c94a8659209e61e3194b20eb61) - the S2 and S3 are still Tensilica Xtensa 32 chips but the C3 and C6 are RISC-V.
 
