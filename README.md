@@ -1435,6 +1435,16 @@ See this UART example: <https://github.com/peterhinch/micropython-async/blob/mas
 
 And this [comment](https://github.com/orgs/micropython/discussions/11045#discussioncomment-6570637) for improvements to the example.
 
+JSP splitters
+-------------
+
+Surprisingly few stores seemed to sell JST splitters. These are the two I found:
+
+* [Injora](https://vi.aliexpress.com/item/32873485649.html)
+* [AJRC](https://vi.aliexpress.com/item/33058457444.html)
+
+EP sell a [2-way splitter](https://www.epproduct.com/en/aaa/19451-ep-adapter-cable-jst-plug-7613081016186.html).
+
 Purchases
 ---------
 
